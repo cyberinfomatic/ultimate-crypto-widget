@@ -88,7 +88,7 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
    – No coding skills are required; you just need to be a crypto enthusiast.
 
 10. **How do I get support for the plugin?**
-    – For support, send an email to cyberinfomatic247@gmail.com with the subject \"Ultimate Crypto Plugin Widget\".
+    – For support, send an email to admin@cyberinfomatic.com with the subject \"Ultimate Crypto Plugin Widget\".
 
 11. **What are the Ultimate Crypto Plugin, Ultimate Crypto Widget, UCP, and UCW?**
     – Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCP and UCW are their respective short forms. All are associated with the plugin.
