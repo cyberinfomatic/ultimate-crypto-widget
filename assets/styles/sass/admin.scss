@@ -1,0 +1,50 @@
+div.ucwp-admin-display-main{
+	div.ucwp-admin-welcome{
+		display : flex;
+		width : 100%;
+		gap : 20px;
+		// wrap content to break content as per screen size
+		//flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+
+		div.ucwp-admin-logo{
+			width: 40%;
+			flex-basis: 40%;
+			flex-grow: 0;
+			aspect-ratio: 1 / 1;
+
+			img {
+				width: 100%;
+				height: auto;
+			}
+		}
+
+
+		div.ucwp-admin-welcome-message {
+			width: 60%;
+			flex-grow: 1;
+			flex-basis: 60%;
+
+			p {
+				font-size: 1.2rem;
+				line-height: 1.5;
+			}
+
+			div.ucwp-admin-helpful-links {
+				display: flex;
+				gap: 20px;
+				margin-top: 20px;
+
+				a {
+					text-decoration: none;
+					background: #0073aa;
+					color: #fff;
+					font-weight: 600;
+					padding: 10px 20px;
+				}
+			}
+		}
+
+	}
+}

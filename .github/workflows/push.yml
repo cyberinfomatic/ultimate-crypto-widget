@@ -1,0 +1,65 @@
+name: Build and Package on Push
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Npm dependencies
+        run: npm install
+
+      - name: Make Pot file
+        run: |
+          composer run make-pot
+
+      - name: Build the plugin
+        run: npm run build
+
+      - name: Prepare zip files for both versions
+        run: |
+          composer run prepare-zip
+
+      - name: Set artifact name with date
+        run: echo "ARTIFACT_NAME=Ultimate-crypto-widget-$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+      - name: Archive files as artifacts (Free)
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.ARTIFACT_NAME }}-free
+          path: |
+            dist/free
+      - name: Archive files as artifacts (Pro)
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.ARTIFACT_NAME }}-pro
+          path: |
+            dist/pro
+
+      - name: Archive files as artifacts (Packed)
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.ARTIFACT_NAME }}-packed
+          path: |
+            dist/*.zip

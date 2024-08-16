@@ -1,0 +1,62 @@
+{
+    "name": "cyberinfomatic/ultimatecryptowidget",
+    "description": "The Number one Crypto Plugin for WP",
+    "type": "wordpress-plugin",
+    "authors"  : [
+        {
+            "name": "Cyberinfomatic",
+            "email": "cyberinfomatic247@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Cyberinfomatic\\UltimateCryptoWidget\\": "src/"
+        }
+    },
+    "scripts": {
+      "prepare-zip": [
+        "@prepare-zip:free",
+        "@prepare-zip:pro"
+      ],
+      "prepare-zip:free" : "php prepare.php free",
+      "prepare-zip:pro" : "php prepare.php pro",
+      "makepot-audit": [
+        "wp --allow-root i18n make-pot . languages/ultimate-crypto-widget.pot --slug=ultimate-crypto-widget --exclude=\".github,.wordpress-org,node_modules,vendor,build,deploy,dist\""
+      ],
+      "make-pot": [
+        "@makepot-audit --skip-audit"
+      ],
+      "test": [
+        "@setup-phpcs",
+        "@phpcs",
+        "@phpunit"
+      ],
+      "setup-test" : "bash bin/install-wp-tests.sh",
+      "setup-phpcs":  "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie",
+      "phpcs": "vendor/bin/phpcs",
+      "phpunit": "vendor/bin/phpunit",
+      "post-install-cmd" : [
+        "@setup-phpcs"
+      ],
+      "post-update-cmd" : [
+        "@setup-phpcs"
+      ]
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^3.1",
+        "phpunit/phpunit": "10.0",
+        "phpcompatibility/phpcompatibility-wp": "*",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "phpcompatibility/phpcompatibility-paragonie": "*",
+        "wp-cli/i18n-command": "^2.6",
+        "yoast/phpunit-polyfills": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+  "require": {
+    "ext-zip": "*"
+  }
+}

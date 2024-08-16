@@ -1,0 +1,259 @@
+div.crypto-price-picker-main {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: left;
+	gap: 20px;
+	max-width: 100vw;
+
+
+	.crypto-picker-card-coin-bounding-box{
+		display: flex;
+		box-sizing: border-box;
+		padding : 10px 5px;
+		border: 2px solid #03045E;
+		border-radius: 10px;
+		height : 74px;
+		width : 270px;
+		justify-content: center;
+		background: #fff;
+
+		.crypto-picker-card-content-cnt{
+			display: flex;
+			width : 100%;
+			padding: 0 10px;
+		}
+
+		.crypto-picker-card-bounding-box-coin-logo{
+			height : 100%;
+			flex-basis : 25%;
+
+			img {
+				height : 100%;
+				border-radius : 100px;
+			}
+		}
+
+		.crypto-picker-card-bounding-box-coin-info{
+			flex-basis : 75%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 0 5px;
+
+			/*	 for text displays*/
+			/* font family to be primary poppins */
+			font-family: 'Poppins', sans-serif;
+			font-weight : 400;
+			font-size : 14px;
+		}
+
+		.crypto-picker-card-coin-name {
+			display: flex;
+			justify-content: space-between;
+
+		}
+
+		.crypto-picker-card-coin-growth {
+			display: inline-flex;
+			color: green;
+			font-weight : 600;
+		}
+
+		.crypto-picker-card-coin-growth:has(.fa-arrow-up) {
+			color : green;
+		}
+
+		.crypto-picker-card-coin-growth:has(.fa-arrow-down) {
+			color : red;
+		}
+
+		.crypto-picker-card-coin-price{
+			font-weight : 700;
+		}
+	}
+
+	.crypto-picker-card-coin-bounding-box-card-002{
+		display: flex;
+		box-sizing: border-box;
+		padding : 10px 5px;
+		border: 2px solid #03045E;
+		border-radius: 10px;
+		height : 74px;
+		width : 270px;
+		justify-content: center;
+		background: #fff;
+
+		.crypto-picker-card-content-cnt{
+			display: flex;
+			width : 100%;
+			padding: 0 10px;
+		}
+
+		.crypto-picker-card-bounding-box-coin-logo{
+			height : 100%;
+			flex-basis : 25%;
+
+			img {
+				height : 100%;
+				border-radius : 100px;
+			}
+		}
+
+		.crypto-picker-card-bounding-box-coin-info{
+			flex-basis : 75%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 0 5px;
+
+			/*	 for text displays*/
+			/* font family to be primary poppins */
+			font-family: 'Poppins', sans-serif;
+			font-weight : 400;
+			font-size : 14px;
+			transition: all 0.3s;
+		}
+
+		.crypto-picker-card-coin-name {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+		}
+
+		div.crypto-picker-card-coin-growth {
+			display: inline-flex;
+			color: green;
+			font-weight : 600;
+		}
+
+		div.crypto-picker-card-coin-growth:has(.fa-arrow-up) {
+			color : green;
+		}
+
+		div.crypto-picker-card-coin-growth:has(.fa-arrow-down) {
+			color : red;
+		}
+
+		.crypto-picker-card-coin-price{
+			font-weight : 700;
+		}
+
+		.crypto-picker-card-bounding-box-coin-info > *{
+			transition: all 0.3s;
+		}
+
+		.crypto-picker-card-bounding-box-coin-info:hover .crypto-picker-card-coin-name{
+			flex-basis : 100%;
+			flex-grow : 1;
+		}
+
+		.crypto-picker-card-bounding-box-coin-info:hover .crypto-picker-card-coin-price{
+			flex-basis : 0;
+			display: none;
+		}
+
+	}
+
+
+	.crypto-picker-card-coin-bounding-box-card-003 {
+		display: flex;
+		box-sizing: border-box;
+		padding: 12px 10px;
+		border: 2px solid #03045E;
+		border-radius: 10px;
+		height: 104px;
+		width: 255px;
+		justify-content: center;
+		flex-direction: column;
+		font-family: 'Poppins', sans-serif;
+		font-size: 14px;
+		background: #1E1E1E;
+		gap: 3px;
+
+		.crypto-picker-card-003-section {
+			width: 100%;
+		}
+
+		.crypto-picker-card-003-basic-details {
+			display: flex;
+			flex-basis: 75%;
+		}
+
+		.crypto-picker-card-bounding-box-coin-logo {
+			height: 100%;
+			flex-basis: 25%;
+
+			img {
+				height: 100%;
+				width: 100%;
+				border-radius: 100px;
+			}
+		}
+
+		.crypto-picker-card-003-basic-info {
+			flex-basis: 75%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 0 3px;
+			align-items: center;
+		}
+
+		.crypto-picker-card-003-coin-name {
+			width: 100%;
+			display: flex;
+			color: #0077B6;
+			justify-content: space-between;
+
+			div {
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+
+		.crypto-picker-card-coin-price {
+			color: #0077B6;
+			font-weight: 700;
+			width: 100%;
+		}
+
+		.crypto-picker-card-coin-growth {
+			flex-basis: 35%;
+			font-weight: 600;
+
+			&:has(.fa-arrow-up) {
+				color: green;
+			}
+
+			&:has(.fa-arrow-down) {
+				color: red;
+			}
+
+			i, span {
+				display: inline-block;
+			}
+		}
+
+		.crypto-picker-card-coin-name-and-symbol {
+			font-weight: 400;
+		}
+
+		.crypto-picker-card-003-market-details {
+			display: flex;
+			font-weight: 700;
+
+			> div {
+				flex-basis: 50%;
+				display: grid;
+				place-items: center;
+				color: #0077B6;
+			}
+		}
+	}
+
+
+
+
+}

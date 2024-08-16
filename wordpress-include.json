@@ -1,0 +1,46 @@
+{
+"include" : {
+    "free": [
+    ],
+    "pro": [],
+    "both": [
+    ]
+  },
+  "exclude" : {
+    "both" : [
+      "node_modules",
+      "vendor",
+      "tests",
+      "react",
+      "bin",
+      "dist",
+      "assets/styles/sass",
+      ".git",
+      ".idea",
+      ".github",
+      ".circleci",
+      ".gitignore",
+      ".gitattributes",
+      ".editorconfig",
+      "package.json",
+      "package-lock.json",
+      "composer.json",
+      "composer.lock",
+      "yarn.lock",
+      "webpack.config.js",
+      "gulpfile.js",
+      "Gruntfile.js",
+      "Makefile",
+      "phpunit.xml",
+      "phpunit.xml.dist",
+      ".phpunit.xml.dist",
+      "prepare.php",
+      "tsconfig.json",
+      "wordpress-include.json",
+      "wp-cli.yml",
+      ".distignore",
+      "run_tests.sh",
+      ".phpcs.xml.dist"
+    ]
+  }
+}
