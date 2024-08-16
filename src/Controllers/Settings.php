@@ -96,9 +96,35 @@ class Settings {
 				'default' => $setting['default'] ?? ''
 			]);
 		}
+
 		$proUrl = self::getGetProUrl();
-		Notification::add_notification(__('You are using the free version of this plugin  ', 'ultimate-crypto-widget') . '<a href="' . esc_url($proUrl) . '">' . __('Upgrade to Pro', 'ultimate-crypto-widget') . '</a>', 'info');
+		$notificationMessage = sprintf(
+		/* translators: %1$s: Opening anchor tag with the Pro URL, %2$s: Closing anchor tag */
+			__('You are using the free version of this plugin. %1$sUpgrade to Pro%2$s', 'ultimate-crypto-widget'),
+			'<a href="' . esc_url($proUrl) . '">',
+			'</a>'
+		);
+
+		Notification::add_notification($notificationMessage, 'info', 'plugin');
+
+		if (!self::get('coingecko_api_key') ) {
+			$notificationMessage = sprintf(
+				__('You need to set your CoinGecko API Key in the %1$ssettings%2$s to use the plugin.', 'ultimate-crypto-widget'),
+				'<a href="' . esc_url(Page::get_page_url('ultimate-crypto-widget-settings')) . '">',
+				'</a>'
+			);
+			Notification::add_notification($notificationMessage, 'error');
+		}
+		if (!self::get('openexchangerates_app_id') ) {
+			$notificationMessage = sprintf(
+				__('You need to set your OpenExchangeRate API Key in the %1$ssettings%2$s to use the plugin.', 'ultimate-crypto-widget'),
+				'<a href="' . esc_url(Page::get_page_url('ultimate-crypto-widget-settings')) . '">',
+				'</a>'
+			);
+			Notification::add_notification($notificationMessage, 'error');
+		}
 	}
+
 
 	/**
 	 * Display the settings page.

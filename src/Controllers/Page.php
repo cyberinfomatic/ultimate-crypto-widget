@@ -174,6 +174,35 @@ class Page {
 	}
 
 	/**
+	 * Returns the current page key.
+	 *
+	 * @return string The key of the current page.
+	 */
+	static function get_current_page_key(): string {
+		$query = $_SERVER['QUERY_STRING'];
+		$parts = explode('&', $query);
+		foreach ($parts as $part) {
+			$pair = explode('=', $part);
+			if ($pair[0] === 'page') {
+				return $pair[1];
+			}
+		}
+		return '';
+	}
+
+
+	/**
+	 * Returns all page keys (both menus and submenus).
+	 *
+	 * @return array The array of all page keys.
+	 */
+	static function get_all_page_keys(): array {
+		$menu_keys = array_keys(self::menus());
+		$submenu_keys = array_keys(self::submenus());
+		return array_merge($menu_keys, $submenu_keys);
+	}
+
+	/**
 	 * Renders the quick widget admin page.
 	 */
 	static function quick_widget(): void {
