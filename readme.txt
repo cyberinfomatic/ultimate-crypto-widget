@@ -27,7 +27,8 @@ Key Features:
 - Easy to Use: Simple setup and integration with your WordPress dashboard – no coding required!
 - Responsive Design: Ensure your crypto widgets look great on all devices, from desktops to mobile phones.
 
-Perfect for crypto enthusiasts, financial bloggers, and anyone looking to add a modern touch to their WordPress site. Stay ahead of the curve with the Ultimate Crypto Plugin and bring the exciting world of cryptocurrency to your audience with ease.
+**Source Code and Unminified Files:**
+To access the original, unminified versions of the JavaScript and CSS files used in this plugin, visit our [GitHub repository](https://github.com/cyberinfomatic/ultimate-crypto-widget/).
 
 ## Third-Party Services
 This plugin relies on the following third-party services:
@@ -82,13 +83,13 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
    – Refer to the plugin installation instructions section above.
 
 3. **What features are included in the free version?**
-   – The features of the free version are listed on the [plugin page](https://ultimatecryptowidget.com).
+   – The features of the free version are listed on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
 
 4. **What additional features are available in the Pro version?**
-   – The additional features of the Pro version can also be found on the [plugin page](https://ultimatecryptowidget.com).
+   – The additional features of the Pro version can also be found on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
 
 5. **How do I upgrade to the Pro version?**
-   – Upgrade by subscribing to one of our annual plans. Details are available on the [plugin page](https://ultimatecryptowidget.com).
+   – Upgrade by subscribing to one of our annual plans. Details are available on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
 
 6. **Can I customize the appearance of the widgets?**
    – Yes, the appearance is highly customizable, including options like count, speed of marquee, and many more.
@@ -109,4 +110,4 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
     – Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCWP and UCW are their respective short forms. All are associated with the plugin.
 
 12. **Where can I find information about the payment plans?**
-    – Payment plan details can be found on the [plugin page](https://ultimatecryptowidget.com).
+    – Payment plan details can be found on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
