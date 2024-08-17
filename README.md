@@ -12,21 +12,37 @@ The Ultimate Crypto Plugin lets you easily display real-time cryptocurrency pric
 
 Features:
 
-Real-time crypto prices
-Customizable, responsive widgets
-Easy setup and use
-Bring the world of crypto to your site with the Ultimate Crypto Plugin!
+- Real-time crypto prices
+- Customizable, responsive widgets
+- Easy setup and use
+- Bring the world of crypto to your site with the Ultimate Crypto Plugin!
 
 ## Description ##
-Introducing the Ultimate Crypto Plugin – your all-in-one solution for displaying dynamic cryptocurrency data on your WordPress site! Whether you\'re a developer or a regular WordPress user, our plugin makes it easy to integrate real-time crypto prices, charts, and stats directly into your website.
+Introducing the Ultimate Crypto Plugin – your all-in-one solution for displaying dynamic cryptocurrency data on your WordPress site! Whether you're a developer or a regular WordPress user, our plugin makes it easy to integrate real-time crypto prices, charts, and stats directly into your website.
 
 Key Features:
-Real-Time Crypto Prices: Automatically fetch and display up-to-date prices for a wide range of cryptocurrencies.
-Customizable Widgets: Choose from various widget styles and configurations to match your site\'s design.
-Smooth Animations: Enjoy sleek, continuous scrolling of crypto data, powered by Framer Motion for a professional look and feel.
-Easy to Use: Simple setup and integration with your WordPress dashboard – no coding required!
-Responsive Design: Ensure your crypto widgets look great on all devices, from desktops to mobile phones.
+- Real-Time Crypto Prices: Automatically fetch and display up-to-date prices for a wide range of cryptocurrencies.
+- Customizable Widgets: Choose from various widget styles and configurations to match your site's design.
+- Smooth Animations: Enjoy sleek, continuous scrolling of crypto data, powered by Framer Motion for a professional look and feel.
+- Easy to Use: Simple setup and integration with your WordPress dashboard – no coding required!
+- Responsive Design: Ensure your crypto widgets look great on all devices, from desktops to mobile phones.
+
 Perfect for crypto enthusiasts, financial bloggers, and anyone looking to add a modern touch to their WordPress site. Stay ahead of the curve with the Ultimate Crypto Plugin and bring the exciting world of cryptocurrency to your audience with ease.
+
+## Third-Party Services
+This plugin relies on the following third-party services:
+
+1. **CoinGecko API**: Used to fetch real-time cryptocurrency data.
+   - **Website**: [CoinGecko API](https://www.coingecko.com/en/api)
+   - **Terms of Service**: [CoinGecko API Terms of Service](https://www.coingecko.com/en/terms)
+   - **Privacy Policy**: [CoinGecko Privacy Policy](https://www.coingecko.com/en/privacy)
+
+2. **OpenExchangeRates API**: Used to fetch exchange rates for various currencies.
+   - **Website**: [OpenExchangeRates API](https://openexchangerates.org/)
+   - **Terms of Service**: [OpenExchangeRates Terms of Service](https://openexchangerates.org/terms)
+   - **Privacy Policy**: [OpenExchangeRates Privacy Policy](https://openexchangerates.org/privacy)
+
+Make sure to review the terms of service and privacy policies of these services to understand how your data is handled.
 
 ## Installation ##
 ### Plugin Installation Instructions for Ultimate Crypto Plugin
@@ -59,7 +75,6 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
 
 ## Frequently Asked Questions ##
 
-
 1. **What is the Ultimate Crypto Plugin?**
    – Ultimate Crypto Plugin is a top-requested cryptocurrency widget plugin for WordPress.
 
@@ -67,13 +82,13 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
    – Refer to the plugin installation instructions section above.
 
 3. **What features are included in the free version?**
-   – The features of the free version are listed on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
+   – The features of the free version are listed on the [plugin page](https://ultimatecryptowidget.com).
 
 4. **What additional features are available in the Pro version?**
-   – The additional features of the Pro version can also be found on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
+   – The additional features of the Pro version can also be found on the [plugin page](https://ultimatecryptowidget.com).
 
 5. **How do I upgrade to the Pro version?**
-   – Upgrade by subscribing to one of our annual plans. Details are available on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
+   – Upgrade by subscribing to one of our annual plans. Details are available on the [plugin page](https://ultimatecryptowidget.com).
 
 6. **Can I customize the appearance of the widgets?**
    – Yes, the appearance is highly customizable, including options like count, speed of marquee, and many more.
@@ -88,10 +103,10 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
    – No coding skills are required; you just need to be a crypto enthusiast.
 
 10. **How do I get support for the plugin?**
-    – For support, send an email to admin@cyberinfomatic.com with the subject \"Ultimate Crypto Plugin Widget\".
+    – For support, send an email to admin@cyberinfomatic.com with the subject "Ultimate Crypto Plugin Widget".
 
-11. **What are the Ultimate Crypto Plugin, Ultimate Crypto Widget, UCP, and UCW?**
-    – Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCP and UCW are their respective short forms. All are associated with the plugin.
+11. **What are the Ultimate Crypto Plugin, Ultimate Crypto Widget, UCWP, and UCW?**
+    – Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCWP and UCW are their respective short forms. All are associated with the plugin.
 
 12. **Where can I find information about the payment plans?**
-    – Payment plan details can be found on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
+    – Payment plan details can be found on the [plugin page](https://ultimatecryptowidget.com).

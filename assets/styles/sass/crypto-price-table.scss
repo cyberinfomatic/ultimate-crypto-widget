@@ -1,0 +1,137 @@
+/* Styles for crypto-price-table */
+ .ucwp-crypto-price-table{
+
+    .ucwp-crypto-price-table-main {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+    
+            * {
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+            }
+    
+            .ucwp-crypto-price-table-main-table {
+                border-collapse: collapse;
+                background: #e2eef4;
+                padding: 10px;
+                width: max-content;
+                max-width: 100%;
+    
+                tr {
+    
+                    td,
+                    th {
+                        border-right-color: #0077b6;
+                        /* Red border color */
+                        border-right-width: 1px;
+                        /* Border thickness */
+                        border-right-style: solid;
+                        /* Border style */
+                        width: 120px;
+                        text-align: center;
+                        padding-bottom: 23px;
+                        font-size: 7.5px;
+                    }
+                }
+            }
+    
+            .crypto-price-table-name-info {
+                display: flex;
+                align-items: center;
+    
+                .crypto-price-table-name-info-image {
+                    img {
+                        width: 30px;
+                        height: 30px;
+                        object-fit: cover;
+                        border-radius: 50%;
+                        margin-right: 10px;
+                        gap: 8px;
+                    }
+                }
+    
+                .crypto-price-table-name-info-name {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+    
+                    span {
+                        display: inline-block;
+                        text-align: left;
+                        width: 100%;
+    
+                        &:first-child {
+                            font-weight: 800;
+                        }
+    
+                        &:last-child {
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+    
+            .ucwp-crypto-price-table-main-search {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                border: 1px solid #03045e;
+                background: #e2eef4;
+                text-align: center;
+                font-size: 12px;
+                font-weight: 300;
+    
+                &::placeholder {
+                    text-align: center;
+                    font-size: 12px;
+                    font-weight: 300;
+                }
+    
+                &::after {
+                    content: '\f002';
+                    font-family: 'Font Awesome 5 Free';
+                    font-weight: 900;
+                    font-size: 12px;
+                    position: absolute;
+                    right: 10px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #03045e;
+                }
+            }
+    
+            td:has(.fa-arrow-up) {
+                color: green;
+            }
+    
+            td:has(.fa-arrow-down) {
+                color: red;
+            }
+    
+            td:first-child,
+            th:first-child {
+                width: 40px !important;
+                padding: 0 5px;
+                border-right: none !important;
+            }
+    
+            thead {
+                tr {
+                    th {
+                        font-size: 10px !important;
+                        font-weight: 600 !important;
+                        padding-top: 20px !important;
+                    }
+                }
+            }
+        }
+}

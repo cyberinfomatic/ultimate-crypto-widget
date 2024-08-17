@@ -1,147 +1,166 @@
-.ucwp-coin-marquee-main-marquee-element{
+$primary-color: #03045E;
+$secondary-color: #0077B6;
+$bg-color: #fff;
+$text-color: #03045E;
+$tooltip-bg-color: rgba(0, 0, 0, 0.8);
+$tooltip-text-color: #fff;
+$transition-duration: 0.3s;
 
-	padding : 10px;
-	box-sizing: border-box;
-	overflow: hidden;
-
-	* {
-		box-sizing: border-box;
-	}
-
-div.ucwp-coin-marquee-main {
-	box-sizing: border-box;
-	display: flex;
-	justify-content: left;
-	align-items: center;
-	gap: 50px;
-	overflow-x: hidden; /* Ensure contents do not overflow */
-	overflow-y: visible;
-	position: relative;
-	padding: 20px 0;
-	height: fit-content;
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-
-.ucwp-coin-marquee-coin-card-bounding-box {
-	display: flex;
-	flex-shrink: 0;
-	box-sizing: content-box;
-	padding: 3px;
-	height: 80px;
-	width: 200px;
-	justify-content: center;
-	background: #fff;
-	gap: 10px;
-
-	/*	font*/
-	font-family: 'Poppins', sans-serif;
-	font-size: 14px;
-	font-weight: 400;
-	color: #03045E;
-	overflow: hidden;
-
-	> div {
-		height: 100%;
-	}
-
-	.ucwp-coin-marquee-coin-logo {
-		height: 100%;
-		flex-basis: calc((100% - 10px) / 3);
-		width: calc((100% - 10px) / 3);
-	}
-
-	.ucwp-coin-marquee-coin-logo > img {
-		border-radius: 100px;
-		height: 100%;
-	}
-
-	.ucwp-coin-marquee-coin-graph {
-		flex-basis: calc((100% - 10px) / 5 * 2); /* 100% of parent width - 10px(padding and gap) and take 2/5 of that */
-		width: calc((100% - 10px) / 5 * 2);
-		height: 100%;
-	}
-
-	.ucwp-coin-marquee-main-coin-basic-info {
-		flex-basis: calc((100% - 10px) / 3 * 2);
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-
-		> div {
-			width: 100%;
-			flex-basis: calc(100% / 3);
-			text-align: center;
-		}
-	}
-
-
-	.ucwp-coin-marquee-coin-name-and-symbol {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.ucwp-coin-marquee-coin-price {
-		font-weight: 600;
-	}
-
-	.wcp-coin-marquee-coin-growth:has(.fa-arrow-up) {
-		color: green;
-	}
-
-	.wcp-coin-marquee-coin-growth:has(.fa-arrow-down) {
-		color: red;
-	}
-
-	.ucwp-coin-marquee-coin-tooltip {
-		position: absolute; /* Position the tooltip absolutely */
-		display: none; /* Hide the tooltip by default */
-		width: 200px; /* Set the width of the tooltip */
-		height: max-content;
-		padding: 10px; /* Add padding to the tooltip */
-		background-color: rgba(0, 0, 0, 0.8); /* Set the background color */
-		color: #fff; /* Set the text color */
-		border-radius: 5px; /* Add border radius */
-		z-index: 100; /* Ensure the tooltip is on top */
-		white-space: nowrap; /* Prevent tooltip text from wrapping */
-
-		&::after {
-			content: ''; /* Create the arrow */
-			position: absolute; /* Position the arrow absolutely */
-			top: -10px; /* Position the arrow above the tooltip */
-			left: 50%; /* Center the arrow horizontally */
-			transform: translateX(-50%); /* Center the arrow horizontally */
-			border-width: 5px; /* Set the size of the arrow */
-			border-style: solid; /* Set the style of the arrow */
-			border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent; /* Set the color of the arrow */
-		}
-	}
-
-	&:hover {
-		.ucwp-coin-marquee-coin-tooltip {
-			display: block; /* Show the tooltip on hover */
-		}
-	}
-
-	.ucwp-coin-marquee-coin-tooltip-content {
-		display: flex;
-		flex-direction: column;
-		gap: 5px;
-	}
-
-	.ucwp-coin-marquee-coin-tooltip-content-text {
-		display: flex;
-		justify-content: center;
-		gap: 5px;
-	}
-
-	.ucwp-coin-marquee-coin-tooltip-content-text-title,
-	.ucwp-coin-marquee-coin-tooltip-content-text-value {
-		font-size: 14px;
-	}
-
-
+@mixin tooltip-arrow($color) {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent $color transparent;
 }
 
+.ucwp-coin-marquee-main-marquee-element {
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
 
+  * {
+    box-sizing: border-box;
+  }
+
+  .ucwp-coin-marquee-main {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 50px;
+    overflow-x: hidden; 
+    overflow-y: visible;
+    position: relative;
+    padding: 20px 0;
+    height: fit-content;
+
+    .ucwp-coin-marquee-coin-card-bounding-box {
+      @include flex-center;
+      flex-shrink: 0;
+      box-sizing: content-box;
+      padding: 3px;
+      height: 80px;
+      width: 200px;
+      background: $bg-color;
+      gap: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: $text-color;
+      overflow: hidden;
+      transition: transform $transition-duration, box-shadow $transition-duration;
+
+      &:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      > div {
+        height: 100%;
+      }
+
+      .ucwp-coin-marquee-coin-logo {
+        height: 100%;
+        flex-basis: calc((100% - 10px) / 3);
+        width: calc((100% - 10px) / 3);
+
+        > img {
+          border-radius: 100px;
+          height: 100%;
+          transition: transform $transition-duration;
+        }
+
+        &:hover img {
+          transform: rotate(360deg);
+        }
+      }
+
+      .ucwp-coin-marquee-coin-graph {
+        flex-basis: calc((100% - 10px) / 5 * 2);
+        width: calc((100% - 10px) / 5 * 2);
+        height: 100%;
+      }
+
+      .ucwp-coin-marquee-main-coin-basic-info {
+        flex-basis: calc((100% - 10px) / 3 * 2);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        > div {
+          width: 100%;
+          flex-basis: calc(100% / 3);
+          text-align: center;
+        }
+      }
+
+      .ucwp-coin-marquee-coin-name-and-symbol {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .ucwp-coin-marquee-coin-price {
+        font-weight: 600;
+      }
+
+      .wcp-coin-marquee-coin-growth:has(.fa-arrow-up) {
+        color: green;
+      }
+
+      .wcp-coin-marquee-coin-growth:has(.fa-arrow-down) {
+        color: red;
+      }
+
+      .ucwp-coin-marquee-coin-tooltip {
+        position: absolute;
+        display: none;
+        width: 200px;
+        height: max-content;
+        padding: 10px;
+        background-color: $tooltip-bg-color;
+        color: $tooltip-text-color;
+        border-radius: 5px;
+        z-index: 100;
+        white-space: nowrap;
+
+        &::after {
+          @include tooltip-arrow($tooltip-bg-color);
+        }
+      }
+
+      &:hover {
+        .ucwp-coin-marquee-coin-tooltip {
+          display: block;
+        }
+      }
+
+      .ucwp-coin-marquee-coin-tooltip-content {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .ucwp-coin-marquee-coin-tooltip-content-text {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+
+        .ucwp-coin-marquee-coin-tooltip-content-text-title,
+        .ucwp-coin-marquee-coin-tooltip-content-text-value {
+          font-size: 14px;
+        }
+      }
+    }
+  }
 }

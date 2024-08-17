@@ -24,8 +24,6 @@ use WP_Query;
 			$this->preview_metabox = new UCWPMetaBoxController('ucwp_widget_preview', 'ucwp Widget Preview', 'ucwp_widget');
 			$this->preview_metabox->set('context', 'normal');
 			$this->preview_metabox->set('priority', 'high');
-			$this->preview_metabox->enqueue_scripts( plugins_url( 'assets/scripts/coin-marquee-graph.js', UCWP_PLUGIN_BASENAME ),  'ucwp-marquee-graph', array( 'jquery' , 'ucwp-chart-js' ), '1.0', false );
-			$this->preview_metabox->enqueue_scripts( 'https://cdn.jsdelivr.net/npm/chart.js', 'ucwp-chart-js',  array( 'jquery' ), '1.0' );
 			$this->preview_metabox->set_callback(function($post) {
 //				 do the shortcode
 				echo do_shortcode('[ucwp_widget id="' . $post->ID . '"]');
@@ -362,7 +360,7 @@ use WP_Query;
 				],
 				'crypto-price-picker-2' => [
 					'display_name' => __('Crypto Price Label (2)', 'ultimate-crypto-widget'),
-					'view' => 'crypto-price-picker',
+					'view' => 'crypto-price-picker-pro',
 					'card' => 'card-002',
 					'pro' => true,
 					'params' => [
@@ -372,7 +370,7 @@ use WP_Query;
 				],
 				'crypto-price-picker-3' => [
 					'display_name' => __('Crypto Price Label (3)', 'ultimate-crypto-widget'),
-					'view' => 'crypto-price-picker',
+					'view' => 'crypto-price-picker-pro',
 					'card' => 'card-003',
 					'pro' => true,
 					'params' => [
@@ -392,7 +390,7 @@ use WP_Query;
 				],
 				'coin-marquee-2' => [
 					'display_name' => __('Coin Marquee (2)', 'ultimate-crypto-widget'),
-					'view' => 'coin-marquee',
+					'view' => 'coin-marquee-pro',
 					'card' => 'card-002',
 					'pro' => true,
 					'params' => [
@@ -402,7 +400,7 @@ use WP_Query;
 				],
 				'coin-marquee-3' => [
 					'display_name' => __('Coin Marquee (3)', 'ultimate-crypto-widget'),
-					'view' => 'coin-marquee',
+					'view' => 'coin-marquee-pro',
 					'card' => 'card-003',
 					'pro' => true,
 					'params' => [
@@ -423,9 +421,9 @@ use WP_Query;
 				],
 				'crypto-price-table-2' => [
 					'display_name' => __('Crypto Price Table (2)', 'ultimate-crypto-widget'),
-					'view' => 'crypto-price-table',
+					'view' => 'crypto-price-table-2',
 					'card' => 'card-002',
-					'pro' => true,
+					'pro' => false,
 					'params' => [
 						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
 					],

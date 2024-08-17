@@ -45,6 +45,8 @@ export interface CoinData {
 		percentage: number;
 	} | null;
 	last_updated: string;
+	price_change_percentage_7d_in_currency?: number;
+	price_change_percentage_30d_in_currency?: number;
 }
 
 export type GraphDataSetSettings = {
