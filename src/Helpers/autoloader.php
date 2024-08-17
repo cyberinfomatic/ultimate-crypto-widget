@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 // simple autoloader file to load
 
 spl_autoload_register( function ( $class ) {

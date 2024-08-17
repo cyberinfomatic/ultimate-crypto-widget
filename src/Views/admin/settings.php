@@ -1,4 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 if (!isset($settings, $prefix, $clear_cache_post_url, $coin_gecko_call_count)) {
 	?>
 	<!-- Error message if settings are not available -->

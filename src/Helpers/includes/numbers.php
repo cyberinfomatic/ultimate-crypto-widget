@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 if (!function_exists( 'ucwp_shorten_number' )) {
 	function ucwp_shorten_number(int|float $number, $precision = 2): string {
 		$suffix = '';

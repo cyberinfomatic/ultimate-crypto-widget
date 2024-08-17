@@ -1,7 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import ReactRender from "../helper-components/react-wrapper";
 import '@/styles/sass/admin.scss';
-import React from 'react';
 
 
 ReactRender(({...props}) => {

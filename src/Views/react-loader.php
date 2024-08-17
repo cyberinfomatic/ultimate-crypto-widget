@@ -1,3 +1,5 @@
+<?php if(!defined('ABSPATH')) exit(); ?>
+
 <?php if(isset($react_id)) : ?>
 	<div id="<?php echo  $react_id ?>">Loading...</div>
 <?php else : ?>
