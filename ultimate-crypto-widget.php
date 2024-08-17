@@ -9,7 +9,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Ultimate Crypto Widget
- * Plugin URI:        http://ultimatecryptowidget.com
+ * Plugin URI:        https://ultimatecryptowidget.com
  * Description:       Crypto Currency Widget on the go!
  * Version:           0.0.1
  * Requires at least: 6.5.5
