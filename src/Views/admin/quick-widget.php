@@ -1,4 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 //check if metabox is isset and instance of ucwpMetaBoxController class
 use Cyberinfomatic\UltimateCryptoWidget\Controllers\UCWPMetaBoxController;
 

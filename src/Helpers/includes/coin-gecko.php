@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 use Cyberinfomatic\UltimateCryptoWidget\Helpers\CoinGeckoHelper;
 
 if (!function_exists( 'ucwp_get_coins' )) {
