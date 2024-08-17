@@ -2,25 +2,17 @@ import React,{useState} from "react";
 import '@/styles/sass/coin-marquee.scss'
 import {UCWPWidgetSetting, CoinData} from "../../types";
 import ReactRender from "../../helper-components/react-wrapper";
-import Card001 from "./cards/card-001";
+import Card from "./cards/card-001";
 import Marquee from "react-fast-marquee";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 
 
 Chart.register(CategoryScale);
-const getCard = (card: string) => {
-	switch (card) {
-		case 'card-001':
-			return Card001;
-		default:
-			return Card001;
-	}
-}
+
 
 ReactRender(({ coins, settings }: { coins: CoinData[], settings: UCWPWidgetSetting }) => {
 	const [coinList, _] = useState<CoinData[]>(coins ?? []); // Initialize with props
-	const Card = getCard(settings.card ?? 'card-001');
 	const parentWidth = typeof settings.parent_width === 'number' ? `${settings.parent_width}px` : settings.parent_width;
 	const cardWidth = typeof settings.card_width === 'number' ? `${settings.card_width}px` : settings.card_width;
 	const animationDuration = (settings.speed || 3000) / (coinList?.length ?? 10)
