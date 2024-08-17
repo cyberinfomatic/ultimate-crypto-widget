@@ -36,9 +36,7 @@ ReactRender(({...props}) => {
 					</div>
 					<div className={`ucwp-admin-welcome-message`} >
 						 <p> { __( 'Welcome to the Ultimate Crypto Widget plugin.', 'ultimate-crypto-widget' ) } </p>
-						short description about the plugin
 						 <p> { __( 'This plugin allows you to display the current price of any cryptocurrency in your website.', 'ultimate-crypto-widget' ) } </p>
-						 helpful links
 						<div className={`ucwp-admin-helpful-links`}>
 							{helpfulLinks.map((link, index) => (
 								<a key={index} href={link.link} target="_blank" rel="noreferrer">{link.name}</a>
