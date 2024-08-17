@@ -1,12 +1,12 @@
 # Ultimate Crypto Widget #
-**Contributors:** Cyberinfomatic  
-**Tags:** crypto, finance, web3, blockchain  
-**Requires at least:** 6.5.5  
-**Tested up to:** 6.5.5  
-**Requires PHP:** 8.0  
-**Stable tag:** 0.0.1  
-**License:** GPL-2.0-or-later  
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.txt  
+**Contributors:** Cyberinfomatic
+**Tags:** crypto, finance, web3, blockchain
+**Requires at least:** 6.5.5
+**Tested up to:** 6.5.5
+**Requires PHP:** 8.0
+**Stable tag:** 0.0.1
+**License:** GPL-2.0-or-later
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.txt
 
 The Ultimate Crypto Plugin lets you easily display real-time cryptocurrency prices and data on your WordPress site. With customizable widgets and smooth animations, you can add a professional touch without coding. Perfect for bloggers, financial sites, and crypto enthusiasts.
 
@@ -90,8 +90,8 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
 10. **How do I get support for the plugin?**
     – For support, send an email to admin@cyberinfomatic.com with the subject \"Ultimate Crypto Plugin Widget\".
 
-11. **What are the Ultimate Crypto Plugin, Ultimate Crypto Widget, UCP, and UCW?**
-    – Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCP and UCW are their respective short forms. All are associated with the plugin.
+11. **What are the Ultimate Crypto Plugin, Ultimate Crypto Widget, UCWP, and UCW?**
+    – Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCWP and UCW are their respective short forms. All are associated with the plugin.
 
 12. **Where can I find information about the payment plans?**
     – Payment plan details can be found on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).

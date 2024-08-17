@@ -2,6 +2,7 @@ import {HTMLProps} from "react";
 import { Chart  } from "react-chartjs-2";
 import {generateLabelArrayFromChartData} from "../helper/helper";
 import {GraphData, GraphDataSetSettings} from "../types";
+import React from "react";
 
 
 

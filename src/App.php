@@ -22,6 +22,7 @@ class App
 		foreach (self::$before_start as $callback) {
 			call_user_func($callback);
 		}
+//		deactivate free version of the plugin with name 'ultimate-crypto-widget/ultimate-crypto-widget.php'
 		self::enqueues();
 		RouteHandler::load();
 		WidgetPostType::load();
@@ -45,9 +46,7 @@ class App
 	}
 
 	public function enqueue_scripts(): static {
-		wp_enqueue_script( 'ucwp-marquee-graph', plugins_url( 'assets/scripts/coin-marquee-graph.js', UCWP_PLUGIN_BASENAME ), array( 'jquery' , 'ucwp-chart-js' ), '1.0', false );
 		wp_enqueue_script( 'ucwp-crypto-price-table', plugins_url( 'assets/scripts/crypto-price-table.js', UCWP_PLUGIN_BASENAME ), array( 'jquery'  ), '1.0', true );
-		wp_enqueue_script( 'ucwp-chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', array( 'jquery' ), '1.0', true );
 		return $this;
 	}
 
@@ -59,15 +58,14 @@ class App
 
 //	admin scripts
 	public function admin_scripts(): static {
-//		wp_enqueue_script( 'ucwp-admin-js', plugins_url( '/src/javascripts/admin.js', UCW_PLUGIN_BASENAME ), array( 'jquery' ), '1.0', true );
-		wp_enqueue_script( 'ucwp-chosen-js', 'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js', array( 'jquery' ), '1.0', true );
+		wp_enqueue_script( 'ucwp-chosen-js',  plugins_url( '/assets/chosen/1.8.7/chosen.jquery.min.js', UCWP_PLUGIN_BASENAME ), array( 'jquery' ), '1.0', true );
 		return $this;
 	}
 
 //	admin styles
 	public function admin_styles(): static {
 		wp_enqueue_style( 'ucwp-admin-metabox', plugins_url( '/assets/styles/metabox.css', UCWP_PLUGIN_BASENAME ) );
-		wp_enqueue_style( 'ucwp-chosen-css', 'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css' );
+		wp_enqueue_style( 'ucwp-chosen-css',  plugins_url( '/assets/chosen/1.8.7/chosen.min.css', UCWP_PLUGIN_BASENAME ) );
 		return $this;
 	}
 
@@ -84,5 +82,6 @@ class App
 	public static function after_start(callable $callback): void {
 		self::$after_start[] = $callback;
 	}
+
 
 }

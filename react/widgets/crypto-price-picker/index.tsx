@@ -1,6 +1,6 @@
 import {useState} from "react";
 import '@/styles/sass/crypto-price-picker.scss'
-import {UCWPWidgetSetting, CoinData} from "../../types";
+import {ucwpWidgetSetting, CoinData} from "../../types";
 import ReactRender from "../../helper-components/react-wrapper";
 import Card001 from "./cards/card-001";
 import Card002 from "./cards/card-002";
@@ -8,6 +8,7 @@ import Card003 from "./cards/card-003";
 
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
+import React from "react";
 
 Chart.register(CategoryScale);
 const getCard = (card: string) => {
@@ -22,7 +23,7 @@ const getCard = (card: string) => {
 			return Card001;
 	}
 }
-ReactRender(({ coins, settings }: { coins: CoinData[], settings: UCWPWidgetSetting }) => {
+ReactRender(({ coins, settings }: { coins: CoinData[], settings: ucwpWidgetSetting }) => {
 	const [coinList, setCoinList] = useState<CoinData[]>(coins ?? []); // Initialize with props
 	const Card = getCard(settings.card ?? 'card-001');
 

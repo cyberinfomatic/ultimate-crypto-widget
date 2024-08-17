@@ -90,8 +90,8 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
 10. **How do I get support for the plugin?**
     – For support, send an email to admin@cyberinfomatic.com with the subject \"Ultimate Crypto Plugin Widget\".
 
-11. **What are the Ultimate Crypto Plugin, Ultimate Crypto Widget, UCP, and UCW?**
-    – Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCP and UCW are their respective short forms. All are associated with the plugin.
+11. **What are the Ultimate Crypto Plugin, Ultimate Crypto Widget, UCWP, and UCW?**
+    – Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCWP and UCW are their respective short forms. All are associated with the plugin.
 
 12. **Where can I find information about the payment plans?**
     – Payment plan details can be found on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).

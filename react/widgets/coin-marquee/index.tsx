@@ -1,10 +1,8 @@
-import {useState} from "react";
+import React,{useState} from "react";
 import '@/styles/sass/coin-marquee.scss'
 import {UCWPWidgetSetting, CoinData} from "../../types";
 import ReactRender from "../../helper-components/react-wrapper";
 import Card001 from "./cards/card-001";
-import Card002 from "./cards/card-002";
-import Card003 from "./cards/card-003";
 import Marquee from "react-fast-marquee";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
@@ -15,14 +13,11 @@ const getCard = (card: string) => {
 	switch (card) {
 		case 'card-001':
 			return Card001;
-		case 'card-002':
-			return Card002;
-		case 'card-003':
-			return Card003
 		default:
 			return Card001;
 	}
 }
+
 ReactRender(({ coins, settings }: { coins: CoinData[], settings: UCWPWidgetSetting }) => {
 	const [coinList, _] = useState<CoinData[]>(coins ?? []); // Initialize with props
 	const Card = getCard(settings.card ?? 'card-001');

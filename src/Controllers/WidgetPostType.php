@@ -24,8 +24,6 @@ use WP_Query;
 			$this->preview_metabox = new UCWPMetaBoxController('ucwp_widget_preview', 'ucwp Widget Preview', 'ucwp_widget');
 			$this->preview_metabox->set('context', 'normal');
 			$this->preview_metabox->set('priority', 'high');
-			$this->preview_metabox->enqueue_scripts( plugins_url( 'assets/scripts/coin-marquee-graph.js', UCWP_PLUGIN_BASENAME ),  'ucwp-marquee-graph', array( 'jquery' , 'ucwp-chart-js' ), '1.0', false );
-			$this->preview_metabox->enqueue_scripts( 'https://cdn.jsdelivr.net/npm/chart.js', 'ucwp-chart-js',  array( 'jquery' ), '1.0' );
 			$this->preview_metabox->set_callback(function($post) {
 //				 do the shortcode
 				echo do_shortcode('[ucwp_widget id="' . $post->ID . '"]');

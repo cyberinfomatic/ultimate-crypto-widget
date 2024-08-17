@@ -15,7 +15,7 @@ export const fetchDataText = async <T = any> (url: string | Request | URL, optio
 }
 
 // class tp handle my wp-json api class
-export class UCWPWPAPI {
+export class ucwpWPAPI {
 	private readonly namespace: string;
 	private readonly origin =` ${window.location.origin}/`;
 	private paths : {
@@ -52,8 +52,11 @@ export class UCWPWPAPI {
 			throw new Error("Path not found");
 		}
 		let url = new URL(`/wp-json/${this.namespace}${path.endpoint}`, this.origin);
-		if(path.required_params){
+		if (path.required_params) {
 			path.required_params.forEach((param) => {
+				if(!params){
+					throw new Error("Missing required params");
+				}
 				if(!params[param]){
 					throw new Error("Missing required param: " + param);
 				}
@@ -62,6 +65,9 @@ export class UCWPWPAPI {
 		}
 		if(path.required_body_params){
 			path.required_body_params.forEach((param) => {
+				if(!body){
+					throw new Error("Missing required body params");
+				}
 				if(!body[param]){
 					throw new Error("Missing required body param: " + param);
 				}
@@ -118,6 +124,6 @@ export class UCWPWPAPI {
 }
 
 // v1 of my api
-export const UCWPAPIV1 = new UCWPWPAPI("ultimate-crypto-widget", "v1")
-	.addPath('coins', 'GET', '/coins')
-	.addPath('coin-chart-data' , 'GET', '/coin-chart-data', ['coin_id', 'days'])
+export const ucwpAPIV1 = new ucwpWPAPI("ultimate-crypto-widget", "v1")
+	.addPath('coins', 'GET', '/coins.json')
+	.addPath('coin-chart-data' , 'GET', '/coin-chart-data.json', ['coin_id', 'days'])

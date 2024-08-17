@@ -17,9 +17,9 @@ abstract class APIHelper {
 			$expiration = Settings::get('cache_interval', 90); // caching for 90 minutes
 		}
 		if(set_transient($key, $value, intval($expiration) * MINUTE_IN_SECONDS)) {
-			$previous_cache_key = get_transient( 'ucp_cache_keys' ) ?: [];
+			$previous_cache_key = get_transient( 'ucwp_cache_keys' ) ?: [];
 			$previous_cache_key = array_unique( array_merge( $previous_cache_key, [ $key ] ) );
-			set_transient( 'ucp_cache_keys', $previous_cache_key, intval( $expiration ) * MINUTE_IN_SECONDS );
+			set_transient( 'ucwp_cache_keys', $previous_cache_key, intval( $expiration ) * MINUTE_IN_SECONDS );
 			return true;
 		}
 		return false;
@@ -27,18 +27,18 @@ abstract class APIHelper {
 	}
 
 	public static function clear_cache(): void {
-		$cache_keys = get_transient('ucp_cache_keys');
+		$cache_keys = get_transient('ucwp_cache_keys');
 		if ($cache_keys) {
 			foreach ($cache_keys as $key) {
 				delete_transient($key);
 			}
 		}
-		delete_transient('ucp_cache_keys');
+		delete_transient('ucwp_cache_keys');
 	}
 
 	// list caches
 	public static function list_cache(): array {
-		$cache_keys = get_transient('ucp_cache_keys');
+		$cache_keys = get_transient('ucwp_cache_keys');
 		$caches = [];
 		if ($cache_keys) {
 			foreach ($cache_keys as $key) {
@@ -92,7 +92,7 @@ abstract class APIHelper {
 
 	private static function update_api_call_count(): void {
 		$name = static::getName();
-		$cache_key = "ucp_".$name."_api_calls";
+		$cache_key = "ucwp_".$name."_api_calls";
 		$api_calls = get_option($cache_key, 0);
 
 		if ($api_calls === 0) {
@@ -113,7 +113,7 @@ abstract class APIHelper {
 	 */
 	static function get_api_call_count() {
 		$name = static::getName();
-		$cache_key = "ucp_".$name."_api_calls";
+		$cache_key = "ucwp_".$name."_api_calls";
 		return get_option("$cache_key", 0);
 	}
 

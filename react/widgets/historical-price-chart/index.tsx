@@ -6,7 +6,8 @@ import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import {abbreviateNumber, roundToSignificantFigures} from "../../helper/helper";
 import Graph from "../../helper-components/Graph";
-import {UCWPAPIV1} from "../../helper/api-helper";
+import {ucwpAPIV1} from "../../helper/api-helper";
+import React from "react";
 
 
 Chart.register(CategoryScale);
@@ -15,7 +16,7 @@ Chart.register(CategoryScale);
 
 const Card = ({coinData, currency_symbol = "$", no_of_days = 7,  max_point_graph = 15,...props} : {coinData: CoinData, currency_symbol?: string, no_of_days ?: number|string,  max_point_graph ?: number|string} & HTMLProps<HTMLDivElement>)  => {
 	const [graphData, setGraphData] = useState<GraphData[]>([]);
-	const [graphLabels, setGraphLabels] = useState([]);
+	const [graphLabels, setGraphLabels] = useState<string[]>([]); 
 	const [graphFetchCount, setGraphFetchCount] = useState(0);
 	const graphColor = coinData.price_change_percentage_24h > 0 ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)'
 	// parse no of days and max point graph to integer if string is passed
@@ -67,55 +68,72 @@ const Card = ({coinData, currency_symbol = "$", no_of_days = 7,  max_point_graph
 	// use effect to update the graph data from api /wp-json/ultimate-crypto-widget/v1/coin-chart-data?coin_id={coin.id} with axios
 	useEffect(() => {
 		console.log("useEffect called");
-		UCWPAPIV1.fetchData<{prices : [number, number][]}>('coin-chart-data', {coin_id :coinData.id, days: no_of_days}).then((data) => {
-			let newData : ([number, number] | null)[] = data?.prices?.map((_price) => {
-				const time = new Date(_price?.[0]);
-				const date = new Date();
-				date.setDate(date.getDate() - no_of_days);
-				_price[1] = roundToSignificantFigures(_price[1], 3);
-				if(time >= date){
-					return _price;
-				}
-				return null;
+		ucwpAPIV1
+			.fetchData<{ prices: [number, number][] }>("coin-chart-data", {
+				coin_id: coinData.id,
+				days: no_of_days,
 			})
-			// remove all duplicate price point and remove null values
-			newData = newData?.filter((price, index) => {
-				if(!price){
-					return false;
-				}
-				return newData.findIndex((_price) => _price?.[0] === price?.[0]) === index;
-			}).slice(0, max_point_graph);
+			.then((data) => {
+				let newData: ([number, number] | null)[] = data?.prices?.map(
+					(_price) => {
+						const time = new Date(_price?.[0]);
+						const date = new Date();
+						date.setDate(date.getDate() - no_of_days);
+						_price[1] = roundToSignificantFigures(_price[1], 3);
+						if (time >= date) {
+							return _price;
+						}
+						return null;
+					},
+				);
+				// remove all duplicate price point and remove null values
+				newData = newData
+					?.filter((price, index) => {
+						if (!price) {
+							return false;
+						}
+						return (
+							newData.findIndex(
+								(_price) => _price?.[0] === price?.[0],
+							) === index
+						);
+					})
+					.slice(0, max_point_graph);
 
-			if(!newData){
-				throw new Error("No data found");
-			}
-			const prices = newData?.map((price) => price?.[1] || 0);
-			const days_time = newData?.map((price) => {
-				const time = new Date(price?.[0]);
-				return time.toLocaleDateString();
+				if (!newData) {
+					throw new Error("No data found");
+				}
+				const prices = newData?.map((price) => price?.[1] || 0);
+				const days_time = newData?.map((price) => {
+					const time = new Date(price![0]);
+					return time.toLocaleDateString();
+				});
+				// co0nsole.log prices
+				setGraphData(() => {
+					return [
+						{
+							id: coinData.id,
+							label: coinData.name,
+							data: prices,
+						},
+					];
+				});
+				setGraphLabels(() => {
+					return days_time;
+				});
+			})
+			.catch((error) => {
+				console.error(error, "error", graphFetchCount);
+				if (graphFetchCount < 3) {
+					// sleep for 4 seconds and try again
+					setTimeout(
+						() => {
+							setGraphFetchCount((prev) => prev + 1);
+						},
+						4000 * (graphFetchCount + 1),
+					);
+				}
 			});
-			// co0nsole.log prices
-			setGraphData(() => {
-				return [
-					{
-						id: coinData.id,
-						label: coinData.name,
-						data: prices,
-					}
-				]
-			});
-			setGraphLabels(() => {
-				return days_time;
-			});
-		}).catch((error) => {
-			console.error(error, "error", graphFetchCount);
-			if (graphFetchCount < 3) {
-				// sleep for 4 seconds and try again
-				setTimeout(() => {
-					setGraphFetchCount((prev) => prev + 1);
-				}, 4000 * (graphFetchCount + 1));
-			}
-		});
 
 	}, [coinData, graphFetchCount]);
 

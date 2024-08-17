@@ -1,6 +1,7 @@
 import {CoinData} from "../../../types";
 import {HTMLProps, useState} from "react";
 import {abbreviateNumber} from "../../../helper/helper";
+import React from "react";
 const Card003 = ({coinData, currency_symbol = "$", ...props} : {coinData: CoinData, currency_symbol?: string} & HTMLProps<HTMLDivElement>) => {
 	const [coin, setCoin] = useState(coinData);
 	props.className = `crypto-picker-card-coin-bounding-box-card-003 ${props.className}`;

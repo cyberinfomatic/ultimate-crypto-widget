@@ -1,3 +1,4 @@
+import React from "react";
 import {CoinData} from "../../../types";
 import {HTMLProps, useState} from "react";
 
