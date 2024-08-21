@@ -68,6 +68,9 @@ class Settings {
 	}
 
 	static function get_plugin_detail($key = null) {
+		if(!function_exists('get_plugin_data')) {
+			require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+		}
 		if(!isset(self::$plugin_details)) {
 			self::$plugin_details = get_plugin_data(UCWP_PLUGIN_FILE);
 		}
