@@ -125,5 +125,5 @@ export class ucwpWPAPI {
 
 // v1 of my api
 export const ucwpAPIV1 = new ucwpWPAPI("ultimate-crypto-widget", "v1")
-	.addPath('coins', 'GET', '/coins.json')
-	.addPath('coin-chart-data' , 'GET', '/coin-chart-data.json', ['coin_id', 'days'])
+	.addPath('coins', 'GET', '/coins')
+	.addPath('coin-chart-data' , 'GET', '/coin-chart-data', ['coin_id', 'days'])
