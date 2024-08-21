@@ -4,7 +4,7 @@ Tags: crypto, finance, web3, blockchain
 Requires at least: 6.5.5
 Tested up to: 6.5.5
 Requires PHP: 8.0
-Stable tag: 0.0.3
+Stable tag: 0.0.1
 License: GPL-2.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
