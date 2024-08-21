@@ -16,6 +16,11 @@ class RouteHandler {
 			'callback' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ],
 			'method' => 'GET'
 		],
+		'coin-info' => [
+			'route' => '/coin-info',
+			'callback' => [self::class, 'get_coin_info'],
+			'method' => 'GET'
+		],
 		'coin-chart-data' => [
 			'route' => '/coin-chart-data',
 			'callback' => [self::class, 'get_coin_chart_data'],
@@ -58,6 +63,20 @@ class RouteHandler {
 				'methods' => $endpoint['method'],
 				'callback' => $endpoint['callback'],
 			]);
+		}
+	}
+
+	static function get_coin_info($request): WP_REST_Response {
+		try {
+			if(!$request->get_param('coin_id')){
+				throw new \Exception('Coin ID is required: ('.$request->get_param('coin_id').')', 400);
+			}
+			$data = CoinGeckoHelper::get_coin_info($request->get_param('coin_id'));
+			return new WP_REST_Response($data, 200);
+		} catch (\Exception $e) {
+			return new WP_REST_Response([
+				'error' => $e->getMessage()
+			], 400);
 		}
 	}
 

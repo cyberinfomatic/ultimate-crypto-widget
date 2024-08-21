@@ -20,6 +20,22 @@ class CoinGeckoHelper extends APIHelper {
 				'include_platform' => 'false'
 			]
 		],
+		'coin-info' => [
+			'route' => '/coins/{{coin_id}}',
+			'method' => 'GET',
+			'cache' => 1440, // in minutes for 24 hours
+			'params' => [
+				'localization' => 'false',
+				'tickers' => 'false',
+				'market_data' => 'true',
+				'community_data' => 'true',
+				'developer_data' => 'false',
+				'sparkline' => 'false'
+			],
+			'substitutions' => [
+				'coin_id'
+			]
+		],
 		'coins-list-market-data' => [
 			'route' => '/coins/markets',
 			'method' => 'GET',
@@ -62,6 +78,23 @@ class CoinGeckoHelper extends APIHelper {
 				'error' => $e->getMessage(),
 				'code' => $e->getCode(),
 				'data' => [
+					'setting' => $setting
+				]
+			];
+		}
+	}
+
+	static function get_coin_info($coin_id, $setting = []): array {
+		try {
+			return self::make_request('coin-info', [], [
+				'coin_id' => $coin_id
+			]);
+		} catch (\Exception $e) {
+			return [
+				'error' => $e->getMessage(),
+				'code' => $e->getCode(),
+				'data' => [
+					'coin_id' => $coin_id,
 					'setting' => $setting
 				]
 			];
