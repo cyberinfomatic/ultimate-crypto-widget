@@ -209,7 +209,7 @@ class Page {
 		$widget_post_type_instance = WidgetPostType::get_instance();
 		$meta_box = $widget_post_type_instance->get_metabox();
 		View::render('admin/quick-widget', [
-			'meta_box' => $meta_box
+			'meta_box' => $meta_box->get_fields_html()
 		]);
 	}
 }

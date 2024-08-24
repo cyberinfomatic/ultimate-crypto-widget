@@ -4,10 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-//check if metabox is isset and instance of ucwpMetaBoxController class
-use Cyberinfomatic\UltimateCryptoWidget\Controllers\UCWPMetaBoxController;
 
-if(!isset($meta_box) || !( $meta_box instanceof UCWPMetaBoxController)) {
+if(!isset($meta_box) || !is_array($meta_box)){
 	?>
 	<!--			 a something went wrong element-->
 	<div class="wrap">
@@ -47,8 +45,8 @@ if(!isset($meta_box) || !( $meta_box instanceof UCWPMetaBoxController)) {
 	<div class="ucwp-quick-setting-two-view-cnt">
 		<div class="wrap" id="ucwp_widget">
 			<?php
-				foreach ($meta_box->get_fields() as $field){
-					$meta_box->print_input_type($field['type'], $field['id'], $field);
+				foreach ($meta_box as $field){
+					echo $field;
 				}
 			?>
 		</div>
