@@ -179,7 +179,7 @@ class Page {
 	 * @return string The key of the current page.
 	 */
 	static function get_current_page_key(): string {
-		$query = $_SERVER['QUERY_STRING'];
+		$query = sanitize_text_field($_SERVER['QUERY_STRING'] ?? '');
 		$parts = explode('&', $query);
 		foreach ($parts as $part) {
 			$pair = explode('=', $part);

@@ -220,9 +220,7 @@ class UCWPMetaBoxController {
 
 		$final_bool = true;
 		foreach ($names as $name) {
-			$data = $_POST[$name] ?? '';
-			// sanitize the data
-			$data = sanitize_text_field($data);
+			$data = sanitize_text_field($_POST[$name] ?? '');
 			// check if data is same as the one in the database
 			$old_data = get_post_meta($post_id, $name, true);
 			$final_bool = $final_bool && (update_post_meta($post_id, $name, $data) || $old_data == $data);

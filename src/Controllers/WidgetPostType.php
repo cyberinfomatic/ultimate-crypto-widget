@@ -196,11 +196,9 @@ use WP_Query;
 		function save_custom_fields( $post_id ): bool {
 			try{
 
-				$selected_widget = $_POST['ucwp_widget_type'] ?? null;
-				$selected_widget = sanitize_text_field($selected_widget);
-
+				$selected_widget = sanitize_text_field($_POST['ucwp_widget_type']);
 				// check if it is a valid widget type / it exists
-				if(!$selected_widget && !array_key_exists($selected_widget, self::WidgetTypes())) {
+				if(!empty($selected_widget) && !array_key_exists($selected_widget, self::WidgetTypes())) {
 					throw new \Exception('Invalid widget type, Select a valid widget type');
 				}
 				// check if pro or free and if selected widget is pro
