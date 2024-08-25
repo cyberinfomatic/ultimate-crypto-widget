@@ -52,20 +52,20 @@ class App
 
 	public function enqueue_styles(): static {
 //		font awesome
-		wp_enqueue_style( 'ucwp-font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css' );
+		wp_enqueue_style( 'ucwp-font-awesome', plugins_url('/assets/libs/font-awesome/6.2.0/css/all.min.css' , UCWP_PLUGIN_BASENAME ) );
 		return $this;
 	}
 
 //	admin scripts
 	public function admin_scripts(): static {
-		wp_enqueue_script( 'ucwp-chosen-js',  plugins_url( '/assets/chosen/1.8.7/chosen.jquery.min.js', UCWP_PLUGIN_BASENAME ), array( 'jquery' ), '1.0', true );
+		wp_enqueue_script( 'ucwp-chosen-js',  plugins_url( '/assets/libs/chosen/1.8.7/chosen.jquery.min.js', UCWP_PLUGIN_BASENAME ), array( 'jquery' ), '1.0', true );
 		return $this;
 	}
 
 //	admin styles
 	public function admin_styles(): static {
 		wp_enqueue_style( 'ucwp-admin-metabox', plugins_url( '/assets/styles/metabox.css', UCWP_PLUGIN_BASENAME ) );
-		wp_enqueue_style( 'ucwp-chosen-css',  plugins_url( '/assets/chosen/1.8.7/chosen.min.css', UCWP_PLUGIN_BASENAME ) );
+		wp_enqueue_style( 'ucwp-chosen-css',  plugins_url( '/assets/libs/chosen/1.8.7/chosen.min.css', UCWP_PLUGIN_BASENAME ) );
 		return $this;
 	}
 

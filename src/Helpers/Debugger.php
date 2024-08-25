@@ -59,16 +59,11 @@ class Debugger {
 
 		$script = "console.$type('ucwp Debugger : $safe_message '.concat('Called by {$caller['file']} on line {$caller['line']}'));";
 
-		// Use wp_add_inline_script or wp_footer to add the script
-		if ($safe) {
-			add_action('wp_footer', function() use ($script) {
-				echo '<script>' . $script . '</script>';
-			});
-			return true;
-		} else {
+		add_action('wp_footer', function() use ($script) {
 			echo '<script>' . $script . '</script>';
-			return true;
-		}
+		});
+		return true;
+
 	}
 
 	/**

@@ -56,7 +56,9 @@ class Settings {
 	static function load(): void {
 		add_action('admin_init', [self::class, 'register_settings']);
 		add_action('admin_post_ucwp_clear_api_cache', function() {
-			if (!wp_verify_nonce($_POST['security'] ?? '', 'ucwp_clear_api_cache')) {
+			// sanitize and verify nonce
+			$security = sanitize_text_field(wp_unslash($_POST['security'] ?? ''));
+			if (!wp_verify_nonce($security, 'ucwp_clear_api_cache')) {
 				wp_die(esc_html__('Invalid security token', 'ultimate-crypto-widget')); // Display error or redirect
 				return;
 			}

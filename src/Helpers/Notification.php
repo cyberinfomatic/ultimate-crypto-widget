@@ -112,7 +112,7 @@ class Notification {
 			if ($show_notification) {
 				?>
 				<div class="notice notice-<?php echo $type; ?> is-dismissible">
-					<p><?php echo sprintf(__('Ultimate Crypto Widget: %s', 'ultimate-crypto-widget'), $message); ?></p>
+					<p><?php echo sprintf(esc_html('Ultimate Crypto Widget: %s', 'ultimate-crypto-widget'), $message); ?></p>
 				</div>
 				<?php
 			} else {

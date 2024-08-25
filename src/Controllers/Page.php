@@ -179,7 +179,7 @@ class Page {
 	 * @return string The key of the current page.
 	 */
 	static function get_current_page_key(): string {
-		$query = $_SERVER['QUERY_STRING'];
+		$query = sanitize_text_field($_SERVER['QUERY_STRING'] ?? '');
 		$parts = explode('&', $query);
 		foreach ($parts as $part) {
 			$pair = explode('=', $part);
@@ -206,10 +206,11 @@ class Page {
 	 * Renders the quick widget admin page.
 	 */
 	static function quick_widget(): void {
+		wp_enqueue_script('ucwp-quick-widget', plugins_url('/assets/scripts/quick-widget.js', UCWP_PLUGIN_FILE), ['jquery'], '0.0.1', true);
 		$widget_post_type_instance = WidgetPostType::get_instance();
 		$meta_box = $widget_post_type_instance->get_metabox();
 		View::render('admin/quick-widget', [
-			'meta_box' => $meta_box
+			'meta_box' => $meta_box->get_fields_html()
 		]);
 	}
 }
