@@ -40,22 +40,12 @@ use WP_Query;
 			$this->shortcode_metabox = new UCWPMetaBoxController('ucwp_widget_shortcode', 'ucwp Widget Shortcode', 'ucwp_widget');
 			$this->shortcode_metabox->set('context', 'side');
 			$this->shortcode_metabox->set('priority', 'high');
+			$this->shortcode_metabox->enqueue_scripts(plugins_url('assets/scripts/helpers.js', UCWP_PLUGIN_BASENAME), 'ucwp-admin-helper-js', [], '1.0.1', false);
 			$this->shortcode_metabox->set_callback(function($post) {
-				echo '<div><button class="ucwp-shortcode-preview-cnt" style="width : 100%;" type="button">
+				echo '<div><button class="ucwp-shortcode-preview-cnt" style="width : 100%;" type="button" onclick="ucwpCopyToClipboard(\'[ucwp_widget id=&quot;' . esc_attr($post->ID) . '&quot;]\', \'.ucwp-shortcode-copy\')">
 							[ucwp_widget id="' . esc_attr($post->ID) . '"]
 						</button></div>
 						<span class="ucwp-shortcode-copy">Click to copy</span>
-						<script>
-							document.querySelector(".ucwp-shortcode-preview-cnt").addEventListener("click", function() {
-								if(window.ClipboardJS) {
-									window.ClipboardJS.copy(this.innerText);
-								}
-								else {
-									navigator.clipboard.writeText(this.innerText);
-								}
-								document.querySelector(".ucwp-shortcode-copy").innerText = "Copied!";
-							});
-						</script>
 				';
 			});
 			add_action('add_meta_boxes_ucwp_widget', [$this->shortcode_metabox, 'show']);
@@ -196,15 +186,24 @@ use WP_Query;
 		function save_custom_fields( $post_id ): bool {
 			try{
 
-				$selected_widget = sanitize_text_field($_POST['ucwp_widget_type']);
+				$selected_widget = sanitize_text_field($_POST['ucwp_widget_type'] ?? '');
 				// check if it is a valid widget type / it exists
 				if(!empty($selected_widget) && !array_key_exists($selected_widget, self::WidgetTypes())) {
-					throw new \Exception('Invalid widget type, Select a valid widget type');
+					throw new \Exception(esc_html__('Invalid widget type, Select a valid widget type', 'ultimate-crypto-widget'));
 				}
 				// check if pro or free and if selected widget is pro
-				if(self::isProWidget($selected_widget)) {
-					throw new \Exception('You need to be a pro user to use this widget' );
+				if(!empty($selected_widget) &&  self::isProWidget($selected_widget)) {
+					throw new \Exception(esc_html__('Get the pro version to use this widget', 'ultimate-crypto-widget'));
 				}
+
+				if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+					return false;
+				}
+
+				if (get_post_status($post_id) === 'auto-draft') {
+					return false;
+				}
+
 				if(!$this->metabox->save($post_id)) {
 					throw new \Exception('Error saving the custom fields');
 				}
@@ -421,7 +420,7 @@ use WP_Query;
 					'display_name' => __('Crypto Price Table (2)', 'ultimate-crypto-widget'),
 					'view' => 'crypto-price-table-2',
 					'card' => 'card-002',
-					'pro' => false,
+					'pro' => true,
 					'params' => [
 						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
 					],
@@ -461,7 +460,7 @@ use WP_Query;
 					'display_name' => __('Historical Price Chart', 'ultimate-crypto-widget'),
 					'view' => 'historical-price-chart',
 					'card' => 'card-001',
-					'pro' => false,
+					'pro' => true,
 					'params' => [
 						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ],
 					],

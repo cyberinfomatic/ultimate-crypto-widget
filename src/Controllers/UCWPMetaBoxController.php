@@ -185,7 +185,6 @@ class UCWPMetaBoxController {
 
 		$nonce = sanitize_text_field(wp_unslash($_POST['ucwp_widget_nonce']));
 		if (!wp_verify_nonce($nonce, basename(UCWP_PLUGIN_FILE))) {
-			Debugger::var_dump(__("The nonce is not valid", 'ultimate-crypto-widget'), true);
 			return false;
 		}
 

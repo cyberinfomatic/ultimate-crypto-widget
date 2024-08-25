@@ -41,7 +41,7 @@ final class WidgetType {
 			Debugger::console(sprintf(__('Widget not found: %s', 'ultimate-crypto-widget'), esc_html($type)));
 			return;
 		}
-		if ($widget['pro'] && !Settings::is_pro_user()){
+		if ($widget['pro']){
 			Debugger::console(sprintf(__('You need to be a pro user to use this widget: %s', 'ultimate-crypto-widget'), esc_html($widget['display_name'])));
 			return;
 		}
