@@ -28,10 +28,14 @@ class Debugger {
 	/**
 	 * Log a message to the browser console.
 	 *
-	 * @param string $message The message to log.
-	 * @param string $type The type of console method to use (e.g., 'log', 'error').
-	 * @param bool $safe Optional. If true, adds the script to the footer using wp_footer action.
-	 * @return bool|null True if the script is echoed, false otherwise. Null if not in development mode.
+	 * This method will output a JavaScript console command in the footer of the page.
+	 * The script is correctly enqueued using WordPress functions to comply with WordPress coding standards.
+	 *
+	 * @param mixed $message The message to log. If not a string, it will be converted to a string.
+	 * @param string $type The type of console method to use (e.g., 'log', 'error'). Default is 'log'.
+	 * @param bool $safe Optional. Deprecated. If false, was meant to add the script to the footer. Default is true.
+	 * @return bool|null True if the script is enqueued, false otherwise. Null if not in development mode.
+	 *
 	 */
 	public static function console(mixed $message, string $type = 'log', bool $safe = true): ?bool {
 		self::log($message);
@@ -50,7 +54,7 @@ class Debugger {
 			$type = 'log';
 		}
 
-		// Prepare the script
+		// Prepare the script content
 		$safe_message = esc_js($message);
 		$backtrace = debug_backtrace();
 		$caller = $backtrace[0];
@@ -59,11 +63,15 @@ class Debugger {
 
 		$script = "console.$type('ucwp Debugger : $safe_message '.concat('Called by {$caller['file']} on line {$caller['line']}'));";
 
-		add_action('wp_footer', function() use ($script) {
-			echo '<script>' . $script . '</script>';
-		});
-		return true;
+		// Register and enqueue the script
+		$handle = 'ucwp-debugger-console';
+		wp_register_script($handle, '', [], false, true);
+		wp_enqueue_script($handle);
 
+		// Add the inline script to the enqueued script
+		wp_add_inline_script($handle, $script);
+
+		return true;
 	}
 
 	/**
