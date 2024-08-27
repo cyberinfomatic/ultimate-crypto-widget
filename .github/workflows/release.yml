@@ -82,12 +82,13 @@ jobs:
           mkdir -p svn/assets
           cp -R svn/trunk/assets/* svn/assets/
 
-          # Create a new tag in SVN
-          svn cp svn/trunk svn/tags/${{ github.ref_name }}
+          # Create a new tag in SVN (remove 'v' prefix)
+          SVN_TAG=${GITHUB_REF#refs/tags/v}
+          svn cp svn/trunk svn/tags/$SVN_TAG
 
           # Add new files to SVN
           cd svn
           svn add . --force
 
           # Commit to SVN
-          svn ci -m "Release ${{ github.ref_name }}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+          svn ci -m "Release ${SVN_TAG}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
