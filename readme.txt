@@ -10,15 +10,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
 Display real-time cryptocurrency prices with customizable widgets on your WordPress site. Easy setup, no coding required.
 
-Features:
-
-- Real-time crypto prices
-- Customizable, responsive widgets
-- Easy setup and use
-- Bring the world of crypto to your site with the Ultimate Crypto Plugin!
-
 == Description ==
 Introducing the Ultimate Crypto Plugin â€“ your all-in-one solution for displaying dynamic cryptocurrency data on your WordPress site! Whether you're a developer or a regular WordPress user, our plugin makes it easy to integrate real-time crypto prices, charts, and stats directly into your website.
+
 
 Key Features:
 - Real-Time Crypto Prices: Automatically fetch and display up-to-date prices for a wide range of cryptocurrencies.
