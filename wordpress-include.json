@@ -9,6 +9,7 @@
   "exclude" : {
     "both" : [
       "node_modules",
+      "svn-local",
       "vendor",
       "tests",
       "react",
