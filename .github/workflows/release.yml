@@ -1,13 +1,12 @@
-name: Build and Package on Release
-
+name: Build, Package, and Deploy on Release
 on:
   release:
     types: [created]
 
 jobs:
-  build-and-package:
+  build-package-deploy:
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,6 +25,15 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Check version match
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          RELEASE_VERSION=${GITHUB_REF#refs/tags/v}
+          if [ "$PACKAGE_VERSION" != "$RELEASE_VERSION" ]; then
+            echo "Error: Version mismatch. package.json version ($PACKAGE_VERSION) does not match release tag ($RELEASE_VERSION)"
+            exit 1
+          fi
+
       - name: Make Pot file
         run: |
           composer run make-pot
@@ -33,14 +41,14 @@ jobs:
       - name: Install Node.js dependencies and build
         run: npm install && npm run build
 
-      - name: Prepare zip files for both versions
+      - name: Prepare zip file
         run: |
           composer run prepare-zip
 
       - name: Archive files as artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Ultimate-crypto-widget-${{ github.event.release.tag_name }}
+          name: Ultimate-crypto-widget-${{ github.ref_name }}
           path: |
             dist/*.zip
 
@@ -51,15 +59,35 @@ jobs:
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: dist/plugin-free.zip
-          asset_name: ultimate-crypto-widget-free-${{ github.event.release.tag_name }}.zip
+          asset_name: ultimate-crypto-widget-${{ github.ref_name }}.zip
           asset_content_type: application/zip
 
-      - name: Upload Pro version to release
-        uses: actions/upload-release-asset@v1
+      # SVN deployment
+      - name: Deploy to WordPress.org
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: dist/plugin-pro.zip
-          asset_name: ultimate-crypto-widget-pro-${{ github.event.release.tag_name }}.zip
-          asset_content_type: application/zip
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: ultimate-crypto-widget
+        run: |
+          # Extract the free version zip
+          unzip dist/plugin-free.zip -d dist/plugin-free-extracted
+
+          # Check out the SVN repo
+          svn co https://plugins.svn.wordpress.org/${SLUG} svn
+
+          # Copy the extracted free version to the SVN trunk
+          cp -R dist/plugin-free-extracted/* svn/trunk/
+
+          # Copy assets to the SVN assets folder
+          mkdir -p svn/assets
+          cp -R svn/trunk/assets/* svn/assets/
+
+          # Create a new tag in SVN
+          svn cp svn/trunk svn/tags/${{ github.ref_name }}
+
+          # Add new files to SVN
+          cd svn
+          svn add . --force
+
+          # Commit to SVN
+          svn ci -m "Release ${{ github.ref_name }}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
