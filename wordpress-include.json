@@ -10,6 +10,7 @@
     "both" : [
       "node_modules",
       "svn-local",
+      "svn",
       "vendor",
       "tests",
       "react",
