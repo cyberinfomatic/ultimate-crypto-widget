@@ -1,0 +1,130 @@
+/*!*******************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./assets/styles/sass/coin-marquee.scss ***!
+  \*******************************************************************************************************************************/
+.ucwp-coin-marquee-main-marquee-element {
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.ucwp-coin-marquee-main-marquee-element * {
+  box-sizing: border-box;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 50px;
+  overflow-x: hidden;
+  overflow-y: visible;
+  position: relative;
+  padding: 20px 0;
+  height: fit-content;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  box-sizing: content-box;
+  padding: 3px;
+  height: 80px;
+  width: 200px;
+  background: #fff;
+  gap: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #03045E;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box > div {
+  height: 100%;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-logo {
+  height: 100%;
+  flex-basis: calc((100% - 10px) / 3);
+  width: calc((100% - 10px) / 3);
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-logo > img {
+  border-radius: 100px;
+  height: 100%;
+  transition: transform 0.3s;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-logo:hover img {
+  transform: rotate(-360deg);
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-graph {
+  flex-basis: calc((100% - 10px) / 5 * 2);
+  width: calc((100% - 10px) / 5 * 2);
+  height: 100%;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-main-coin-basic-info {
+  flex-basis: calc((100% - 10px) / 3 * 2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-main-coin-basic-info > div {
+  width: 100%;
+  flex-basis: 33.3333333333%;
+  text-align: center;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-name-and-symbol {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-price {
+  font-weight: 600;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .wcp-coin-marquee-coin-growth:has(.fa-arrow-up) {
+  color: green;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .wcp-coin-marquee-coin-growth:has(.fa-arrow-down) {
+  color: red;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-tooltip {
+  position: absolute;
+  display: none;
+  width: 200px;
+  height: max-content;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 5px;
+  z-index: 100;
+  white-space: nowrap;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-tooltip::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 50%;
+  transform: translateX(50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box:hover .ucwp-coin-marquee-coin-tooltip {
+  display: block;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-tooltip-content-text {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-tooltip-content-text .ucwp-coin-marquee-coin-tooltip-content-text-title,
+.ucwp-coin-marquee-main-marquee-element .ucwp-coin-marquee-main .ucwp-coin-marquee-coin-card-bounding-box .ucwp-coin-marquee-coin-tooltip-content-text .ucwp-coin-marquee-coin-tooltip-content-text-value {
+  font-size: 14px;
+}

@@ -1,0 +1,35 @@
+.ucwpmetabox-field * {
+	box-sizing: border-box;
+	padding : 0;
+	margin : 0;
+
+}
+
+.ucwpmetabox-field {
+	margin-bottom: 10px;
+}
+
+.ucwpmetabox-field .ucwpmetabox-label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.ucwpmetabox-field .ucwpmetabox-input {
+	width: 100%;
+}
+
+.ucwpmetabox-field span.ucwpmetabox-required {
+	color: red;
+}
+
+.ucwpmetabox-field .ucwpmetabox-input input[disabled] {
+	background-color: #2a2525;
+	color : #fff;
+}
+
+.ucwpmetabox-field select.ucwpmetabox-input  > option[disabled] {
+	background-color: #2a2525;
+	color : #fff;
+}
+

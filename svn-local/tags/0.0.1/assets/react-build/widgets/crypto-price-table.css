@@ -1,0 +1,114 @@
+/*!*************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./assets/styles/sass/crypto-price-table.scss ***!
+  \*************************************************************************************************************************************/
+/* Styles for crypto-price-table */
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main * {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .ucwp-crypto-price-table-main-table {
+  border-collapse: collapse;
+  background: #e2eef4;
+  padding: 10px;
+  width: max-content;
+  max-width: 100%;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .ucwp-crypto-price-table-main-table tr td,
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .ucwp-crypto-price-table-main-table tr th {
+  border-right-color: #0077b6;
+  /* Red border color */
+  border-right-width: 1px;
+  /* Border thickness */
+  border-right-style: solid;
+  /* Border style */
+  width: 120px;
+  text-align: center;
+  padding-bottom: 23px;
+  font-size: 7.5px;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .crypto-price-table-name-info {
+  display: flex;
+  align-items: center;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .crypto-price-table-name-info .crypto-price-table-name-info-image img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+  gap: 8px;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .crypto-price-table-name-info .crypto-price-table-name-info-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .crypto-price-table-name-info .crypto-price-table-name-info-name span {
+  display: inline-block;
+  text-align: left;
+  width: 100%;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .crypto-price-table-name-info .crypto-price-table-name-info-name span:first-child {
+  font-weight: 800;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .crypto-price-table-name-info .crypto-price-table-name-info-name span:last-child {
+  font-weight: 600;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .ucwp-crypto-price-table-main-search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #03045e;
+  background: #e2eef4;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 300;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .ucwp-crypto-price-table-main-search::placeholder {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 300;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main .ucwp-crypto-price-table-main-search::after {
+  content: "\f002";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 12px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #03045e;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main td:has(.fa-arrow-up) {
+  color: green;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main td:has(.fa-arrow-down) {
+  color: red;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main td:first-child,
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main th:first-child {
+  width: 40px !important;
+  padding: 0 5px;
+  border-right: none !important;
+}
+.ucwp-crypto-price-table .ucwp-crypto-price-table-main thead tr th {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  padding-top: 20px !important;
+}
+
+/*# sourceMappingURL=crypto-price-table.css.map*/
