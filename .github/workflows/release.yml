@@ -67,7 +67,7 @@ jobs:
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SLUG: your-plugin-slug # Replace with your actual plugin slug
+          SLUG: ultimate-crypto-widget
         run: |
           # Extract the free version zip
           unzip dist/plugin-free.zip -d dist/plugin-free-extracted
