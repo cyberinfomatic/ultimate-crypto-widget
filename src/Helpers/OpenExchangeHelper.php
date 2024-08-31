@@ -13,7 +13,7 @@ class OpenExchangeHelper extends APIHelper {
 
 	const ENDPOINTS = [
 		'convert' => [
-			'route' => '/convert/{value}/{from}/{to}',
+			'route' => '/convert/{{value}}/{{from}}/{{to}}',
 			'method' => 'GET',
 			'params' => [
 				'app_id' => [self::class, 'get_api_key'],

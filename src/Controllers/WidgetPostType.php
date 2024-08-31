@@ -289,7 +289,7 @@ use WP_Query;
 				if( $widget_type['pro'] ){
 					$details['attributes']['disabled'] = true;
 //					// darken it , make the background grey
-					$details['attributes']['class'] = 'ucwp-widget-pro-disabled'; //TODO rename ucwp
+					$details['attributes']['class'] = 'ucwp-widget-pro-disabled';
 //					 if label does not have pro in it add it
 					if(!str_contains($details['label'], 'Pro')) {
 						$details['label'] .= ' (Pro)';
