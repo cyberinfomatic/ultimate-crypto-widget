@@ -103,8 +103,9 @@ final class WidgetType {
 		$passable_setting_param['usd_conversion_rate'] = (int) OpenExchangeHelper::convert( 'USD', $passable_setting_param['default_currency'],1);
 //		// if usd conversion rate is 1 and default currency is not USD then set the conversion rate to 1
 		if($passable_setting_param['usd_conversion_rate'] === 1 && strtoupper($passable_setting_param['default_currency']) !== 'USD') {
-			$latest = OpenExchangeHelper::get_latest([$passable_setting_param['default_currency']]);
+			$latest = OpenExchangeHelper::get_latest([strtoupper($passable_setting_param['default_currency'])]);
 			$passable_setting_param['usd_conversion_rate'] = $latest['rates'][strtoupper($passable_setting_param['default_currency'])] ?? 1;
+			$passable_setting_param['usd_conversion_rate'] = round($passable_setting_param['usd_conversion_rate'], 2);
 		}
 		$pass = [
 			'settings' => $passable_setting_param,
@@ -115,7 +116,7 @@ final class WidgetType {
 	}
 
 
-	function get_widget_types() {
+	function get_widget_types(): array|array {
 		return $this->widgets_type;
 	}
 }

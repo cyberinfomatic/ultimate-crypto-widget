@@ -56,10 +56,10 @@ class OpenExchangeHelper extends APIHelper {
 
 	public static function get_latest($pairs = ['USD']): array {
 		try {
-			$data = self::make_request('latest', [], [
+			$data = self::make_request('latest', [
 				'symbols' => implode(',', $pairs)
 			]);
-			return $data['response'] ?? [];
+			return $data ?? [];
 		} catch (\Exception $e) {
 			return [];
 		}

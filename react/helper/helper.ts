@@ -17,8 +17,13 @@ export function abbreviateNumber(num: number) {
 }
 
 // round of to significant figures
-	export function roundToSignificantFigures(num: number, significantFigures: number){
+export function roundToSignificantFigures(num: number, significantFigures: number){
 	return parseFloat(num.toPrecision(significantFigures));
+}
+
+// round to decimal places
+export function roundToDecimalPlaces(num: number, decimalPlaces: number){
+	return parseFloat(num.toFixed(decimalPlaces));
 }
 
 // generate labels from chartData with the max length of the data array
@@ -55,7 +60,7 @@ export function levenshteinDistance(str1, str2) {
 
 		return dp[len1][len2];
 }
-	
+
 export function searchCoin(needle: string, coins: CoinData[], minLevenshteinDistance: number = 3) {
     const value = needle.toLowerCase();
     // if empty then show all coins
@@ -93,7 +98,7 @@ export function searchCoin(needle: string, coins: CoinData[], minLevenshteinDist
     });
     return filtered;
 };
-  
+
 
 
 // function to handle copying to clipboard
