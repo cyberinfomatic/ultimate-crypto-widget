@@ -22,6 +22,16 @@ class OpenExchangeHelper extends APIHelper {
 			'substitutions' => [
 				'value', 'from', 'to'
 			]
+		],
+		'latest' => [
+			'route' => '/latest.json',
+			'method' => 'GET',
+			'params' => [
+				'app_id' => [self::class, 'get_api_key'],
+				'prettyprint' => true,
+				'bases' => 'USD',
+				'symbols' => 'USD'
+			]
 		]
 	];
 
@@ -31,16 +41,27 @@ class OpenExchangeHelper extends APIHelper {
 		];
 	}
 
-	static function convert($from, $to, $value): int {
+	static function convert($from, $to, int $value = 1): int {
 		try {
 			$data = self::make_request('convert', [], [
-				'from'  => $from,
-				'to'    => $to,
-				'value' => $value
+				'from'  => strtoupper($from),
+				'to'    => strtoupper($to),
+				'value' => intval($value)
 			]);
 			return $data['response'] ?? 1;
 		} catch (\Exception $e) {
 			return 0;
+		}
+	}
+
+	public static function get_latest($pairs = ['USD']): array {
+		try {
+			$data = self::make_request('latest', [
+				'symbols' => implode(',', $pairs)
+			]);
+			return $data ?? [];
+		} catch (\Exception $e) {
+			return [];
 		}
 	}
 

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ReactRender from "../../helper-components/react-wrapper";
 import '@/styles/sass/crypto-price-table.scss'
-import { abbreviateNumber, levenshteinDistance, searchCoin } from "../../helper/helper";
+import {
+	roundToDecimalPlaces,
+	searchCoin
+} from "../../helper/helper";
 import { CoinData } from "../../types";
 import PricePercentage from "../../helper-components/PricePercentage";
 import useKrakenTickerWebSocket from "../../helper-components/WebHooks/KrakenTicker";
@@ -17,7 +20,7 @@ ReactRender(({ coins, settings }) => {
 
   const search = (e: any) => {
     const value = e.target.value;
-    // if value is empty, 
+    // if value is empty,
     if (value?.length === 0) {
       setCoinList(coins);
       return;
@@ -34,7 +37,7 @@ ReactRender(({ coins, settings }) => {
   useEffect(() => {
     setCoinList(coins.slice(startCount, startCount + (settings.count ?? 10)));
   }, [startCount]);
-  
+
 
 
   let width = settings.parent_width;
@@ -78,7 +81,7 @@ ReactRender(({ coins, settings }) => {
                   </td>
                   <td>
                     {settings.currency_symbol}
-                    {coin.current_price}
+                    {roundToDecimalPlaces(coin.current_price, 2)}
                   </td>
                   <td>
                     <PricePercentage

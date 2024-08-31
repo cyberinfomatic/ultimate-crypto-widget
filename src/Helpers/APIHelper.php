@@ -141,7 +141,7 @@ abstract class APIHelper {
 
 		$route = static::substitute($route, $substitutions);
 		$endpoint_params = $endpoint['params'] ?? [];
-		$params = array_merge($endpoint_params, $params);
+		$params = [...$endpoint_params, ...$params];
 
 		// Filter params to match only keys defined in endpoint_params
 		$params = array_filter($params, function ($key) use ($endpoint_params) {
