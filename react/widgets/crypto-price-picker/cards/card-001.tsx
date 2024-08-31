@@ -11,6 +11,9 @@ const Card001 = ({
   currency_symbol?: string;
 } & HTMLProps<HTMLDivElement>) => {
   const [coin, setCoin] = useState(coinData);
+  React.useEffect(() => {
+    setCoin(coinData);
+  }, [coinData]);
   props.className = `ucwp-crypto-picker-card-coin-bounding-box ${props.className}`;
   return (
     <div {...props}>

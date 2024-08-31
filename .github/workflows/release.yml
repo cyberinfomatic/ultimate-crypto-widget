@@ -80,7 +80,7 @@ jobs:
 
           # Copy assets to the SVN assets folder
           mkdir -p svn/assets
-          cp -R svn/trunk/assets/* svn/assets/
+          cp -R svn/trunk/assets/images/* svn/assets/
 
           # Create a new tag in SVN (remove 'v' prefix)
           SVN_TAG=${GITHUB_REF#refs/tags/v}

@@ -38,7 +38,7 @@ class OpenExchangeHelper extends APIHelper {
 				'to'    => $to,
 				'value' => $value
 			]);
-			return $data['response'] ?? 0;
+			return $data['response'] ?? 1;
 		} catch (\Exception $e) {
 			return 0;
 		}
