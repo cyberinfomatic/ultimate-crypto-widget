@@ -100,11 +100,9 @@ final class WidgetType {
 			// possible setting param to be set below
 		}
 		$passable_setting_param['currency_symbol'] = $settings['currency_symbol'] ?? Currency::get_symbol($passable_setting_param['default_currency']);
-		$conversion_usd_rate = OpenExchangeHelper::convert($passable_setting_param['default_currency'], 'USD', 1);
-
+		$passable_setting_param['usd_conversion_rate'] = (int) OpenExchangeHelper::convert($passable_setting_param['default_currency'], 'USD', 1);
 		$pass = [
 			'settings' => $passable_setting_param,
-			'usd_conversion_rate' => $conversion_usd_rate,
 			...$data_param
 		];
 //		return View::import_component($widget['view'], $pass);
