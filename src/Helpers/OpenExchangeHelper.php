@@ -31,12 +31,12 @@ class OpenExchangeHelper extends APIHelper {
 		];
 	}
 
-	static function convert($from, $to, $value): int {
+	static function convert($from, $to, int $value = 1): int {
 		try {
 			$data = self::make_request('convert', [], [
-				'from'  => $from,
-				'to'    => $to,
-				'value' => $value
+				'from'  => strtoupper($from),
+				'to'    => strtoupper($to),
+				'value' => intval($value)
 			]);
 			return $data['response'] ?? 1;
 		} catch (\Exception $e) {
