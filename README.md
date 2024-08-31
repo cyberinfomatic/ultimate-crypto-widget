@@ -53,7 +53,7 @@ This plugin relies on the following third-party services:
 
 
 
-Make sure to review the terms of service and privacy policies of [Ours](https://products.cyberinfomatic.com/privacy-policy/) and the third-party services before using this plugin.
+Make sure to review the terms of service and privacy policies of [Ours](https://ultimatecryptowidget.com/privacy-policy/) and the third-party services before using this plugin.
 
 ## Installation ##
 ### Plugin Installation Instructions for Ultimate Crypto Plugin
@@ -93,13 +93,13 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
     Refer to the plugin installation instructions section above.
 
 3. **What features are included in the free version?**
-    The features of the free version are listed on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
+    The features of the free version are listed on the [plugin page](https://ultimatecryptowidget.com/).
 
 4. **What additional features are available in the Pro version?**
-    The additional features of the Pro version can also be found on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
+    The additional features of the Pro version can also be found on the [plugin page](https://ultimatecryptowidget.com/).
 
 5. **How do I upgrade to the Pro version?**
-    Upgrade by subscribing to one of our annual plans. Details are available on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
+    Upgrade by subscribing to one of our annual plans. Details are available on the [plugin page](https://ultimatecryptowidget.com/).
 
 6. **Can I customize the appearance of the widgets?**
     Yes, the appearance is highly customizable, including options like count, speed of marquee, and many more.
@@ -120,7 +120,7 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
      Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCWP and UCW are their respective short forms. All are associated with the plugin.
 
 12. **Where can I find information about the payment plans?**
-     Payment plan details can be found on the [plugin page](https://products.cyberinfomatic.com/ultimate-crypto-widget).
+     Payment plan details can be found on the [plugin page](https://ultimatecryptowidget.com/).
 
 ## Changelog ##
 
