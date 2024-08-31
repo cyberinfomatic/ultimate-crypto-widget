@@ -116,7 +116,7 @@ final class WidgetType {
 	}
 
 
-	function get_widget_types(): array|array {
+	function get_widget_types(): array {
 		return $this->widgets_type;
 	}
 }
