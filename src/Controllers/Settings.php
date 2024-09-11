@@ -105,7 +105,7 @@ class Settings {
 		$proUrl = self::getGetProUrl();
 		$notificationMessage = sprintf(
 		/* translators: %1$s: Opening anchor tag with the Pro URL, %2$s: Closing anchor tag */
-			__('You are using the free version of this plugin. %1$sUpgrade to Pro%2$s', 'ultimate-crypto-widget'),
+			__('You are using the free version of this plugin. To get more features , consider %1$sUpgrading to Pro%2$s', 'ultimate-crypto-widget'),
 			'<a href="' . esc_url($proUrl) . '">',
 			'</a>'
 		);
@@ -175,6 +175,6 @@ class Settings {
 	 */
 	static function getGetProUrl(): string {
 		$href = urlencode(home_url());
-		return self::SERVER_URL . self::ADD_LICENSE_PATH . "?wordpress_website_href=$href";
+		return 'https://ultimatecryptowidget.com/go-pro?utm_source=plugin&utm_medium=upgrade&utm_campaign=pro&utm_content=' . $href;
 	}
 }
