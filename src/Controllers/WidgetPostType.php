@@ -243,9 +243,10 @@ use WP_Query;
 				return $this->widget_type_controller->load_widget($widget_type, $atts);
 			}
 			// check the post with that id exists
-			if($widget->have_posts()) {
-				$widget->the_post();
-				$widget_data = $this->metabox->all_meta(get_the_ID(), 'ucwp_widget');
+			if($widget->have_posts() && count($widget->posts) > 0) {
+				$first_post = $widget->posts[0];
+				$id = is_int($first_post) ? $first_post : $first_post->ID;
+				$widget_data = $this->metabox->all_meta($id, 'ucwp_widget');
 				$widget_type = $widget_data['type'];
 				$currency_symbol = Currency::get_symbol($widget_data['default_currency']);
 				return $this->widget_type_controller->load_widget($widget_type, [...$widget_data, ...$atts, 'type' => $widget_type, 'currency_symbol' => $currency_symbol]);
