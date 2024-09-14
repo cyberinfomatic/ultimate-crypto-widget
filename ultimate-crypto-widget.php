@@ -11,7 +11,7 @@
  * Plugin Name:       Ultimate Crypto Widget
  * Plugin URI:        https://ultimatecryptowidget.com
  * Description:       Crypto Currency Widget on the go!
- * Version:           0.1.1
+ * Version:           0.1.2
  * Requires at least: 6.5.5
  * Requires PHP:      8.0
  * Author:            Cyberinfomatic

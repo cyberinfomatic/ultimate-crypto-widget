@@ -4,7 +4,7 @@
 **Requires at least:** 6.5.5  
 **Tested up to:** 6.6.1  
 **Requires PHP:** 8.0  
-**Stable tag:** 0.0.2  
+**Stable tag:** 0.1.2  
 **License:** GPL-2.0-or-later  
 **Donate link:** http://ultimatecryptowidget.com  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.txt  
@@ -19,7 +19,8 @@ Introducing the **[Ultimate Crypto Plugin](http://ultimatecryptowidget.com?utm_s
 #### [Screenshot](#screenshots "Ultimate Crypto Widget screenshots.") | [View Demos](http://ultimatecryptowidget.com?utm_source=wp-ultimate-crypto-widget "Ultimate Crypto Widget plugin demos.")
 
 Key Features:
-- Real-Time Crypto Prices: Automatically fetch and display up-to-date prices for a wide range of cryptocurrencies.
+- Real-Time Crypto Prices: Automatically fetch and display up-to-date prices in real-time for a wide range of cryptocurrencies.
+- Support for many Cryptocurrencies and Currency Pairs: Get data for over 5000 cryptocurrencies and 50+ fiat currencies.
 - Customizable Widgets: Choose from various widget styles and configurations to match your site's design.
 - Smooth Animations: Enjoy sleek, continuous scrolling of crypto data, powered by Framer Motion for a professional look and feel.
 - Easy to Use: Simple setup and integration with your WordPress dashboard  no coding required!
