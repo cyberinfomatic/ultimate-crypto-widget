@@ -4,7 +4,7 @@ Tags: crypto, finance, web3, blockchain, cryptocurrency, coinmarketcap, cryptocu
 Requires at least: 6.5.5
 Tested up to: 6.6.1
 Requires PHP: 8.0
-Stable tag: 0.1.0
+Stable tag: 0.1.2
 License: GPL-2.0-or-later
 Donate link: http://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
