@@ -1,21 +1,25 @@
 import {CoinData, GraphData} from "../types";
 
-export function abbreviateNumber(num: number) {
-	if (num >= 1e12) {
-		return (num / 1e12).toFixed(1) + 'T';
-	}
-	if (num >= 1e9) {
-		return (num / 1e9).toFixed(1) + 'B';
-	}
-	if (num >= 1e6) {
-		return (num / 1e6).toFixed(1) + 'M';
-	}
-	if (num >= 1e3) {
-		return (num / 1e3).toFixed(1) + 'K';
-	}
-	return `${num}`;
-}
+export function abbreviateNumber(num: number, from: number = 1, useCommas: boolean = true): string {
+    const abbreviations = [
+        { value: 1e12, symbol: 'T' },
+        { value: 1e9, symbol: 'B' },
+        { value: 1e6, symbol: 'M' },
+        { value: 1e3, symbol: 'K' }
+    ];
 
+    if (num < from) {
+        return useCommas ? num.toLocaleString() : num.toString();
+    }
+
+    for (const { value, symbol } of abbreviations) {
+        if (num >= value) {
+            return (num / value).toFixed(1) + symbol;
+        }
+    }
+
+    return useCommas ? num.toLocaleString() : num.toString();
+}
 // round of to significant figures
 export function roundToSignificantFigures(num: number, significantFigures: number){
 	return parseFloat(num.toPrecision(significantFigures));
@@ -60,7 +64,7 @@ export function levenshteinDistance(str1, str2) {
 
 		return dp[len1][len2];
 }
-
+	
 export function searchCoin(needle: string, coins: CoinData[], minLevenshteinDistance: number = 3) {
     const value = needle.toLowerCase();
     // if empty then show all coins
@@ -98,7 +102,7 @@ export function searchCoin(needle: string, coins: CoinData[], minLevenshteinDist
     });
     return filtered;
 };
-
+  
 
 
 // function to handle copying to clipboard

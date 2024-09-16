@@ -1,43 +1,25 @@
 import React, { useEffect, useState } from "react";
 import ReactRender from "../../helper-components/react-wrapper";
 import '@/styles/sass/crypto-price-table.scss'
-import {
-	roundToDecimalPlaces,
-	searchCoin
-} from "../../helper/helper";
+import { roundToDecimalPlaces, searchCoin } from "../../helper/helper";
 import { CoinData } from "../../types";
 import PricePercentage from "../../helper-components/PricePercentage";
-import useKrakenTickerWebSocket from "../../helper-components/WebHooks/KrakenTicker";
+import useBinanceStreamTickerWebSocket from "../../helper-components/WebHooks/BinanceStreamTicker";
 
 ReactRender(({ coins, settings }) => {
   settings.count = parseInt(settings.count ?? "10");
   const [coinList, setCoinList] = useState<CoinData[]>(coins ?? []); // Initialize with props
   const [startCount, setStartCount] = useState<number>(0);
-  const { connected, data, error } = useKrakenTickerWebSocket(
+  const { data } = useBinanceStreamTickerWebSocket(
     coinList?.map((coin) => coin.symbol).slice(0, settings.count),
     settings?.usd_conversion_rate ?? 1
   );
 
-  const search = (e: any) => {
-    const value = e.target.value;
-    // if value is empty,
-    if (value?.length === 0) {
-      setCoinList(coins);
-      return;
-    }
-    setCoinList(
-      searchCoin(
-        value,
-        coins.slice(startCount, startCount + (settings.count ?? 10))
-      )
-    );
-
-  };
 
   useEffect(() => {
     setCoinList(coins.slice(startCount, startCount + (settings.count ?? 10)));
   }, [startCount]);
-
+  
 
 
   let width = settings.parent_width;
@@ -63,34 +45,34 @@ ReactRender(({ coins, settings }) => {
               .map((_coin, index) => {
                 const coin = { ..._coin, ...data[_coin.symbol.toUpperCase()] };
                 return (
-                <tr
-                  key={index}
-                  data-table-row-coin={`${coin.name}---${coin.symbol}`}
-                >
-                  <td>{index + 1 + startCount}</td>
-                  <td>
-                    <div className="crypto-price-table-name-info">
-                      <div className="crypto-price-table-name-info-image">
-                        <img src={coin.image} alt={coin.name} />
+                  <tr
+                    key={index}
+                    data-table-row-coin={`${coin.name}---${coin.symbol}`}
+                  >
+                    <td>{index + 1 + startCount}</td>
+                    <td>
+                      <div className="crypto-price-table-name-info">
+                        <div className="crypto-price-table-name-info-image">
+                          <img src={coin.image} alt={coin.name} />
+                        </div>
+                        <div className="crypto-price-table-name-info-name">
+                          <span>{coin.name}</span>
+                          <span>{coin.symbol}</span>
+                        </div>
                       </div>
-                      <div className="crypto-price-table-name-info-name">
-                        <span>{coin.name}</span>
-                        <span>{coin.symbol}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    {settings.currency_symbol}
-                    {roundToDecimalPlaces(coin.current_price, 2)}
-                  </td>
-                  <td>
-                    <PricePercentage
-                      percentage={coin.price_change_percentage_24h}
-                      arrowSize={12}
-                    />
-                  </td>
-                </tr>
-              )})}
+                    </td>
+                    <td>
+                      {settings.currency_symbol}
+                      {roundToDecimalPlaces(coin.current_price, 2)}
+                    </td>
+                    <td>
+                      <PricePercentage
+                        percentage={coin.price_change_percentage_24h}
+                        arrowSize={12}
+                      />
+                    </td>
+                  </tr>
+                );})}
           </tbody>
         </table>
       </div>
