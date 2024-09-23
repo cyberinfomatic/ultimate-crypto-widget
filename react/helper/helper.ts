@@ -43,7 +43,7 @@ export function generateLabelArrayFromChartData(chartData: GraphData[]){
 }
 
 
-export function levenshteinDistance(str1, str2) {
+export function levenshteinDistance(str1: string, str2: string) {
 		const len1 = str1.length;
 		const len2 = str2.length;
 		const dp = Array.from(Array(len1 + 1), () => Array(len2 + 1).fill(0));

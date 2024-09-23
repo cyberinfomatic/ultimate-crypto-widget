@@ -79,3 +79,7 @@ export type WP_API_PATHS = {
   required_body_params?: string[];
   headers?: Headers;
 };
+
+export type DefaultCurrencyRateByCurrency = {
+  [key : string]: number;
+};
