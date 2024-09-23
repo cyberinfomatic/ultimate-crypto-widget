@@ -27,9 +27,11 @@ ReactRender(
       default_currencies_rate?.[settings?.default_currency ?? "usd"] ?? 1
     );
 
-    // symbol
+    // symbol 
     const [symbol, setSymbol] = useState<string>(
-	 settings?.currency_symbol ?? "$" ?? default_currencies_symbol[currentCurrency.toLowerCase()]
+      settings?.currency_symbol ??
+        "$" ??
+        default_currencies_symbol[currentCurrency.toLowerCase()]
     );
 
     const { connected, data, error } = useBinanceStreamTickerWebSocket(
