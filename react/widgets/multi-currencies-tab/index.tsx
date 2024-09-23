@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactRender from "../../helper-components/react-wrapper";
 import '@/styles/sass/multi-currencies-tab.scss'
-import { CoinData, DefaultCurrencyRateByCurrency, UCWPWidgetSetting } from "react/types";
+import { CoinData, currenciesSymbol, DefaultCurrencyRateByCurrency, UCWPWidgetSetting } from "react/types";
 import PricePercentage from "react/helper-components/PricePercentage";
 import { useBinanceStreamTickerWebSocket } from "react/helper-components/WebHooks";
 import { abbreviateNumber } from "react/helper/helper";
@@ -11,18 +11,25 @@ ReactRender(
     coins,
     settings,
     default_currencies_rate,
+    default_currencies_symbol,
   }: {
     coins: CoinData[];
     settings: UCWPWidgetSetting;
     default_currencies_rate: DefaultCurrencyRateByCurrency;
-    }) => {
+    default_currencies_symbol: currenciesSymbol;
+  }) => {
     const [coinList, setCoinList] = useState<CoinData[]>(coins ?? []);
     // State for current selected currency and its rate
     const [currentCurrency, setCurrentCurrency] = useState<string>(
       settings?.default_currency || "USD"
     );
     const [currentRate, setCurrentRate] = useState<number>(
-      default_currencies_rate?.[settings?.default_currency ?? 'usd'] ?? 1
+      default_currencies_rate?.[settings?.default_currency ?? "usd"] ?? 1
+    );
+
+    // symbol
+    const [symbol, setSymbol] = useState<string>(
+	 settings?.currency_symbol ?? "$" ?? default_currencies_symbol[currentCurrency.toLowerCase()]
     );
 
     const { connected, data, error } = useBinanceStreamTickerWebSocket(
@@ -32,11 +39,14 @@ ReactRender(
 
     // Update currentRate when currentCurrency changes
     useEffect(() => {
-      const newRate = default_currencies_rate[currentCurrency.toLowerCase()] ?? 1;
+      const newRate =
+        default_currencies_rate[currentCurrency.toLowerCase()] ??
+        default_currencies_rate[currentCurrency.toUpperCase()] ?? 1;
       setCurrentRate(newRate);
+      setSymbol(default_currencies_symbol[currentCurrency.toLowerCase()] ?? default_currencies_symbol[currentCurrency.toUpperCase()] ?? "$");
     }, [currentCurrency, default_currencies_rate]);
     // currencies array and remove duplicates, null, and undefined values
-    const currencies : string[] = [
+    const currencies: string[] = [
       settings.default_currency,
       ...Object.keys(default_currencies_rate),
     ].filter(
@@ -50,7 +60,7 @@ ReactRender(
           {currencies.map((currency) => {
             return (
               <button
-                className="ucwp-mc-fh-button"
+                className={`ucwp-mc-fh-button ${currency === currentCurrency ? "ucwp-mc-fh-button-active" : ""}`}
                 key={currency}
                 onClick={() => setCurrentCurrency(currency)}
               >
@@ -84,8 +94,12 @@ ReactRender(
                       </div>
                     </td>
                     <td className="ucwp-mct-price">
-                      {settings.currency_symbol}
-                      {abbreviateNumber(coin.current_price * currentRate, 10e5, true)}
+                      {symbol}
+                      {abbreviateNumber(
+                        coin.current_price * currentRate,
+                        10e5,
+                        true
+                      )}
                     </td>
                     <td className="ucwp-mct-change">
                       <PricePercentage

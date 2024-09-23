@@ -29,7 +29,7 @@ class OpenExchangeHelper extends APIHelper {
 			'params' => [
 				'app_id' => [self::class, 'get_api_key'],
 				'prettyprint' => true,
-				'bases' => 'USD',
+				'base' => 'USD',
 				'symbols' => 'USD'
 			]
 		]
@@ -54,12 +54,24 @@ class OpenExchangeHelper extends APIHelper {
 		}
 	}
 
-	public static function get_latest($pairs = ['USD']): array {
+	public static function get_latest($pairs = ['USD'], $base = 'USD'): array {
 		try {
 			$data = self::make_request('latest', [
-				'symbols' => implode(',', $pairs)
+				'symbols' => implode(',', $pairs),
+				'base' => $base
 			]);
 			return $data ?? [];
+		} catch (\Exception $e) {
+			return [];
+		}
+	}
+
+	static function get_default_currencies_rate($setting = []){
+		try {
+			$base = $setting['default_currency'] ?? 'USD';
+			$pairs = ( is_array( $setting['currencies'] ) ? $setting['currencies'] : is_string( $setting['currencies'] ) ) ? explode( ',', $setting['currencies'] ) : [ 'USD' ];
+			$data = self::get_latest($pairs, $base);
+			return $data['rates'] ?? [];
 		} catch (\Exception $e) {
 			return [];
 		}

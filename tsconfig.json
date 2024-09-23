@@ -6,7 +6,7 @@
     "strict": true,                             // Enable all strict type-checking options
     "esModuleInterop": true,                    // Enable interoperability between CommonJS and ES Modules
     "skipLibCheck": true,                       // Skip type checking of declaration files
-    "forceConsistentCasingInFileNames": true,   // Ensure consistent casing in file names
+    "forceConsistentCasingInFileNames": true,  // Ensure consistent casing in file names
     "baseUrl": "./",                            // Base directory to resolve non-relative module names
     "paths": {
       "@/components/*": ["react/components/*"], // Path mapping for components
@@ -14,13 +14,16 @@
     },
     "lib": ["dom", "es2015", "es2017"],         // Specify library files to be included in the compilation
     "typeRoots": ["node_modules/@types"],       // Specify directory for type definitions
-    "outDir": "./dist"                          // Specify output directory for compilation output
+    "outDir": "./dist",                         // Specify output directory for compilation output
+    "sourceMap": true                           // Enable source maps for debugging
   },
   "include": [
-    "src/**/*"                                 // Specify files to include in compilation
+    "src/**/*",                                 // Specify files to include in compilation
+    "react/**/*"                                // Include all TypeScript files in the react directory
   ],
   "exclude": [
     "node_modules",                             // Exclude files from compilation
-    "**/*.spec.ts"                              // Exclude test files
+    "**/*.spec.ts",                             // Exclude test files
+    "**/node_modules/*"                         // Exclude node_modules
   ]
 }

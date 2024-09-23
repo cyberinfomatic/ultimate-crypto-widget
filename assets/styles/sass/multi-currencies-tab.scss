@@ -19,6 +19,11 @@
             border-radius: 10px;
             border: solid 1px #03045E;
             background: transparent;
+
+            &.ucwp-mc-fh-button-active {
+                background: #0077B6;
+                color: #03045E;
+            }
         }
     }
 

@@ -83,3 +83,6 @@ export type WP_API_PATHS = {
 export type DefaultCurrencyRateByCurrency = {
   [key : string]: number;
 };
+export type currenciesSymbol = {
+  [key : string]: string;
+};

@@ -2,7 +2,7 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Controllers;
 
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\{CoinGeckoHelper, Currency, Notification};
+use Cyberinfomatic\UltimateCryptoWidget\Helpers\{CoinGeckoHelper, Currency, Notification, OpenExchangeHelper};
 use WP_Error;
 use WP_Query;
 
@@ -467,6 +467,26 @@ use WP_Query;
 					],
 					'setting_params' => ['coins', 'parent_width', 'default_currency', 'no_of_days', 'data_interval', 'dark_mode']
 				],
+				'multi-currencies-tab' => [
+					'display_name' => __('Multi Currencies Tab', 'ultimate-crypto-widget'),
+					'view' => 'multi-currencies-tab',
+					'card' => 'card-001',
+					'pro' => false,
+					'params' => [
+						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ],
+						'default_currencies_rate' => [OpenExchangeHelper::class, 'get_default_currencies_rate'],
+						'default_currencies_symbol' => function($setting) {
+							$symbols    = [];
+							$currencies = is_string( $setting['currencies'] ) ? explode( ',', $setting['currencies'] ) : $setting['currencies'];
+							foreach ( $currencies as $currency ) {
+								$symbols[ $currency ] = Currency::get_symbol( $currency );
+							}
+
+							return $symbols;
+						}
+					],
+					'setting_params' => ['coins', 'currencies', 'default_currency', 'no_of_days', 'data_interval', 'dark_mode']
+				],
 
 			];
 		}
@@ -641,6 +661,31 @@ use WP_Query;
 						'multiple' => true,
 						'class' => 'ucwp-chosen-select',
 						'data-placeholder' => __('Select Coins', 'ultimate-crypto-widget')
+					]
+				],
+				[
+					'id' => 'ucwp_widget_currencies',
+					'label' => __('Currencies', 'ultimate-crypto-widget'),
+					'type' => 'select',
+					'options' => (function() {
+						$currencies = Currency::CURRENCY_PAIR;
+						$options = [];
+						foreach($currencies as $currency => $symbol) {
+							$options[$currency] = [
+								'label' => esc_html($currency . " (" . $symbol . ")"),
+								'attributes' => [
+									'data-symbol' => $symbol,
+									'value' => $currency
+								]
+							];
+						}
+						return $options;
+					})(),
+					'attributes' => [
+						'multiple' => true,
+						'class' => 'ucwp-chosen-select',
+						'data-placeholder' => __('Select Currencies', 'ultimate-crypto-widget'),
+						'data-max-selected' => 3
 					]
 				],
 //				one to select if dark mode is on or off
