@@ -30,6 +30,7 @@ console.log("entries gotten, script about to start")
 module.exports = {
 	...defaults,
 	mode : 'development',
+	devtool: 'source-map',
 	externals: {
 		'@wordpress/element': ['wp', 'element'],
 		react: ['React'],

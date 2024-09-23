@@ -1,0 +1,102 @@
+/* Styles for multi-currencies-tab */
+.ucwp-multi-currencies-tab{
+    width: 100%;
+    max-width: 100dvw;
+    padding : 14px 24px;
+    background-color: #FAFAFD;
+    border : solid 2px #03045E;
+    font-family: 'Poppins', sans-serif;
+
+    .ucwp-multi-currencies-flat-holder{
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        height: 30px;
+
+        .ucwp-mc-fh-button {
+            width: 82px;
+            height: 100%;
+            border-radius: 10px;
+            border: solid 1px #03045E;
+            background: transparent;
+
+            &.ucwp-mc-fh-button-active {
+                background: #0077B6;
+                color: #03045E;
+            }
+        }
+    }
+
+    .ucwp-mct-table-main{
+        width: 100%;
+        
+        table.ucwp-mct-main-table{
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+
+            tr {
+                height: 25px;
+
+                .ucwp-mct-rank {
+                    text-align: center;
+                }
+
+                .ucwp-mct-name {
+                    width: 60%;
+
+                    .ucwp-mct-name-info{
+                        width: 111px;
+                        height: 100%;
+
+                        display: flex;
+                        gap: 5px;
+
+                        .ucwp-mct-name-info-image {
+                            width: 23px;
+                            display: grid;
+                            place-items: center;
+                            border-radius: 50%;
+                            
+                            img {
+                                width: 100%;
+                                aspect-ratio: 1/1;
+                                object-fit: cover;
+                                border-radius: 50%;
+                            }
+                        }
+
+                        .ucwp-mct-name-info-name {
+                            color : #03045E;
+                            font-weight: 800 !important;
+                            font-size: 8px;
+
+                            &> span{
+                                font-weight: 800 !important;
+                            }
+
+                            .ucwp-mct-name-sybmol{
+                                font-weight: 600 !important;
+                            }
+                        }
+
+                    }
+
+                }
+
+                .ucwp-mct-price {
+                    text-align: left;
+                    font-size: 8px;
+                    font-weight: 800 !important;
+                    color: #03045E;
+                    padding: 0 10px;
+                }
+
+                .ucwp-mct-price, .ucwp-mct-change {
+                    width: 15%;
+                }
+
+            }
+        }
+    }
+}

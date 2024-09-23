@@ -76,7 +76,7 @@ class Currency {
 	 * @return string Currency symbol or empty string if not found.
 	 */
 	public static function get_symbol(string $currency): string {
-		return self::SYMBOLS[$currency] ?? '';
+		return self::SYMBOLS[strtolower($currency)] ?? '';
 	}
 
 	/**

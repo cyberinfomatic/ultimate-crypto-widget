@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUp } from "iconsax-react";
 import React, { CSSProperties, HTMLAttributes, useEffect, useState } from "react";
+import { roundToDecimalPlaces } from "react/helper/helper";
 
 /**
  * Props for the PricePercentage component.
@@ -15,6 +16,7 @@ interface PricePercentageProps extends HTMLAttributes<HTMLDivElement> {
   arrowSize?: number | false;
   styles?: CSSProperties;
   showPercentageSign?: boolean; 
+  decimalPlaces?: number;
 }
 
 /**
@@ -33,6 +35,7 @@ const PricePercentage: React.FC<PricePercentageProps> = ({
   arrowSize = 15,
   styles,
   showPercentageSign = true,
+  decimalPlaces = 2,
   ...props
 }) => {
   const [isPositive, setIsPositive] = useState<boolean>(percentage >= 0);
@@ -43,6 +46,14 @@ const PricePercentage: React.FC<PricePercentageProps> = ({
     setLastPercentage(percentage);
   }, [percentage]);
 
+  styles = {
+    display: "flex",
+    alignItems: "center",
+    // shrink the font size to fit the content
+    whiteSpace: "nowrap",
+    ...styles
+  }
+
   return (
     <div {...props} style={{ color: isPositive ? "green" : "red", ...styles }}>
       {arrowSize !== false &&
@@ -51,7 +62,7 @@ const PricePercentage: React.FC<PricePercentageProps> = ({
         ) : (
           <ArrowDown size={arrowSize} color="red" />
         ))}
-      {percentage}{showPercentageSign && "%"}
+      {roundToDecimalPlaces(percentage, decimalPlaces)}{showPercentageSign && '%'}
     </div>
   );
 };

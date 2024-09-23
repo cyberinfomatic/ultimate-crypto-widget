@@ -3,7 +3,20 @@
 		const widget_type_element = document.getElementById('ucwp_widget_type');
 		widget_type_element?.addEventListener('change', showWidgetForm);
 		showWidgetForm();
-		$('.ucwp-chosen-select').chosen({no_results_text: "Oops, nothing found!", width: "100%"});
+
+		$('.ucwp-chosen-select').each(function() {
+			const $this = $(this);
+			// Check if the element has the 'data-max-selected' attribute
+			const maxSelected = $this.data('max-selected') || undefined;
+			// Initialize 'chosen' for each element
+			$this.chosen({
+				no_results_text: "Oops, nothing found!",
+				width: "100%",
+				// If maxSelected is present, set the 'max_selected_options' property
+				max_selected_options: maxSelected
+			});
+		});
+
 	});
 	function showWidgetForm() {
 		const widget_type = document.getElementById('ucwp_widget_type')?.value;

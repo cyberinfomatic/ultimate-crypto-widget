@@ -1,10 +1,10 @@
 # Ultimate Crypto Widget #
 **Contributors:** heisenejii  
-**Tags:** crypto, finance, web3, blockchain, cryptocurrency, coinmarketcap, cryptocurrency price ticker, Crypto Widgets, Crypto Price Updates  
+**Tags:** crypto, cryptocurrency, finance, widget, real-time price ticker  
 **Requires at least:** 6.5.5  
-**Tested up to:** 6.6.1  
+**Tested up to:** 6.6.2  
 **Requires PHP:** 8.0  
-**Stable tag:** 0.1.2  
+**Stable tag:** 0.1.4  
 **License:** GPL-2.0-or-later  
 **Donate link:** http://ultimatecryptowidget.com  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.txt  
@@ -124,6 +124,22 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
      Payment plan details can be found on the [plugin page](https://ultimatecryptowidget.com/).
 
 ## Changelog ##
+
+### 0.1.4 ###
+* Supported dark mode in accordion
+* Added icon to accordion
+* Added decimal place rounder to PricePercentage component to round off the decimal places to 2 and for neatness.
+* New Widget:
+	- Multi Currencies Tab Widget
+* Dev Changes:
+ 	- Separate API module
+ 	- added new props tp roundup decimal places in the PricePercentage component
+ 	- Added Multi Currencies selector in the widget settings
+
+
+### 0.1.3 ###
+* Support Wordpress version 6.6.2
+* Added support for Binance Stream API to fetch real-time cryptocurrency data using Binance API.
 
 ### 0.0.2 ###
 * Support Wordpress version 6.6.1
