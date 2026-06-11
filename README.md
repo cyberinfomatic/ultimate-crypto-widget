@@ -1,5 +1,5 @@
 # Ultimate Crypto Widget #
-**Contributors:** heisenejii  
+**Contributors:** Stephen Eneji  
 **Tags:** crypto, cryptocurrency, finance, widget, real-time price ticker  
 **Requires at least:** 6.5.5  
 **Tested up to:** 6.8  
