@@ -2,9 +2,9 @@
 Contributors: heisenejii
 Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
-Tested up to: 6.6.2
-Requires PHP: 8.0
-Stable tag: 0.1.4
+Tested up to: 6.8
+Requires PHP: 8.2
+Stable tag: 0.1.5
 License: GPL-2.0-or-later
 Donate link: http://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -125,6 +125,12 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
 
 == Changelog ==
 
+= 0.1.5 =
+* Tested up to WordPress 6.8
+* Requires PHP 8.2 or higher
+* Security: REST API permission callbacks, admin capability checks, and safer unserialize handling
+* Fix: Correct plugin asset URLs and admin notice HTML rendering
+
 = 0.1.4 =
 * Supported dark mode in accordion
 * Added icon to accordion
@@ -148,6 +154,9 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
 * Initial release.
 
 == Upgrade Notice ==
+
+= 0.1.5 =
+* Tested up to WordPress 6.8 and requires PHP 8.2 to remove compatibility warnings on newer releases.
 
 = 0.0.2 =
 * Support Wordpress version 6.6.1 to remove error message about compatibility.

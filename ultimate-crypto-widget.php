@@ -11,9 +11,9 @@
  * Plugin Name:       Ultimate Crypto Widget
  * Plugin URI:        https://ultimatecryptowidget.com
  * Description:       Crypto Currency Widget on the go!
- * Version:           0.1.4
+ * Version:           0.1.5
  * Requires at least: 6.5.5
- * Requires PHP:      8.0
+ * Requires PHP:      8.2
  * Author:            Cyberinfomatic
  * Author URI:        https://cyberinfomatic.com
  * Text Domain:       ultimate-crypto-widget
@@ -27,11 +27,11 @@ if (!defined('ABSPATH')) {
 }
 
 // Check PHP version
-if (version_compare(PHP_VERSION, '8.0', '<')) {
+if (version_compare(PHP_VERSION, '8.2', '<')) {
 	add_action('admin_notices', function () {
 		?>
 		<div class="notice notice-error is-dismissible">
-			<p><?php esc_html_e('Ultimate Crypto Widget requires PHP 8.0 or higher to run.', 'ultimate-crypto-widget'); ?></p>
+			<p><?php esc_html_e('Ultimate Crypto Widget requires PHP 8.2 or higher to run.', 'ultimate-crypto-widget'); ?></p>
 		</div>
 		<?php
 	});

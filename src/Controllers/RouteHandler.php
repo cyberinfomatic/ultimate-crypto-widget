@@ -14,22 +14,26 @@ class RouteHandler {
 		'coins' => [
 			'route' => '/coins',
 			'callback' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ],
-			'method' => 'GET'
+			'method' => 'GET',
+			'permission_callback' => '__return_true',
 		],
 		'coin-info' => [
 			'route' => '/coin-info',
 			'callback' => [self::class, 'get_coin_info'],
-			'method' => 'GET'
+			'method' => 'GET',
+			'permission_callback' => '__return_true',
 		],
 		'coin-chart-data' => [
 			'route' => '/coin-chart-data',
 			'callback' => [self::class, 'get_coin_chart_data'],
-			'method' => 'GET'
+			'method' => 'GET',
+			'permission_callback' => '__return_true',
 		],
 		'load-shortcode' => [
 			'route' => '/load-shortcode',
 			'callback' => [self::class, 'load_shortcode'],
-			'method' => 'POST'
+			'method' => 'POST',
+			'permission_callback' => '__return_true',
 		],
 	];
 
@@ -60,8 +64,9 @@ class RouteHandler {
 	public function register_routes(): void {
 		foreach (self::ENDPOINTS as $endpoint) {
 			register_rest_route(self::namespace, $endpoint['route'], [
-				'methods' => $endpoint['method'],
-				'callback' => $endpoint['callback'],
+				'methods'             => $endpoint['method'],
+				'callback'            => $endpoint['callback'],
+				'permission_callback' => $endpoint['permission_callback'] ?? '__return_true',
 			]);
 		}
 	}

@@ -56,15 +56,19 @@ class Settings {
 	static function load(): void {
 		add_action('admin_init', [self::class, 'register_settings']);
 		add_action('admin_post_ucwp_clear_api_cache', function() {
-			// sanitize and verify nonce
+			if (!current_user_can('manage_options')) {
+				wp_die(esc_html__('You do not have permission to perform this action.', 'ultimate-crypto-widget'));
+			}
+
 			$security = sanitize_text_field(wp_unslash($_POST['security'] ?? ''));
 			if (!wp_verify_nonce($security, 'ucwp_clear_api_cache')) {
-				wp_die(esc_html__('Invalid security token', 'ultimate-crypto-widget')); // Display error or redirect
-				return;
+				wp_die(esc_html__('Invalid security token', 'ultimate-crypto-widget'));
 			}
+
 			APIHelper::clear_cache();
 			Notification::add_notification(esc_html__('API Cache Cleared', 'ultimate-crypto-widget'));
-			return wp_redirect(esc_url(Page::get_page_url('ultimate-crypto-widget-settings')));
+			wp_safe_redirect(esc_url(Page::get_page_url('ultimate-crypto-widget-settings')));
+			exit;
 		});
 		add_action('wp_head', [self::class, 'add_ucwp_head_information']);
 	}

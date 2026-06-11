@@ -55,7 +55,7 @@ final class WidgetType {
 
 		// map through settings if any data is selerized then unserialize it use the wp is_serialized function
 		$settings = array_map(function($setting) {
-			return is_serialized($setting) ? unserialize($setting) : $setting;
+			return is_serialized($setting) ? unserialize($setting, ['allowed_classes' => false]) : $setting;
 		}, $settings);
 
 //		return json_encode($passable_setting_param)." ".json_encode($settings);

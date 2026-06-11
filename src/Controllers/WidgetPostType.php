@@ -34,13 +34,13 @@ use WP_Query;
 			$this->metabox = new UCWPMetaBoxController('ucwp_widget', 'ucwp Widget Custom Fields', 'ucwp_widget');
 			$this->metabox->set('context', 'normal');
 			$this->metabox->set('priority', 'default');
-			$this->metabox->enqueue_styles(plugins_url('assets/styles/metabox.css', UCWP_PLUGIN_BASENAME), 'ucwp-admin-metabox-css', ['ucwp-chosen-css'], '1.0.1');
-			$this->metabox->enqueue_scripts(plugins_url('assets/scripts/metabox.js', UCWP_PLUGIN_BASENAME), 'ucwp-admin-metabox-js', ['ucwp-chosen-js'], '1.0.1');
+			$this->metabox->enqueue_styles(plugins_url('assets/styles/metabox.css', UCWP_PLUGIN_FILE), 'ucwp-admin-metabox-css', ['ucwp-chosen-css'], '1.0.1');
+			$this->metabox->enqueue_scripts(plugins_url('assets/scripts/metabox.js', UCWP_PLUGIN_FILE), 'ucwp-admin-metabox-js', ['ucwp-chosen-js'], '1.0.1');
 //			to display the shortcode in the metabox
 			$this->shortcode_metabox = new UCWPMetaBoxController('ucwp_widget_shortcode', 'ucwp Widget Shortcode', 'ucwp_widget');
 			$this->shortcode_metabox->set('context', 'side');
 			$this->shortcode_metabox->set('priority', 'high');
-			$this->shortcode_metabox->enqueue_scripts(plugins_url('assets/scripts/helpers.js', UCWP_PLUGIN_BASENAME), 'ucwp-admin-helper-js', [], '1.0.1', false);
+			$this->shortcode_metabox->enqueue_scripts(plugins_url('assets/scripts/helpers.js', UCWP_PLUGIN_FILE), 'ucwp-admin-helper-js', [], '1.0.1', false);
 			$this->shortcode_metabox->set_callback(function($post) {
 				echo '<div><button class="ucwp-shortcode-preview-cnt" style="width : 100%;" type="button" onclick="ucwpCopyToClipboard(\'[ucwp_widget id=&quot;' . esc_attr($post->ID) . '&quot;]\', \'.ucwp-shortcode-copy\')">
 							[ucwp_widget id="' . esc_attr($post->ID) . '"]
