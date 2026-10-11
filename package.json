@@ -1,6 +1,6 @@
 {
   "name": "ultimate-crypto-widget",
-  "version": "0.1.5",
+  "version": "1.0.0-beta.1",
   "main": "Gruntfile.js",
   "author": "Cyberinfomatic <cyberinfomatic247@gmail.com>",
   "scripts": {
