@@ -16,6 +16,8 @@
       "react",
       "bin",
       "dist",
+      "docs",
+      "AGENTS.md",
       "assets/styles/sass",
       ".git",
       ".idea",
