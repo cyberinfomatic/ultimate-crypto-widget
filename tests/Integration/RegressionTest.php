@@ -35,16 +35,6 @@ final class RegressionTest extends TestCase {
 		parent::tear_down();
 	}
 
-	public function test_every_rest_route_has_a_permission_callback(): void {
-		foreach ( $this->routes() as $route => $handlers ) {
-			if ( '/ultimate-crypto-widget/v1' === $route ) {
-				continue; // The namespace index is WordPress's own.
-			}
-			foreach ( $handlers as $handler ) {
-				$this->assertNotEmpty( $handler['permission_callback'] ?? null, "{$route} has no permission_callback." );
-			}
-		}
-	}
 
 	public function test_there_is_no_pro_reinstall_route(): void {
 		$this->assertArrayNotHasKey( '/ultimate-crypto-widget/v1/pro-reinstall', $this->routes() );

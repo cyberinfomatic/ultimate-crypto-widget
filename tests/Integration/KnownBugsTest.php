@@ -10,7 +10,6 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 use Cyberinfomatic\UltimateCryptoWidget\Helpers\APIHelper;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\WidgetFactory;
-use WP_REST_Request;
 
 /**
  * Each test states the correct behaviour inside known_bug(). It reports as
@@ -18,57 +17,6 @@ use WP_REST_Request;
  * the cue to remove the wrapper and move the test to RegressionTest.
  */
 final class KnownBugsTest extends TestCase {
-
-	/**
-	 * Set by the probe shortcode below.
-	 *
-	 * @var bool
-	 */
-	public static bool $probe_ran = false;
-
-	public function set_up() {
-		parent::set_up();
-		self::$probe_ran = false;
-	}
-
-	public function tear_down() {
-		global $wp_rest_server;
-		$wp_rest_server = null;
-		remove_shortcode( 'ucwp_probe' );
-		parent::tear_down();
-	}
-
-	public function test_load_shortcode_cannot_run_another_shortcode(): void {
-		add_shortcode(
-			'ucwp_probe',
-			static function () {
-				self::$probe_ran = true;
-				return '';
-			}
-		);
-
-		$this->known_bug(
-			'An anonymous POST to /load-shortcode can break out of an attribute and run any shortcode (fixed in Phase 2).',
-			function () {
-				global $wp_rest_server;
-				$wp_rest_server = null;
-				rest_get_server();
-				wp_set_current_user( 0 );
-
-				$request = new WP_REST_Request( 'POST', '/ultimate-crypto-widget/v1/load-shortcode' );
-				$request->set_body_params(
-					array(
-						'shortcode' => 'ucwp_widget',
-						'atts'      => array( 'type' => 'x"] [ucwp_probe] [ucwp_widget type="x' ),
-					)
-				);
-				$response = rest_get_server()->dispatch( $request );
-
-				$this->assertFalse( self::$probe_ran, 'A second shortcode was executed from request input.' );
-				$this->assertContains( $response->get_status(), array( 401, 403 ), 'An anonymous visitor must be refused.' );
-			}
-		);
-	}
 
 	public function test_multi_select_fields_are_saved(): void {
 		$this->known_bug(

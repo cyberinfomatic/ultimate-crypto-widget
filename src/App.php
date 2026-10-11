@@ -3,7 +3,7 @@
 namespace Cyberinfomatic\UltimateCryptoWidget;
 
 use Cyberinfomatic\UltimateCryptoWidget\Helpers\Notification;
-use Cyberinfomatic\UltimateCryptoWidget\Controllers\{Page, RouteHandler, Settings, WidgetPostType};
+use Cyberinfomatic\UltimateCryptoWidget\Controllers\{Page, Settings, WidgetPostType};
 class App
 {
 
@@ -24,7 +24,6 @@ class App
 		}
 //		deactivate free version of the plugin with name 'ultimate-crypto-widget/ultimate-crypto-widget.php'
 		self::enqueues();
-		RouteHandler::load();
 		WidgetPostType::load();
 		Page::load();
 		Settings::load();

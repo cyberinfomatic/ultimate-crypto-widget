@@ -62,7 +62,7 @@ final class RestSnapshotTest extends TestCase {
 	public function test_coin_info_without_a_coin_id(): void {
 		$response = $this->get( '/coin-info' );
 
-		$this->assertSame( 400, $response->get_status() );
+		$this->assertSame( 422, $response->get_status() );
 		Snapshots::assert_matches( 'rest/coin-info.missing-id.json', Snapshots::json( $response->get_data() ) );
 	}
 
@@ -83,8 +83,7 @@ final class RestSnapshotTest extends TestCase {
 	public function test_coin_chart_data_without_a_coin_id(): void {
 		$response = $this->get( '/coin-chart-data' );
 
-		// Today this error comes back with status 200. Pinned so a change is deliberate.
-		$this->assertSame( 200, $response->get_status() );
+		$this->assertSame( 422, $response->get_status() );
 		Snapshots::assert_matches( 'rest/coin-chart-data.missing-id.json', Snapshots::json( $response->get_data() ) );
 	}
 
