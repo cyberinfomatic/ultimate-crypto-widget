@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ReactRender from "../../helper-components/react-wrapper";
 import '@/styles/sass/multi-currencies-tab.scss'
-import { CoinData, currenciesSymbol, DefaultCurrencyRateByCurrency, UCWPWidgetSetting } from "react/types";
-import PricePercentage from "react/helper-components/PricePercentage";
-import useLivePrices from "react/live/useLivePrices";
-import { abbreviateNumber } from "react/helper/helper";
+import { CoinData, currenciesSymbol, DefaultCurrencyRateByCurrency, UCWPWidgetSetting } from "../../types";
+import PricePercentage from "../../helper-components/PricePercentage";
+import useLivePrices from "../../live/useLivePrices";
+import { abbreviateNumber } from "../../helper/helper";
 
 ReactRender(
   ({

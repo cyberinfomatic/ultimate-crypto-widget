@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUp } from "iconsax-react";
 import React, { CSSProperties, HTMLAttributes, useEffect, useState } from "react";
-import { roundToDecimalPlaces } from "react/helper/helper";
+import { roundToDecimalPlaces } from "../helper/helper";
 
 /**
  * Props for the PricePercentage component.
