@@ -1,0 +1,46 @@
+{
+    "id": "bitcoin",
+    "symbol": "btc",
+    "name": "Bitcoin",
+    "description": {
+        "en": "Fixture description of Bitcoin."
+    },
+    "links": {
+        "homepage": [
+            "https://bitcoin.example.org"
+        ]
+    },
+    "image": {
+        "thumb": "https://assets.example.org/coins/bitcoin-thumb.png",
+        "small": "https://assets.example.org/coins/bitcoin-small.png",
+        "large": "https://assets.example.org/coins/bitcoin.png"
+    },
+    "market_cap_rank": 1,
+    "market_data": {
+        "current_price": {
+            "usd": 64250.12,
+            "eur": 59110.11
+        },
+        "market_cap": {
+            "usd": 1265000000000
+        },
+        "total_volume": {
+            "usd": 25000000000
+        },
+        "high_24h": {
+            "usd": 66177.62
+        },
+        "low_24h": {
+            "usd": 62322.62
+        },
+        "price_change_percentage_24h": 1.25,
+        "price_change_percentage_7d": 3.12,
+        "price_change_percentage_30d": -5,
+        "circulating_supply": 19700000,
+        "max_supply": 21000000
+    },
+    "community_data": {
+        "twitter_followers": 6500000
+    },
+    "last_updated": "2026-10-01T12:00:00.000Z"
+}

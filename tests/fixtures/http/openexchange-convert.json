@@ -1,0 +1,6 @@
+{
+    "error": true,
+    "status": 403,
+    "message": "not_allowed",
+    "description": "Fixture: the convert endpoint is not available on the free Open Exchange Rates plan, which is what most sites use."
+}
