@@ -206,7 +206,12 @@ class Page {
 	 * Renders the quick widget admin page.
 	 */
 	static function quick_widget(): void {
-		wp_enqueue_script('ucwp-quick-widget', plugins_url('/assets/scripts/quick-widget.js', UCWP_PLUGIN_FILE), ['jquery'], '0.0.1', true);
+		wp_enqueue_script('ucwp-quick-widget', plugins_url('/assets/scripts/quick-widget.js', UCWP_PLUGIN_FILE), ['jquery'], '0.0.2', true);
+		// The preview route needs a logged-in editor: give the script the REST address and nonce.
+		wp_localize_script('ucwp-quick-widget', 'ucwpQuickWidget', [
+			'previewUrl' => esc_url_raw(rest_url('ultimate-crypto-widget/v1/load-shortcode')),
+			'nonce'      => wp_create_nonce('wp_rest'),
+		]);
 		$widget_post_type_instance = WidgetPostType::get_instance();
 		$meta_box = $widget_post_type_instance->get_metabox();
 		View::render('admin/quick-widget', [

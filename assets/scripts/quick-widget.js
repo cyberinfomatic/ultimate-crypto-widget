@@ -88,16 +88,17 @@
 			const data = new FormData();
 			data.append('shortcode', s);
 			data.append('atts', JSON.stringify(atts));
-			fetch('/wp-json/ultimate-crypto-widget/v1/load-shortcode', {
+			fetch(ucwpQuickWidget.previewUrl, {
 				method: 'POST',
+				credentials: 'same-origin',
+				headers: { 'X-WP-Nonce': ucwpQuickWidget.nonce },
 				body: data
 			})
 				.then(function (response) {
 					return response.json();
 				})
 				.then(function (d) {
-					console.log(d)
-					preview_container.innerHTML = d.content;
+					preview_container.innerHTML = d.content || '';
 					ucwpQuickWidgetLastRender = Date.now();
 				})
 				.catch(function (error) {
