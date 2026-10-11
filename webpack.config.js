@@ -26,11 +26,12 @@ function getEntries(dir = 'react/widgets') {
 }
 
 const entries = { ...getEntries(), ...getEntries('react') };
-console.log("entries gotten, script about to start")
+const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
 	...defaults,
-	mode : 'development',
-	devtool: 'source-map',
+	mode: isProduction ? 'production' : 'development',
+	// Source maps help while developing; they are not shipped.
+	devtool: isProduction ? false : 'source-map',
 	externals: {
 		'@wordpress/element': ['wp', 'element'],
 		react: ['React'],
