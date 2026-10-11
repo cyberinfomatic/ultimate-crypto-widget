@@ -1,36 +1,45 @@
-import React,{useEffect, useState} from "react";
-import '@/styles/sass/coin-marquee.scss'
-import {UCWPWidgetSetting, CoinData} from "../../types";
+import React from "react";
+import { __ } from "@wordpress/i18n";
+import { CoinIdentity, cssSize, Delta, Notice, Price, Surface, Ticker, toCount } from "../../ds";
 import ReactRender from "../../helper-components/react-wrapper";
-import Card from "./cards/card-001";
-import Marquee from "react-fast-marquee";
-import Chart from "chart.js/auto";
-import { CategoryScale } from "chart.js";
-import useLivePrices from "../../live/useLivePrices";
+import { useLiveCoins } from "../../live/useLiveCoins";
+import { CoinData, UCWPWidgetSetting } from "../../types";
+import "./style.scss";
 
+type Props = { coins: CoinData[]; settings: UCWPWidgetSetting };
 
-Chart.register(CategoryScale);
+/**
+ * The saved "speed" setting as pixels per second. Since 0.x it has meant
+ * "speed divided by the number of coins", so that is kept: 3000 with ten coins
+ * scrolls at 300.
+ */
+export const marqueeSpeed = (speed: unknown, coins: number): number => toCount(speed, 3000) / Math.max(coins, 1);
 
+/** Coins and their prices scrolling past in a strip. */
+export const CoinMarquee = ({ coins, settings }: Props) => {
+	const list = useLiveCoins(coins, settings);
 
-ReactRender(({ coins, settings }: { coins: CoinData[], settings: UCWPWidgetSetting }) => {
-	const [coinList, _] = useState<CoinData[]>(coins ?? []); // Initialize with props
-	const parentWidth = typeof settings.parent_width === 'number' ? `${settings.parent_width}px` : settings.parent_width;
-	const cardWidth = typeof settings.card_width === 'number' ? `${settings.card_width}px` : settings.card_width;
-	const animationDuration = (settings.speed || 3000) / (coinList?.length ?? 10)
-	const { connected, data, error } = useLivePrices(
-		coinList?.map((coin) => coin.symbol).slice(0, settings.count),
-		settings?.usd_conversion_rate ?? 1
-	);
+	if (list.length === 0) {
+		return (
+			<Surface width={settings.parent_width}>
+				<Notice>{__("Prices are not available right now.", "ultimate-crypto-widget")}</Notice>
+			</Surface>
+		);
+	}
+
 	return (
-		<Marquee className="ucwp-coin-marquee-main-marquee-element" style={{ width: parentWidth, display:'flex', gap: '10px' }} pauseOnHover={true} speed={animationDuration} >
-			<div className={`ucwp-coin-marquee-main`}>
-				{coinList?.slice(0, settings.count).map((_coin) => {
-					const coin = { ..._coin, ...data[_coin.symbol.toUpperCase()] }
-					return (
-						<Card key={coin.id} coinData={coin} style={{ width: cardWidth }} currency_symbol={settings.currency_symbol} />
-				)})}
-			</div>
-		</Marquee>
+		<Surface width={settings.parent_width} className="ucw-marquee">
+			<Ticker label={__("Cryptocurrency prices", "ultimate-crypto-widget")} speed={marqueeSpeed(settings.speed, list.length)}>
+				{list.map((coin) => (
+					<div className="ucw-marquee__item" key={coin.id} style={{ minInlineSize: cssSize(settings.card_width) }}>
+						<CoinIdentity name={coin.name} symbol={coin.symbol} image={coin.image} compact />
+						<Price value={coin.current_price} currency={settings.default_currency} symbol={settings.currency_symbol} />
+						<Delta value={coin.price_change_percentage_24h} />
+					</div>
+				))}
+			</Ticker>
+		</Surface>
 	);
-})
+};
 
+ReactRender<Props>(CoinMarquee);

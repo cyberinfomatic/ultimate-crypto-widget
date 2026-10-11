@@ -43,6 +43,10 @@ const propsOf = (element: HTMLElement): Record<string, any> | null => {
  * any number of widgets, of the same type or different ones, can share a page.
  */
 export default function ReactRender<PropType = any>(Component: ComponentType<WidgetProps<PropType>>) {
+	// Nothing to draw into outside a browser, e.g. when a test imports a widget.
+	if (typeof document === "undefined") {
+		return;
+	}
 	const view = viewOfThisScript();
 
 	const mountAll = () => {

@@ -31,7 +31,46 @@ final class AssetsTest extends TestCase {
 		$scripts = $this->ours( wp_scripts()->queue );
 		$this->assertContains( 'ultimate-crypto-widget-vendors', $scripts );
 		$this->assertCount( 2, $scripts, 'Expected the shared bundle and one widget bundle.' );
-		$this->assertContains( 'ultimate-crypto-widget-widget-crypto-price-table-style', $this->ours( wp_styles()->queue ) );
+		$this->assertContains( 'ultimate-crypto-widget-theme-style', $this->ours( wp_styles()->queue ), 'Every widget needs the shared stylesheet.' );
+	}
+
+	public function test_a_widget_with_its_own_stylesheet_loads_it_after_the_shared_one(): void {
+		if ( ! self::has_react_build() ) {
+			$this->markTestSkipped( 'React bundles are not built.' );
+		}
+
+		do_shortcode( '[ucwp_widget type="coin-marquee-1" count="5" default_currency="usd"]' );
+
+		$style = wp_styles()->registered['ultimate-crypto-widget-widget-coin-marquee-style'] ?? null;
+		$this->assertNotNull( $style );
+		$this->assertContains( 'ultimate-crypto-widget-theme-style', $style->deps );
+		$this->assertSame( 'replace', $style->extra['rtl'] ?? null, 'Right-to-left sites must get the mirrored stylesheet.' );
+	}
+
+	public function test_a_widgets_dark_mode_setting_picks_the_dark_theme(): void {
+		if ( ! self::has_react_build() ) {
+			$this->markTestSkipped( 'React bundles are not built.' );
+		}
+
+		$this->assertStringContainsString( 'data-ucw-theme="dark"', (string) do_shortcode( '[ucwp_widget type="multi-currencies-tab" default_currency="usd" dark_mode="true"]' ) );
+		$this->assertStringContainsString( 'data-ucw-theme="light"', (string) do_shortcode( '[ucwp_widget type="multi-currencies-tab" default_currency="usd" dark_mode="false"]' ) );
+		$this->assertStringContainsString( 'data-ucw-theme="light"', (string) do_shortcode( '[ucwp_widget type="coin-marquee-1" default_currency="usd"]' ) );
+	}
+
+	public function test_scripts_are_addressed_through_wordpress_so_a_linked_plugin_folder_works(): void {
+		if ( ! self::has_react_build() ) {
+			$this->markTestSkipped( 'React bundles are not built.' );
+		}
+
+		do_shortcode( '[ucwp_widget type="coin-marquee-1" count="5" default_currency="usd"]' );
+
+		$base = plugin_dir_url( UCWP_PLUGIN_FILE ) . 'assets/react-build/';
+		foreach ( $this->ours( wp_scripts()->queue ) as $handle ) {
+			$this->assertStringStartsWith( $base, wp_scripts()->registered[ $handle ]->src );
+		}
+		foreach ( $this->ours( wp_styles()->queue ) as $handle ) {
+			$this->assertStringStartsWith( $base, wp_styles()->registered[ $handle ]->src );
+		}
 	}
 
 	public function test_widget_scripts_do_not_pull_in_jquery(): void {

@@ -1,39 +1,38 @@
-import { useState } from "react";
-import "@/styles/sass/crypto-price-picker.scss";
-import { UCWPWidgetSetting, CoinData } from "../../types";
-import ReactRender from "../../helper-components/react-wrapper";
-import Card from "./cards/card-001";
-import { CategoryScale } from "chart.js";
 import React from "react";
-import useLivePrices from "../../live/useLivePrices";
+import { __ } from "@wordpress/i18n";
+import { CoinIdentity, Delta, Notice, Price, Surface } from "../../ds";
+import ReactRender from "../../helper-components/react-wrapper";
+import { useLiveCoins } from "../../live/useLiveCoins";
+import { CoinData, UCWPWidgetSetting } from "../../types";
+import "./style.scss";
 
-ReactRender(
-  ({ coins, settings }: { coins: CoinData[]; settings: UCWPWidgetSetting }) => {
-    const [coinList, setCoinList] = useState<CoinData[]>(coins ?? []); // Initialize with props
-    const { connected, data, error } = useLivePrices(
-      coinList?.map((coin) => coin.symbol).slice(0, settings.count),
-      settings?.usd_conversion_rate ?? 1
-    );
+type Props = { coins: CoinData[]; settings: UCWPWidgetSetting };
 
-    return (
-      <div
-        className="ucwp-crypto-price-picker-main"
-        style={{
-          flexDirection:
-            settings?.orientation == "horizontal" ? "row" : "column",
-        }}
-      >
-        {coinList.slice(0, settings.count).map((_coin, index) => {
-          const coin = { ..._coin, ...data[_coin.symbol.toUpperCase()] };
-          return (
-          <Card
-            key={coin.id}
-            coinData={coin}
-            style={{}}
-            currency_symbol={settings.currency_symbol}
-          />
-        )})}
-      </div>
-    );
-  }
-);
+/** One card per coin, side by side or stacked. */
+export const CryptoPricePicker = ({ coins, settings }: Props) => {
+	const list = useLiveCoins(coins, settings);
+
+	if (list.length === 0) {
+		return (
+			<Surface>
+				<Notice>{__("Prices are not available right now.", "ultimate-crypto-widget")}</Notice>
+			</Surface>
+		);
+	}
+
+	return (
+		<div className="ucw-picker" data-orientation={settings.orientation === "vertical" ? "vertical" : "horizontal"}>
+			{list.map((coin) => (
+				<Surface className="ucw-picker__card" key={coin.id}>
+					<div className="ucw-picker__top">
+						<CoinIdentity name={coin.name} symbol={coin.symbol} image={coin.image} />
+						<Delta value={coin.price_change_percentage_24h} pill />
+					</div>
+					<Price value={coin.current_price} currency={settings.default_currency} symbol={settings.currency_symbol} size="lg" />
+				</Surface>
+			))}
+		</div>
+	);
+};
+
+ReactRender<Props>(CryptoPricePicker);

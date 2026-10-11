@@ -1,0 +1,24 @@
+// Layout that belongs to this widget only. Colours and sizes come from the theme's tokens.
+
+.ucw-picker {
+	display: grid;
+	gap: var(--ucw-space-3);
+	// As many cards per row as fit; they share the row's width equally.
+	grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr));
+}
+
+.ucw-picker[data-orientation="vertical"] {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.ucw-picker__card {
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-4);
+}
+
+.ucw-picker__top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+}

@@ -25,7 +25,12 @@ function getEntries(dir = 'react/widgets') {
 	return entries;
 }
 
-const entries = { ...getEntries(), ...getEntries('react') };
+// Each widget is its own bundle; so are the admin screen and the shared stylesheet.
+const entries = {
+	...getEntries(),
+	admin: path.resolve(__dirname, 'react/admin/index.tsx'),
+	theme: path.resolve(__dirname, 'react/theme/index.ts'),
+};
 const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
 	...defaults,
@@ -81,7 +86,8 @@ module.exports = {
 			cacheGroups: {
 				vendors: {
 					// Libraries and the plugin's own shared code go in one bundle the widgets share.
-					test: /[\\/]node_modules[\\/]|[\\/]react[\\/](helper|live)[\\/]/,
+					// Scripts only: the design system's stylesheet is its own file, theme.css.
+					test: /[\\/]node_modules[\\/]|[\\/]react[\\/](helper|live|ds)[\\/].*\.(js|jsx|ts|tsx)$/,
 					name: 'vendors',
 					chunks: 'all',
 					enforce: true,

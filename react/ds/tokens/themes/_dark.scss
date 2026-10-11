@@ -1,0 +1,25 @@
+// Layer 2, dark: the same roles, pointed at the other end of the ramps.
+
+@mixin roles {
+	color-scheme: dark;
+
+	--ucw-surface: var(--ucw-p-neutral-20);
+	--ucw-surface-sunken: var(--ucw-p-neutral-16);
+	--ucw-surface-hover: var(--ucw-p-neutral-24);
+	--ucw-border: var(--ucw-p-neutral-30);
+	--ucw-border-strong: var(--ucw-p-neutral-40);
+
+	--ucw-fg: var(--ucw-p-neutral-97);
+	--ucw-fg-muted: var(--ucw-p-neutral-70);
+
+	--ucw-accent: var(--ucw-p-accent-76);
+	--ucw-accent-soft: var(--ucw-p-accent-28);
+	--ucw-on-accent: var(--ucw-p-neutral-16);
+
+	--ucw-up: var(--ucw-p-green-78);
+	--ucw-up-soft: var(--ucw-p-green-28);
+	--ucw-down: var(--ucw-p-red-74);
+	--ucw-down-soft: var(--ucw-p-red-28);
+
+	--ucw-shadow: 0 1px 2px oklch(0% 0 0 / 0.3), 0 4px 12px oklch(0% 0 0 / 0.2);
+}

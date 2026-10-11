@@ -1,0 +1,25 @@
+// Layer 2, light: what each colour is for. Components use only these names.
+
+@mixin roles {
+	color-scheme: light;
+
+	--ucw-surface: var(--ucw-p-neutral-99);
+	--ucw-surface-sunken: var(--ucw-p-neutral-97);
+	--ucw-surface-hover: var(--ucw-p-neutral-97);
+	--ucw-border: var(--ucw-p-neutral-93);
+	--ucw-border-strong: var(--ucw-p-neutral-87);
+
+	--ucw-fg: var(--ucw-p-neutral-20);
+	--ucw-fg-muted: var(--ucw-p-neutral-55);
+
+	--ucw-accent: var(--ucw-p-accent-50);
+	--ucw-accent-soft: var(--ucw-p-accent-95);
+	--ucw-on-accent: var(--ucw-p-neutral-99);
+
+	--ucw-up: var(--ucw-p-green-45);
+	--ucw-up-soft: var(--ucw-p-green-95);
+	--ucw-down: var(--ucw-p-red-48);
+	--ucw-down-soft: var(--ucw-p-red-95);
+
+	--ucw-shadow: 0 1px 2px oklch(20% 0.01 255 / 0.06), 0 4px 12px oklch(20% 0.01 255 / 0.04);
+}

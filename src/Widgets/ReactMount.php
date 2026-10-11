@@ -48,18 +48,32 @@ final class ReactMount
 		if (null === $definition->buildDir) {
 			$this->script('vendors', 'vendors/index.js', ['wp-element', 'wp-i18n']);
 			$this->script('widget-' . $view, $script, [$this->assets->handle('vendors')]);
-			$this->style('widget-' . $view, 'widgets/' . $view . '.css', $theme ? [$this->assets->handle('theme')] : []);
+			$this->style('widget-' . $view, 'widgets/' . $view . '.css', $theme ? [$this->assets->handle('theme-style')] : []);
 		} else {
-			$this->loadFromAddOn($dir, (string) $definition->buildUrl, $view, $theme ? [$this->assets->handle('theme')] : []);
+			$this->loadFromAddOn($dir, (string) $definition->buildUrl, $view, $theme ? [$this->assets->handle('theme-style')] : []);
 		}
 
 		return sprintf(
-			'<div id="%1$s" class="ucw-widget ucw-widget--%2$s" data-ucw-view="%2$s" data-ucw-props="%3$s">%4$s</div>',
+			'<div id="%1$s" class="ucw-widget ucw-widget--%2$s" data-ucw-view="%2$s" data-ucw-theme="%5$s" data-ucw-props="%3$s">%4$s</div>',
 			esc_attr('ucwp-react-' . wp_unique_id()),
 			esc_attr($view),
 			esc_attr((string) wp_json_encode($props)),
-			esc_html__('Loading...', 'ultimate-crypto-widget')
+			esc_html__('Loading...', 'ultimate-crypto-widget'),
+			esc_attr($this->theme($props['settings'] ?? []))
 		);
+	}
+
+	/**
+	 * Light or dark. A widget's "dark mode" setting has been stored as the text
+	 * "true" or "false" since 0.x.
+	 *
+	 * @param mixed $settings
+	 */
+	private function theme($settings): string
+	{
+		$dark = is_array($settings) ? ($settings['dark_mode'] ?? false) : false;
+
+		return true === $dark || in_array($dark, ['true', '1', 1, 'on'], true) ? 'dark' : 'light';
 	}
 
 	/**

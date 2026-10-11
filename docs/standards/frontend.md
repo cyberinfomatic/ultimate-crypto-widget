@@ -19,11 +19,16 @@ The widgets render inside other people's themes, so everything here is scoped an
 All CSS variables, in three layers:
 
 ```
-react/ds/tokens/
-  primitives.scss   OKLCH ramps. Never used by components.
-  themes/light.scss role tokens -> primitives, on .ucw-widget and [data-ucw-theme="light"]
-  themes/dark.scss  role tokens -> primitives, on [data-ucw-theme="dark"]
-  brand.scss        accent hue and its steps
+react/ds/
+  tokens/_primitives.scss    OKLCH ramps. Never used by components.
+  tokens/themes/_light.scss  role tokens -> primitives
+  tokens/themes/_dark.scss   the same roles, for [data-ucw-theme="dark"] (and "auto")
+  tokens/_brand.scss         accent: one hue and strength make every accent step
+  tokens/_scale.scss         spacing, radius, type, motion, density
+  theme.scss                 tokens + every component's styles -> assets/react-build/theme.css
+  components/                one small component per file
+  format.ts                  prices, percentages, sizes
+  index.ts                   the only thing widgets import from
 ```
 
 - Components use **role** tokens only: `--ucw-surface`, `--ucw-fg`, `--ucw-fg-muted`, `--ucw-border`,
@@ -35,8 +40,12 @@ react/ds/tokens/
 
 ## Components
 
-- Widgets import UI only from `react/ds/` (`Card`, `Price`, `Delta`, `Sparkline`, `Table`, `Tabs`,
-  `Skeleton`). Third-party UI libraries are wrapped there and nowhere else.
+- Widgets import UI only from `react/ds` (`Surface`, `CoinIdentity`, `Price`, `Delta`, `Table`/`Row`/`Cell`,
+  `Tabs`, `Ticker`, `Sparkline`, `Skeleton`, `Notice`). Third-party UI libraries are wrapped there and
+  nowhere else.
+- A widget's own stylesheet (`style.scss` beside it) holds layout only: how its parts are arranged.
+- Tables are grids with table roles, not `<table>`: themes restyle `<table>`, `<th>` and `<td>` too freely.
+- A widget exports its component and renders it with `ReactRender`, so a test can import and render it.
 - Styles are plain SCSS scoped under `.ucw-widget` with low specificity, so a site's theme can still
   override them and nothing leaks out. No utility-class framework.
 - Up and down are never shown by colour alone: pair the colour with an icon or a sign.

@@ -1,0 +1,33 @@
+// Sizes shared by every theme: spacing, radius, type, motion.
+// --ucw-density scales the spacing; 1 is comfortable, 0.75 is compact.
+
+@mixin scale {
+	--ucw-density: 1;
+	--ucw-space-1: calc(0.25rem * var(--ucw-density));
+	--ucw-space-2: calc(0.5rem * var(--ucw-density));
+	--ucw-space-3: calc(0.75rem * var(--ucw-density));
+	--ucw-space-4: calc(1rem * var(--ucw-density));
+	--ucw-space-5: calc(1.25rem * var(--ucw-density));
+	--ucw-space-6: calc(1.5rem * var(--ucw-density));
+
+	--ucw-radius: 0.75rem;
+	--ucw-radius-sm: calc(var(--ucw-radius) * 0.5);
+	--ucw-radius-pill: 999px;
+
+	// "inherit" keeps the site's own typeface; a style control can replace it.
+	--ucw-font: inherit;
+	--ucw-text-xs: 0.75rem;
+	--ucw-text-sm: 0.8125rem;
+	--ucw-text-md: 0.9375rem;
+	--ucw-text-lg: 1.125rem;
+	--ucw-text-xl: 1.375rem;
+	--ucw-leading: 1.35;
+	--ucw-weight-regular: 400;
+	--ucw-weight-medium: 500;
+	--ucw-weight-bold: 650;
+
+	--ucw-duration: 160ms;
+	--ucw-ease: cubic-bezier(0.2, 0, 0, 1);
+
+	--ucw-logo-size: 1.75rem;
+}
