@@ -40,7 +40,7 @@ final class BootTest extends TestCase {
 	}
 
 	public function test_the_constants_the_old_classes_read_are_defined(): void {
-		foreach ( array( 'UCWP_PLUGIN_FILE', 'UCWP_PLUGIN_DIR', 'UCWP_PLUGIN_URL', 'UCWP_PLUGIN_BASENAME', 'UCW_ENV', 'UCWP_MAIN_SERVER' ) as $constant ) {
+		foreach ( array( 'UCWP_PLUGIN_FILE', 'UCWP_PLUGIN_DIR', 'UCWP_PLUGIN_URL', 'UCWP_PLUGIN_BASENAME', 'UCW_ENV' ) as $constant ) {
 			$this->assertTrue( defined( $constant ), "{$constant} is not defined." );
 		}
 		$this->assertStringEndsWith( 'ultimate-crypto-widget.php', UCWP_PLUGIN_FILE );

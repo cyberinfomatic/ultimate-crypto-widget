@@ -80,7 +80,8 @@ module.exports = {
 		splitChunks: {
 			cacheGroups: {
 				vendors: {
-					test: /[\\/]node_modules[\\/]|[\\/]react[\\/]helper[\\/]/, // target node
+					// Libraries and the plugin's own shared code go in one bundle the widgets share.
+					test: /[\\/]node_modules[\\/]|[\\/]react[\\/](helper|live)[\\/]/,
 					name: 'vendors',
 					chunks: 'all',
 					enforce: true,

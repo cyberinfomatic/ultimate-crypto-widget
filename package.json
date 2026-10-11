@@ -7,7 +7,8 @@
     "dev": "wp-scripts start",
     "start:hot": "wp-scripts start --hot",
     "build": "wp-scripts build",
-    "makepot": "composer run make-pot"
+    "makepot": "composer run make-pot",
+    "test:js": "wp-scripts test-unit-js"
   },
   "babel": {
     "presets": [
@@ -30,7 +31,9 @@
     "mini-css-extract-plugin": "^2.9.0",
     "sass": "^1.105.1",
     "sass-loader": "^17.0.1",
-    "tsconfig-paths-webpack-plugin": "^4.1.0"
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3"
   },
   "dependencies": {
     "@wordpress/element": "^6.0.0",

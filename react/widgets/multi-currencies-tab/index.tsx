@@ -3,7 +3,7 @@ import ReactRender from "../../helper-components/react-wrapper";
 import '@/styles/sass/multi-currencies-tab.scss'
 import { CoinData, currenciesSymbol, DefaultCurrencyRateByCurrency, UCWPWidgetSetting } from "react/types";
 import PricePercentage from "react/helper-components/PricePercentage";
-import { useBinanceStreamTickerWebSocket } from "react/helper-components/WebHooks";
+import useLivePrices from "react/live/useLivePrices";
 import { abbreviateNumber } from "react/helper/helper";
 
 ReactRender(
@@ -34,7 +34,7 @@ ReactRender(
         default_currencies_symbol[currentCurrency.toLowerCase()]
     );
 
-    const { connected, data, error } = useBinanceStreamTickerWebSocket(
+    const { connected, data, error } = useLivePrices(
       coinList?.map((coin) => coin.symbol).slice(0, settings.count),
       settings?.usd_conversion_rate ?? 1
     );

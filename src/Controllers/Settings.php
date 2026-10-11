@@ -16,8 +16,6 @@ use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
  * @package Cyberinfomatic\UltimateCryptoWidget\Controllers
  */
 class Settings {
-	const SERVER_URL = UCWP_MAIN_SERVER;
-	const ADD_LICENSE_PATH = '/license/verify';
 	const OPTION_PREFIX = 'ultimate_crypto_widget_';
 
 	private static array $plugin_details;
@@ -64,7 +62,6 @@ class Settings {
 			wp_safe_redirect(esc_url(Page::get_page_url('ultimate-crypto-widget-settings')));
 			exit;
 		});
-		add_action('wp_head', [self::class, 'add_ucwp_head_information']);
 	}
 
 	static function get_plugin_detail($key = null) {
@@ -79,14 +76,6 @@ class Settings {
 
 
 
-	/**
-	 * Add ucwp head information for pro users.
-	 */
-	static function add_ucwp_head_information(): void {
-//		$hash is plugin version
-		$hash = hash('sha256', self::get_plugin_detail('Version'));
-		echo "<meta name='ucwp." . esc_attr(str_replace(['http://', 'https://'], '', home_url())) . "' content='" . esc_attr($hash) . "'>";
-	}
 
 	/**
 	 * Register the settings.

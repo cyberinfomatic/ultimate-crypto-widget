@@ -48,9 +48,6 @@ $ucwp_app = Application::create(
 if ( ! defined( 'UCW_ENV' ) ) {
 	define( 'UCW_ENV', $ucwp_app->isDevelopment() ? 'dev' : 'prod' );
 }
-if ( ! defined( 'UCWP_MAIN_SERVER' ) ) {
-	define( 'UCWP_MAIN_SERVER', 'dev' === UCW_ENV ? 'http://localhost:8000' : 'https://ucp.cyberinfomatic.com' );
-}
 
 Debugger::set_dev( 'dev' === UCW_ENV );
 
