@@ -29,9 +29,9 @@ final class AssetsTest extends TestCase {
 		do_shortcode( '[ucwp_widget type="crypto-price-table-1" count="5" parent_width="100%" default_currency="usd"]' );
 
 		$scripts = $this->ours( wp_scripts()->queue );
-		$this->assertContains( 'ucwp-react-vendor', $scripts );
+		$this->assertContains( 'ultimate-crypto-widget-vendors', $scripts );
 		$this->assertCount( 2, $scripts, 'Expected the shared bundle and one widget bundle.' );
-		$this->assertContains( 'ucw-widget-crypto-price-table', $this->ours( wp_styles()->queue, 'ucw-' ) );
+		$this->assertContains( 'ultimate-crypto-widget-widget-crypto-price-table-style', $this->ours( wp_styles()->queue ) );
 	}
 
 	public function test_widget_scripts_do_not_pull_in_jquery(): void {
@@ -74,11 +74,11 @@ final class AssetsTest extends TestCase {
 	 * @param string[] $handles
 	 * @return string[] Those that belong to this plugin.
 	 */
-	private function ours( array $handles, string $prefix = 'ucw' ): array {
+	private function ours( array $handles ): array {
 		return array_values(
 			array_filter(
 				$handles,
-				static fn ( string $handle ): bool => 0 === strpos( $handle, $prefix )
+				static fn ( string $handle ): bool => 1 === preg_match( '/^(ucw|ultimate-crypto-widget-)/', $handle )
 			)
 		);
 	}

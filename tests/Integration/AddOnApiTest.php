@@ -82,6 +82,6 @@ final class AddOnApiTest extends TestCase {
 	}
 
 	private function renderer( WidgetCatalog $catalog ): WidgetRenderer {
-		return new WidgetRenderer( $catalog, Services::prices(), new ReactMount() );
+		return new WidgetRenderer( $catalog, Services::prices(), Services::container()->get( ReactMount::class ) );
 	}
 }
