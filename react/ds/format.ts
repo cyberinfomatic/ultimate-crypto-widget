@@ -44,7 +44,8 @@ const isNumber = (value: unknown): value is number => typeof value === "number" 
  */
 const priceDigits = (value: number, compact: boolean): Intl.NumberFormatOptions => {
 	if (compact) {
-		return { notation: "compact", maximumFractionDigits: 2 };
+		// No padding: a currency would otherwise force "$43.00B".
+		return { notation: "compact", minimumFractionDigits: 0, maximumFractionDigits: 2 };
 	}
 	if (value !== 0 && Math.abs(value) < 1) {
 		return { minimumSignificantDigits: 2, maximumSignificantDigits: 4 };

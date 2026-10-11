@@ -25,6 +25,7 @@ describe("formatPrice", () => {
 
 	it("shortens large amounts when asked", () => {
 		expect(formatPrice(1_250_000, { ...en, currency: "usd", compact: true })).toBe("$1.25M");
+		expect(formatPrice(43_000_000_000, { ...en, currency: "usd", compact: true })).toBe("$43B");
 	});
 
 	it("shows a dash for a price that is missing", () => {
