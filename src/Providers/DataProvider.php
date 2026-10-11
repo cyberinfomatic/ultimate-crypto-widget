@@ -3,6 +3,7 @@
 namespace Cyberinfomatic\UltimateCryptoWidget\Providers;
 
 use Cyberinfomatic\UltimateCryptoWidget\Data\CoinGeckoProvider;
+use Cyberinfomatic\UltimateCryptoWidget\Data\Http\WordPressHttpClient;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Adapters\Cache\CacheFactory;
@@ -24,6 +25,9 @@ final class DataProvider extends ServiceProvider
 	public function register(): void
 	{
 		$container = $this->app->container();
+
+		// See WordPressHttpClient for why the toolkit's own client is replaced for now.
+		$container->singleton(HttpClient::class, static fn (): HttpClient => new WordPressHttpClient());
 
 		$container->singleton(PriceProvider::class, static fn (Container $c): PriceProvider => self::make($c));
 

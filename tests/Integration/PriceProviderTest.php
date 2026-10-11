@@ -129,6 +129,28 @@ final class PriceProviderTest extends TestCase {
 		}
 	}
 
+	public function test_a_real_wordpress_response_is_read_without_warnings_and_keeps_its_headers(): void {
+		$client   = Services::container()->get( \Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Contracts\Http\HttpClient::class );
+		$warnings = array();
+
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler
+		set_error_handler(
+			static function ( int $level, string $message ) use ( &$warnings ) {
+				$warnings[] = $message;
+				return true;
+			}
+		);
+		try {
+			$response = $client->send( \Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Contracts\Http\HttpRequest::get( 'https://api.coingecko.com/api/v3/coins/markets' ) );
+		} finally {
+			restore_error_handler();
+		}
+
+		$this->assertSame( array(), $warnings );
+		$this->assertSame( 'application/json', $response->header( 'Content-Type' ) );
+		$this->assertSame( 'a=1, b=2', $response->header( 'set-cookie' ) );
+	}
+
 	public function test_the_provider_can_be_replaced_by_a_filter(): void {
 		$replacement = $this->createMock( PriceProvider::class );
 		$replacement->method( 'markets' )->willReturn( array( array( 'id' => 'from-the-replacement' ) ) );

@@ -61,7 +61,14 @@ final class HttpStub {
 		foreach ( self::ROUTES as $fragment => $file ) {
 			if ( false !== strpos( $url, $fragment ) ) {
 				return array(
-					'headers'  => array( 'content-type' => 'application/json' ),
+					// The same header object a real WordPress response carries, with a
+					// repeated header, so the code is tested against what it really gets.
+					'headers'  => new \WpOrg\Requests\Utility\CaseInsensitiveDictionary(
+						array(
+							'content-type' => 'application/json',
+							'set-cookie'   => array( 'a=1', 'b=2' ),
+						)
+					),
 					// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 					'body'     => file_get_contents( dirname( __DIR__ ) . '/fixtures/http/' . $file ),
 					'response' => array(
