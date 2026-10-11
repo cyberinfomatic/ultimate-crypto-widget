@@ -4,7 +4,7 @@ Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
 Tested up to: 6.8
 Requires PHP: 8.2
-Stable tag: 0.1.5
+Stable tag: 0.1.6
 License: GPL-2.0-or-later
 Donate link: http://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -124,6 +124,9 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
      Payment plan details can be found on the [plugin page](https://ultimatecryptowidget.com/).
 
 == Changelog ==
+
+= 0.1.6 =
+* Security: the widget preview endpoint now requires a logged-in editor and no longer processes shortcode text taken from the request. Please update.
 
 = 0.1.5 =
 * Tested up to WordPress 6.8

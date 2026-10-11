@@ -33,7 +33,8 @@ class RouteHandler {
 			'route' => '/load-shortcode',
 			'callback' => [self::class, 'load_shortcode'],
 			'method' => 'POST',
-			'permission_callback' => '__return_true',
+			// Admin preview only.
+			'permission_callback' => [self::class, 'can_preview'],
 		],
 	];
 
@@ -103,6 +104,10 @@ class RouteHandler {
 	}
 
 
+	static function can_preview(): bool {
+		return current_user_can('edit_posts');
+	}
+
 	static function load_shortcode(WP_REST_Request $request): WP_REST_Response {
 		$accepted_shortcodes = ['ucwp_widget'];
 		try {
@@ -117,16 +122,36 @@ class RouteHandler {
 					throw new \Exception('Invalid atts', 400);
 				}
 			}
-			$atts['react'] = 'false';
-			// create shortcode
-			$shortcode = '['.$shortcode;
-			foreach ($atts as $key => $value){
-				$shortcode .= ' '.$key.'="'.$value.'"';
+			// Keep only the attributes the widget knows, as plain text. The widget is
+			// rendered by calling its handler; a shortcode string built from the request
+			// is never passed to do_shortcode().
+			$allowed = ['id'];
+			foreach (WidgetPostType::fields() as $field) {
+				$allowed[] = str_replace('ucwp_widget_', '', (string) $field['id']);
 			}
-			$shortcode .= ']';
+			$clean = [];
+			foreach ($atts as $key => $value) {
+				if (!is_string($key) || !in_array($key, $allowed, true)) {
+					continue;
+				}
+				if (is_array($value)) {
+					$value = implode(',', array_filter($value, 'is_scalar'));
+				}
+				if (!is_scalar($value)) {
+					continue;
+				}
+				$clean[$key] = str_replace(['[', ']', '"', "'"], '', sanitize_text_field((string) $value));
+			}
+
+			$text = '[ucwp_widget';
+			foreach ($clean as $key => $value) {
+				$text .= ' ' . $key . '="' . $value . '"';
+			}
+			$text .= ']';
+
 			return new WP_REST_Response([
-				'content' => do_shortcode($shortcode),
-				'shortcode' => $shortcode
+				'content' => (string) WidgetPostType::get_instance()->shortcode($clean),
+				'shortcode' => $text
 			], 200);
 		} catch (\Exception $e) {
 			return new WP_REST_Response([
