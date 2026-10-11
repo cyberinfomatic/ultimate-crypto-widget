@@ -6,6 +6,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Data\CoinGeckoProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Adapters\Cache\CacheFactory;
+use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\Settings\Settings;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Contracts\Container\Container;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Contracts\Http\HttpClient;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Contracts\Log\Logger;
@@ -36,7 +37,8 @@ final class DataProvider extends ServiceProvider
 	public static function make(Container $c): PriceProvider
 	{
 		// The key is optional: without one CoinGecko's public limits apply.
-		$key = trim((string) get_option('ultimate_crypto_widget_coingecko_api_key', ''));
+		$settings = $c->get(Settings::class);
+		$key      = trim((string) $settings->get('coingecko_api_key'));
 
 		$provider = new CoinGeckoProvider(
 			new ApiClient(
@@ -49,7 +51,7 @@ final class DataProvider extends ServiceProvider
 			// Its own group, so "Clear API cache" clears prices and nothing else.
 			$c->get(CacheFactory::class)->make('prices'),
 			$c->get(Logger::class),
-			max(1, (int) get_option('ultimate_crypto_widget_cache_interval', 10)) * MINUTE_IN_SECONDS
+			max(1, (int) $settings->get('cache_interval')) * MINUTE_IN_SECONDS
 		);
 
 		/**

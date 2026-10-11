@@ -11,6 +11,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\Application;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\DataProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\HttpProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\LegacyProvider;
+use Cyberinfomatic\UltimateCryptoWidget\Providers\SettingsProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\WidgetsProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -53,6 +54,6 @@ if ( ! defined( 'UCWP_MAIN_SERVER' ) ) {
 
 Debugger::set_dev( 'dev' === UCW_ENV );
 
-$ucwp_app->providers( array( DataProvider::class, WidgetsProvider::class, LegacyProvider::class, HttpProvider::class ) )->boot();
+$ucwp_app->providers( array( SettingsProvider::class, DataProvider::class, WidgetsProvider::class, LegacyProvider::class, HttpProvider::class ) )->boot();
 
 unset( $ucwp_plugin_file, $ucwp_app );
