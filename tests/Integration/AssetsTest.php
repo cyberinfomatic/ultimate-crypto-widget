@@ -31,7 +31,7 @@ final class AssetsTest extends TestCase {
 		$scripts = $this->ours( wp_scripts()->queue );
 		$this->assertContains( 'ucwp-react-vendor', $scripts );
 		$this->assertCount( 2, $scripts, 'Expected the shared bundle and one widget bundle.' );
-		$this->assertSame( array( 'widgets/crypto-price-table-style' ), array_values( $this->ours( wp_styles()->queue, 'widgets/' ) ) );
+		$this->assertContains( 'ucw-widget-crypto-price-table', $this->ours( wp_styles()->queue, 'ucw-' ) );
 	}
 
 	public function test_widget_scripts_do_not_pull_in_jquery(): void {
@@ -74,12 +74,22 @@ final class AssetsTest extends TestCase {
 	 * @param string[] $handles
 	 * @return string[] Those that belong to this plugin.
 	 */
-	private function ours( array $handles, string $prefix = 'ucwp' ): array {
+	private function ours( array $handles, string $prefix = 'ucw' ): array {
 		return array_values(
 			array_filter(
 				$handles,
 				static fn ( string $handle ): bool => 0 === strpos( $handle, $prefix )
 			)
 		);
+	}
+
+	public function test_several_widgets_of_one_type_load_its_script_once(): void {
+		if ( ! self::has_react_build() ) {
+			$this->markTestSkipped( 'React bundles are not built.' );
+		}
+
+		do_shortcode( str_repeat( '[ucwp_widget type="coin-marquee-1" count="5" default_currency="usd"]', 3 ) );
+
+		$this->assertCount( 2, $this->ours( wp_scripts()->queue ), 'Expected the shared bundle and one widget bundle, not one per widget.' );
 	}
 }

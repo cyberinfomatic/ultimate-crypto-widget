@@ -68,15 +68,9 @@ final class PriceProviderTest extends TestCase {
 			$this->markTestSkipped( 'React bundles are not built.' );
 		}
 
-		do_shortcode( '[ucwp_widget type="crypto-price-table-1" count="5" parent_width="100%" default_currency="eur"]' );
+		$html = (string) do_shortcode( '[ucwp_widget type="crypto-price-table-1" count="5" parent_width="100%" default_currency="eur"]' );
 
-		$rate = null;
-		foreach ( wp_scripts()->registered as $handle => $script ) {
-			$inline = (string) wp_scripts()->get_data( $handle, 'data' );
-			if ( preg_match( '/"usd_conversion_rate":"?([0-9.]+)/', $inline, $match ) ) {
-				$rate = (float) $match[1];
-			}
-		}
+		$rate = self::widget_props( $html )[0]['settings']['usd_conversion_rate'];
 
 		// The old code cast this to an integer, turning 0.92 into 0.
 		$this->assertEqualsWithDelta( 0.92, $rate, 0.000001 );

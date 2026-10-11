@@ -61,7 +61,8 @@ final class AddOnApiTest extends TestCase {
 
 		$html = $this->renderer( $catalog )->render( 'brand-new-widget', array( 'count' => '3' ) );
 
-		$this->assertMatchesRegularExpression( '/^<div id="ucwp-react-[0-9a-f]+">/', $html );
+		$this->assertStringContainsString( 'data-ucw-view="sample-pro-widget"', $html );
+		$this->assertSame( '3', self::widget_props( $html )[0]['settings']['count'] );
 
 		$sources = array();
 		foreach ( wp_scripts()->queue as $handle ) {

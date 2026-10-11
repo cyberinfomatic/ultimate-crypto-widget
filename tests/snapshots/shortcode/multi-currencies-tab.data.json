@@ -393,8 +393,6 @@
         "default_currencies_symbol": {
             "usd": "$",
             "eur": "€"
-        },
-        "ucwp_render_component": "widgets/multi-currencies-tab/index",
-        "react_id": "ucwp-react-ID"
+        }
     }
 ]

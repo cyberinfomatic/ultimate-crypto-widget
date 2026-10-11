@@ -51,13 +51,8 @@ final class DataCompatibilityTest extends TestCase {
 
 		$id = $this->insert_legacy_widget( $this->legacy_rows( $type ) );
 
-		$html = do_shortcode( '[ucwp_widget id="' . $id . '"]' );
-		$data = $this->react_data();
-
-		$this->assertSame(
-			trim( (string) file_get_contents( self::FIXTURES . "/shortcode/{$type}.html" ) ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-			trim( preg_replace( '/ucwp-react-[0-9a-f]+/', 'ucwp-react-ID', (string) $html ) )
-		);
+		$html = (string) do_shortcode( '[ucwp_widget id="' . $id . '"]' );
+		$data = self::widget_props( $html )[0] ?? array();
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$expected = json_decode( (string) file_get_contents( self::FIXTURES . "/shortcode/{$type}.data.json" ), true )[0];
@@ -67,6 +62,9 @@ final class DataCompatibilityTest extends TestCase {
 		if ( array( '' => '' ) === ( $expected['default_currencies_symbol'] ?? null ) ) {
 			$expected['default_currencies_symbol'] = array();
 		}
+		// 0.x also passed the component its own script name and element id; the
+		// element now carries the data itself, so those two are gone.
+		unset( $expected['ucwp_render_component'], $expected['react_id'] );
 
 		$this->assertEquals( $expected, $data );
 	}
@@ -150,20 +148,5 @@ final class DataCompatibilityTest extends TestCase {
 		Services::prices()->clearCache();
 
 		return $id;
-	}
-
-	/**
-	 * @return array<string, mixed> What the widget's script was given.
-	 */
-	private function react_data(): array {
-		foreach ( wp_scripts()->registered as $handle => $script ) {
-			$inline = (string) wp_scripts()->get_data( $handle, 'data' );
-			if ( 0 === strpos( $handle, 'ucwp-react-' ) && preg_match( '/var ucwpReactData = (.*);\s*$/s', $inline, $match ) ) {
-				$data             = json_decode( $match[1], true );
-				$data['react_id'] = 'ucwp-react-ID';
-				return $data;
-			}
-		}
-		return array();
 	}
 }

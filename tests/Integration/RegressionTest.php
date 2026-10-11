@@ -145,15 +145,10 @@ final class RegressionTest extends TestCase {
 	public function test_a_shortcode_attribute_cannot_change_a_saved_widgets_type(): void {
 		$id = WidgetFactory::create( 'crypto-price-table-1' );
 
-		do_shortcode( '[ucwp_widget id="' . $id . '" type="coin-marquee-1"]' );
+		$html = (string) do_shortcode( '[ucwp_widget id="' . $id . '" type="coin-marquee-1"]' );
 
-		$components = array();
-		foreach ( wp_scripts()->registered as $handle => $script ) {
-			if ( preg_match( '/"ucwp_render_component":"([^"]+)"/', (string) wp_scripts()->get_data( $handle, 'data' ), $match ) ) {
-				$components[] = stripslashes( $match[1] );
-			}
-		}
-		$this->assertSame( array( 'widgets/crypto-price-table/index' ), $components );
+		$this->assertStringContainsString( 'data-ucw-view="crypto-price-table"', $html );
+		$this->assertStringNotContainsString( 'coin-marquee', $html );
 	}
 
 	public function test_a_draft_widget_is_hidden_from_visitors(): void {

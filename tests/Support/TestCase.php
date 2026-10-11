@@ -62,6 +62,29 @@ abstract class TestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * The data each widget element in this HTML carries for its React component.
+	 *
+	 * @return array<int, array<string, mixed>> One entry per widget, in page order.
+	 */
+	protected static function widget_props( string $html ): array {
+		$all = array();
+		if ( preg_match_all( '/data-ucw-props="([^"]*)"/', $html, $matches ) ) {
+			foreach ( $matches[1] as $encoded ) {
+				$all[] = json_decode( html_entity_decode( $encoded, ENT_QUOTES ), true );
+			}
+		}
+		return $all;
+	}
+
+	/**
+	 * A widget's element without its data and with a fixed id, for comparing markup.
+	 */
+	protected static function widget_shell( string $html ): string {
+		$html = preg_replace( '/ data-ucw-props="[^"]*"/', '', $html );
+		return preg_replace( '/ucwp-react-\d+/', 'ucwp-react-ID', (string) $html );
+	}
+
+	/**
 	 * Whether the React bundles have been built (npm run build).
 	 */
 	protected static function has_react_build(): bool {
