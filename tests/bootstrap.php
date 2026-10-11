@@ -38,8 +38,10 @@ tests_add_filter(
 		// No request in these tests may reach a real API.
 		\Cyberinfomatic\UltimateCryptoWidget\Tests\Support\HttpStub::install();
 
+		// UCWP_TEST_PLUGIN_DIR points the suite at an unpacked release zip, to test what ships.
+		$plugin_dir = getenv( 'UCWP_TEST_PLUGIN_DIR' ) ?: $ucwp_root;
 
-		require $ucwp_root . '/ultimate-crypto-widget.php';
+		require rtrim( $plugin_dir, '/\\' ) . '/ultimate-crypto-widget.php';
 	}
 );
 

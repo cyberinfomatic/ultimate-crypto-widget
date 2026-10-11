@@ -1,0 +1,42 @@
+<?php
+/**
+ * Builds the release zip: `composer build` (or `php build.php`).
+ *
+ * The working tree is copied to a temporary directory, pruned and verified there, so
+ * nothing here is modified. Run `npm ci` first; this script runs the asset build.
+ *
+ * @package UltimateCryptoWidget
+ */
+
+use Codad5\WPToolkit\Build\Build;
+use Codad5\WPToolkit\Build\Patterns;
+use Codad5\WPToolkit\Build\Version;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$report = Build::plugin( __DIR__ )
+	->version( Version::fromHeader() )
+	->run( 'npm run build' )
+	->exclude(
+		Patterns::fromDistignore(),
+		// Sources and tooling: the zip carries only what runs.
+		'/react',
+		'/assets/styles/sass',
+		'/bin',
+		'/vendor',
+		'/dist',
+		'/svn-local',
+		'/Gruntfile.js',
+		'/tsconfig.json',
+		'.phpunit.result.cache',
+		// Parts of the bundled toolkit that only developers use.
+		'/lib/README.md',
+		'/lib/wptoolkit/bin',
+		'/lib/wptoolkit/README.md',
+		'/lib/wptoolkit/llms.txt',
+		'/lib/wptoolkit/resources/stubs'
+	)
+	->verify( array( '*.map', '*.ts', '*.tsx', '*.scss', 'composer.json', 'package.json' ), 5 )
+	->zip( 'dist/{slug}-{version}.zip' );
+
+echo $report->summary() . PHP_EOL;

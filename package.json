@@ -10,9 +10,6 @@
     "start:grunt": "grunt default",
     "readme": "grunt readme",
     "i18n": "grunt i18n",
-    "prepare-zip:free": "composer run prepare-zip:free",
-    "prepare-zip:pro": "composer run prepare-zip:pro",
-    "prepare-zip": "composer run prepare-zip",
     "makepot": "composer run make-pot"
   },
   "babel": {

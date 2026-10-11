@@ -38,19 +38,21 @@ jobs:
         run: |
           composer run make-pot
 
-      - name: Install Node.js dependencies and build
-        run: npm install && npm run build
+      - name: Install Node.js dependencies
+        run: npm ci
 
-      - name: Prepare zip file
+      # Builds the assets, stages a clean copy, verifies it and writes dist/ultimate-crypto-widget-<version>.zip
+      - name: Build and verify the zip
         run: |
-          composer run prepare-zip
+          composer build
+          cp dist/ultimate-crypto-widget-*.zip dist/plugin-free.zip
 
       - name: Archive files as artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Ultimate-crypto-widget-${{ github.ref_name }}
           path: |
-            dist/*.zip
+            dist/ultimate-crypto-widget-*.zip
 
       - name: Upload Free version to release
         uses: actions/upload-release-asset@v1
@@ -76,7 +78,7 @@ jobs:
           svn co https://plugins.svn.wordpress.org/${SLUG} svn
 
           # Copy the extracted free version to the SVN trunk
-          cp -R dist/plugin-free-extracted/* svn/trunk/
+          cp -R dist/plugin-free-extracted/ultimate-crypto-widget/* svn/trunk/
 
           # Copy assets to the SVN assets folder
           mkdir -p svn/assets
