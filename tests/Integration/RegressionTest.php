@@ -8,7 +8,8 @@
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
 use Cyberinfomatic\UltimateCryptoWidget\Controllers\WidgetPostType;
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\APIHelper;
+use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
+use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\HttpStub;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 
 /**
@@ -77,11 +78,11 @@ final class RegressionTest extends TestCase {
 	}
 
 	public function test_only_administrators_can_clear_the_cache(): void {
-		APIHelper::cache( 'ucwp_test_entry', array( 'price' => 1 ), 60 );
+		Services::prices()->markets(); // Warm the cache.
+		$calls = count( HttpStub::$requests );
 
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 		$_POST['security'] = wp_create_nonce( 'ucwp_clear_api_cache' );
-		add_filter( 'wp_redirect', '__return_false' );
 
 		try {
 			do_action( 'admin_post_ucwp_clear_api_cache' );
@@ -89,7 +90,22 @@ final class RegressionTest extends TestCase {
 			unset( $e ); // Being refused is the correct outcome.
 		}
 
-		$this->assertNotFalse( get_transient( 'ucwp_test_entry' ), 'A subscriber cleared the API cache.' );
+		Services::prices()->markets();
+		$this->assertSame( $calls, count( HttpStub::$requests ), 'A subscriber cleared the API cache.' );
+	}
+
+	public function test_clearing_the_cache_forgets_every_cached_price(): void {
+		$prices = Services::prices();
+		$prices->markets();
+		$prices->coin( 'bitcoin' );
+		$prices->markets(); // From the cache.
+		$this->assertSame( 2, count( HttpStub::$requests ) );
+
+		$prices->clearCache();
+
+		$prices->markets();
+		$prices->coin( 'bitcoin' );
+		$this->assertSame( 4, count( HttpStub::$requests ), 'Cached prices survived "clear cache".' );
 	}
 
 	/**

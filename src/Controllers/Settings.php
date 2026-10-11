@@ -1,11 +1,12 @@
 <?php
 namespace Cyberinfomatic\UltimateCryptoWidget\Controllers;
 
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\{APIHelper,
+use Cyberinfomatic\UltimateCryptoWidget\Helpers\{
 	CoinGeckoHelper,
 	Debugger,
 	Notification
 };
+use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 
 /**
  * Class Settings
@@ -21,22 +22,15 @@ class Settings {
 
 	private static array $plugin_details;
 	const SETTINGS = [
-		[
-			'option_name' => 'openexchangerates_app_id',
-			'label' => 'Open Exchange Rates App ID',
-			'type' => 'text',
-			'default' => '',
-			'placeholder' => 'Your Open Exchange Rates App ID',
-			'description' => 'Get your App ID from <a href="https://openexchangerates.org/signup" target="_blank">Open Exchange Rates</a>',
-			'tab' => 'api',
-		],
+		// The Open Exchange Rates App ID is no longer asked for: currency rates come from
+		// the price provider. A value saved earlier stays in the database, unused.
 		[
 			'option_name' => 'coingecko_api_key',
-			'label' => 'CoinGecko API Key',
+			'label' => 'CoinGecko API Key (optional)',
 			'type' => 'text',
 			'default' => '',
 			'placeholder' => 'Your CoinGecko API Key',
-			'description' => 'Get your API Key from <a href="https://coingecko.com" target="_blank">CoinGecko</a>',
+			'description' => 'The widgets work without a key. A free key from <a href="https://coingecko.com" target="_blank">CoinGecko</a> raises the request limit for busy sites.',
 			'tab' => 'api'
 		],
 		[
@@ -65,7 +59,7 @@ class Settings {
 				wp_die(esc_html__('Invalid security token', 'ultimate-crypto-widget'));
 			}
 
-			APIHelper::clear_cache();
+			Services::prices()->clearCache();
 			Notification::add_notification(esc_html__('API Cache Cleared', 'ultimate-crypto-widget'));
 			wp_safe_redirect(esc_url(Page::get_page_url('ultimate-crypto-widget-settings')));
 			exit;
@@ -115,23 +109,6 @@ class Settings {
 		);
 
 		Notification::add_notification($notificationMessage, 'info', 'plugin');
-
-		if (!self::get('coingecko_api_key') ) {
-			$notificationMessage = sprintf(
-				__('You need to set your CoinGecko API Key in the %1$ssettings%2$s to use the plugin.', 'ultimate-crypto-widget'),
-				'<a href="' . esc_url(Page::get_page_url('ultimate-crypto-widget-settings')) . '">',
-				'</a>'
-			);
-			Notification::add_notification($notificationMessage, 'error');
-		}
-		if (!self::get('openexchangerates_app_id') ) {
-			$notificationMessage = sprintf(
-				__('You need to set your OpenExchangeRate API Key in the %1$ssettings%2$s to use the plugin.', 'ultimate-crypto-widget'),
-				'<a href="' . esc_url(Page::get_page_url('ultimate-crypto-widget-settings')) . '">',
-				'</a>'
-			);
-			Notification::add_notification($notificationMessage, 'error');
-		}
 	}
 
 

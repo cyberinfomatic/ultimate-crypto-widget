@@ -1,84 +1,68 @@
 <?php
 namespace Cyberinfomatic\UltimateCryptoWidget\Helpers;
 
-use Cyberinfomatic\UltimateCryptoWidget\Controllers\Settings;
+use Cyberinfomatic\UltimateCryptoWidget\Data\PriceDataException;
+use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 
-class OpenExchangeHelper extends APIHelper {
+/**
+ * The old static way to get currency rates, kept for the code that still calls it.
+ *
+ * Rates now come from the PriceProvider, so an Open Exchange Rates account is no
+ * longer needed. The class keeps its name only until its callers are replaced.
+ */
+class OpenExchangeHelper {
 
-	const HOST = 'https://openexchangerates.org/api';
+	/**
+	 * How much $value of $from is in $to. Returns 0 when the rate is not known.
+	 */
+	static function convert( $from, $to, $value = 1 ): float {
+		if ( strtoupper( (string) $from ) === strtoupper( (string) $to ) ) {
+			return (float) $value;
+		}
 
-	static function get_api_key() {
-		return Settings::get('openexchangerates_app_id');
+		$rates = self::rates( (string) $from, [ (string) $to ] );
+
+		return (float) $value * ( $rates[ strtoupper( (string) $to ) ] ?? 0 );
 	}
 
-	const ENDPOINTS = [
-		'convert' => [
-			'route' => '/convert/{{value}}/{{from}}/{{to}}',
-			'method' => 'GET',
-			'params' => [
-				'app_id' => [self::class, 'get_api_key'],
-				'prettyprint' => true
-			],
-			'substitutions' => [
-				'value', 'from', 'to'
-			]
-		],
-		'latest' => [
-			'route' => '/latest.json',
-			'method' => 'GET',
-			'params' => [
-				'app_id' => [self::class, 'get_api_key'],
-				'prettyprint' => true,
-				'base' => 'USD',
-				'symbols' => 'USD'
-			]
-		]
-	];
+	/**
+	 * @return array{base: string, rates: array<string, float>}|array{}
+	 */
+	public static function get_latest( $pairs = [ 'USD' ], $base = 'USD' ): array {
+		$rates = self::rates( (string) $base, (array) $pairs );
 
-	static function get_headers() {
-		return [
-			'accept' => 'application/json',
+		return [] === $rates ? [] : [
+			'base'  => strtoupper( (string) $base ),
+			'rates' => $rates,
 		];
 	}
 
-	static function convert($from, $to, int $value = 1): int {
-		try {
-			$data = self::make_request('convert', [], [
-				'from'  => strtoupper($from),
-				'to'    => strtoupper($to),
-				'value' => intval($value)
-			]);
-			return $data['response'] ?? 1;
-		} catch (\Exception $e) {
-			return 0;
+	/**
+	 * Rates for a widget's chosen currencies; every known currency when none is chosen.
+	 *
+	 * @return array<string, float>
+	 */
+	static function get_default_currencies_rate( $setting = [] ) {
+		$currencies = $setting['currencies'] ?? [];
+		if ( is_string( $currencies ) ) {
+			$currencies = explode( ',', $currencies );
 		}
+
+		return self::rates(
+			(string) ( $setting['default_currency'] ?? 'USD' ),
+			array_values( array_filter( array_map( 'trim', (array) $currencies ) ) )
+		);
 	}
 
-	public static function get_latest($pairs = ['USD'], $base = 'USD'): array {
+	/**
+	 * @param string[] $currencies
+	 * @return array<string, float>
+	 */
+	private static function rates( string $base, array $currencies ): array {
 		try {
-			$data = self::make_request('latest', [
-				'symbols' => implode(',', $pairs),
-				'base' => $base
-			]);
-			return $data ?? [];
-		} catch (\Exception $e) {
+			return Services::prices()->fiatRates( $base, $currencies );
+		} catch ( PriceDataException $e ) {
 			return [];
 		}
 	}
-
-	static function get_default_currencies_rate($setting = []){
-		try {
-			$base = $setting['default_currency'] ?? 'USD';
-			$pairs = ( is_array( $setting['currencies'] ) ? $setting['currencies'] : is_string( $setting['currencies'] ) ) ? explode( ',', $setting['currencies'] ) : [ 'USD' ];
-			$data = self::get_latest($pairs, $base);
-			return $data['rates'] ?? [];
-		} catch (\Exception $e) {
-			return [];
-		}
-	}
-
-	static function getName(): string {
-		return 'open_exchange';
-	}
-
 }

@@ -2,7 +2,8 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Http;
 
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\CoinGeckoHelper;
+use Cyberinfomatic\UltimateCryptoWidget\Data\PriceDataException;
+use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Http\HttpError;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Http\Request;
 
@@ -12,20 +13,23 @@ use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Http\Request;
  */
 final class MarketsController
 {
+	public function __construct(private readonly PriceProvider $prices)
+	{
+	}
+
 	/**
 	 * @return array<int|string, mixed>
 	 */
 	public function coins(Request $request): array
 	{
-		$setting = array_filter(
-			[
-				'default_currency' => $request->input('default_currency'),
-				'coins'            => $request->input('coins'),
-			],
-			static fn ($value): bool => null !== $value && '' !== $value
-		);
+		$ids = array_values(array_filter(explode(',', (string) $request->input('coins', ''))));
 
-		return $this->answer(CoinGeckoHelper::get_coins_with_market_data($setting));
+		return $this->answer(
+			fn (): array => $this->prices->markets(
+				(string) ($request->input('default_currency') ?: 'usd'),
+				[] !== $ids ? $ids : null
+			)
+		);
 	}
 
 	/**
@@ -33,7 +37,7 @@ final class MarketsController
 	 */
 	public function coin(Request $request): array
 	{
-		return $this->answer(CoinGeckoHelper::get_coin_info((string) $request->input('coin_id')));
+		return $this->answer(fn (): array => $this->prices->coin((string) $request->input('coin_id')));
 	}
 
 	/**
@@ -42,33 +46,33 @@ final class MarketsController
 	public function chart(Request $request): array
 	{
 		return $this->answer(
-			CoinGeckoHelper::get_coin_chart_data(
+			fn (): array => $this->prices->chart(
 				(string) $request->input('coin_id'),
-				[
-					'no_of_days'       => (int) $request->input('days', 7),
-					'default_currency' => (string) $request->input('currency', 'usd'),
-				]
+				(string) $request->input('currency', 'usd'),
+				(int) $request->input('days', 7)
 			)
 		);
 	}
 
 	/**
-	 * The helper reports a failed upstream call as an array with an "error" message.
-	 * That message is for the log, not for the visitor.
+	 * Why the data is missing goes to the log (the provider writes it), not to the visitor.
 	 *
-	 * @param mixed $data
+	 * @param callable(): array<int|string, mixed> $fetch
 	 * @return array<int|string, mixed>
 	 */
-	private function answer($data): array
+	private function answer(callable $fetch): array
 	{
-		if (!is_array($data) || isset($data['error'])) {
+		try {
+			return $fetch();
+		} catch (PriceDataException $e) {
 			throw new HttpError(
 				502,
 				'price_data_unavailable',
-				__('Price data is temporarily unavailable.', 'ultimate-crypto-widget')
+				__('Price data is temporarily unavailable.', 'ultimate-crypto-widget'),
+				[],
+				[],
+				$e
 			);
 		}
-
-		return $data;
 	}
 }

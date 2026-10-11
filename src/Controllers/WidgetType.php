@@ -100,12 +100,14 @@ final class WidgetType {
 			// possible setting param to be set below
 		}
 		$passable_setting_param['currency_symbol'] = $settings['currency_symbol'] ?? Currency::get_symbol($passable_setting_param['default_currency']);
-		$passable_setting_param['usd_conversion_rate'] = (int) OpenExchangeHelper::convert( 'USD', $passable_setting_param['default_currency'],1);
-//		// if usd conversion rate is 1 and default currency is not USD then set the conversion rate to 1
-		if($passable_setting_param['usd_conversion_rate'] === 1 && strtoupper($passable_setting_param['default_currency']) !== 'USD') {
-			$latest = OpenExchangeHelper::get_latest([strtoupper($passable_setting_param['default_currency'])]);
-			$passable_setting_param['usd_conversion_rate'] = $latest['rates'][strtoupper($passable_setting_param['default_currency'])] ?? 1;
-			$passable_setting_param['usd_conversion_rate'] = round($passable_setting_param['usd_conversion_rate'], 2);
+		// Live prices arrive in US dollars; the widget multiplies them by this.
+		// Falls back to 1 when the rate is unknown, so a price is still shown.
+		$passable_setting_param['usd_conversion_rate'] = 1;
+		if ( strtoupper( (string) $passable_setting_param['default_currency'] ) !== 'USD' ) {
+			$rate = OpenExchangeHelper::convert( 'USD', $passable_setting_param['default_currency'] );
+			if ( $rate > 0 ) {
+				$passable_setting_param['usd_conversion_rate'] = round( $rate, 6 );
+			}
 		}
 		$pass = [
 			'settings' => $passable_setting_param,

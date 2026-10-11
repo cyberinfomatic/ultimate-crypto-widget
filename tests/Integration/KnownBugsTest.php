@@ -7,7 +7,6 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\APIHelper;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\WidgetFactory;
 
@@ -40,20 +39,6 @@ final class KnownBugsTest extends TestCase {
 				$html = do_shortcode( '[ucwp_widget id="' . $id . '"]' );
 
 				$this->assertIsString( $html );
-			}
-		);
-	}
-
-	public function test_clear_cache_works_after_the_key_list_expired(): void {
-		$this->known_bug(
-			'The list of cache keys lives in a transient; once it expires, "Clear API cache" finds nothing to clear (fixed in Phase 2).',
-			function () {
-				APIHelper::cache( 'ucwp_test_entry', array( 'price' => 1 ), 60 );
-				delete_transient( 'ucwp_cache_keys' ); // What expiry does.
-
-				APIHelper::clear_cache();
-
-				$this->assertFalse( get_transient( 'ucwp_test_entry' ), 'A cached API response survived "clear cache".' );
 			}
 		);
 	}

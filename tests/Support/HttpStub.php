@@ -23,15 +23,21 @@ final class HttpStub {
 	public static array $requests = array();
 
 	/**
+	 * Headers of the most recent request.
+	 *
+	 * @var array<string, string>
+	 */
+	public static array $last_headers = array();
+
+	/**
 	 * URL fragment => fixture file in tests/fixtures/http. First match wins.
 	 */
 	private const ROUTES = array(
+		'api.coingecko.com/api/v3/exchange_rates'     => 'coingecko-exchange-rates.json',
 		'api.coingecko.com/api/v3/coins/markets'      => 'coingecko-markets.json',
 		'api.coingecko.com/api/v3/coins/list'         => 'coingecko-list.json',
 		'/market_chart'                               => 'coingecko-market-chart.json',
 		'api.coingecko.com/api/v3/coins/'             => 'coingecko-coin.json',
-		'openexchangerates.org/api/latest.json'       => 'openexchange-latest.json',
-		'openexchangerates.org/api/convert/'          => 'openexchange-convert.json',
 	);
 
 	public static function install(): void {
@@ -49,7 +55,8 @@ final class HttpStub {
 	 * @return array|WP_Error
 	 */
 	public static function answer( $preempt, $args, $url ) {
-		self::$requests[] = $url;
+		self::$requests[]   = $url;
+		self::$last_headers = array_change_key_case( (array) ( $args['headers'] ?? array() ) );
 
 		foreach ( self::ROUTES as $fragment => $file ) {
 			if ( false !== strpos( $url, $fragment ) ) {

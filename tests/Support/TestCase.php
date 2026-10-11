@@ -8,7 +8,7 @@
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Support;
 
 use Cyberinfomatic\UltimateCryptoWidget\Controllers\WidgetPostType;
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\APIHelper;
+use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Throwable;
 use WP_UnitTestCase;
 
@@ -21,7 +21,7 @@ abstract class TestCase extends WP_UnitTestCase {
 		parent::set_up();
 
 		HttpStub::reset();
-		APIHelper::clear_cache();
+		Services::prices()->clearCache();
 
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
