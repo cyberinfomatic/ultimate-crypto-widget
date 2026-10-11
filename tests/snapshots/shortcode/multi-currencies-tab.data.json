@@ -3,8 +3,8 @@
         "settings": {
             "card": "card-001",
             "pro": false,
-            "coins": "",
-            "currencies": "",
+            "coins": "bitcoin,ethereum",
+            "currencies": "usd,eur",
             "default_currency": "usd",
             "no_of_days": "7",
             "data_interval": "daily",
@@ -388,13 +388,11 @@
         ],
         "default_currencies_rate": {
             "USD": 1,
-            "EUR": 0.92,
-            "GBP": 0.78,
-            "NGN": 1550.5,
-            "JPY": 149.3
+            "EUR": 0.92
         },
         "default_currencies_symbol": {
-            "": ""
+            "usd": "$",
+            "eur": "€"
         },
         "ucwp_render_component": "widgets/multi-currencies-tab/index",
         "react_id": "ucwp-react-ID"

@@ -2,7 +2,9 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Controllers;
 
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\{CoinGeckoHelper, Currency, Notification, OpenExchangeHelper};
+use Cyberinfomatic\UltimateCryptoWidget\Helpers\{CoinGeckoHelper, Currency, Notification};
+use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog;
 use WP_Error;
 use WP_Query;
 
@@ -11,14 +13,12 @@ use WP_Query;
 		private UCWPMetaBoxController $metabox;
 		private UCWPMetaBoxController $shortcode_metabox;
 		private UCWPMetaBoxController $preview_metabox;
-		private WidgetType $widget_type_controller;
 
 		private static WidgetPostType $instance;
 
 
 		public function __construct() {
 //			register widget type
-			$this->register_widget_type();
 
 			//			to display the preview in the metabox
 			$this->preview_metabox = new UCWPMetaBoxController('ucwp_widget_preview', 'ucwp Widget Preview', 'ucwp_widget');
@@ -66,7 +66,6 @@ use WP_Query;
 			add_action( 'add_meta_boxes_ucwp_widget', array( $widget, 'activate_custom_fields' ) );
 			add_action( 'save_post_ucwp_widget', array( $widget, 'save_custom_fields' ) );
 			$widget->setUpPostListPage();
-			add_shortcode('ucwp_widget', array($widget, 'shortcode'));
 		}
 
 		function setUpPostListPage(): void {
@@ -215,68 +214,13 @@ use WP_Query;
 		}
 
 
-		/**
-		 * @throws \Exception
-		 */
-		function shortcode($atts) {
-			$fields = $this->fields_to_hash('id', 'ucwp_widget');
-			$fields_keys = array_keys($fields);
-			$atts = shortcode_atts( array(
-				'id' => '',
-				'react' => ($atts['react'] ?? 'true') != false,
-				...array_fill_keys($fields_keys, '')
-			), $atts, 'ucwp_widget' );
-			// remove any empty fields
-			$atts = array_filter($atts, function($value) {
-				return $value !== '';
-			});
-			$id = $atts['id'] ?? null;
-			unset($atts['id']);
-			$widget = new WP_Query([
-				'post_type' => 'ucwp_widget',
-				'p' => $id
-			]);
-
-			// if id is not set check if type is set
-			if(!$id && isset($atts['type'])) {
-				$widget_type = $atts['type'];
-				return $this->widget_type_controller->load_widget($widget_type, $atts);
-			}
-			// check the post with that id exists
-			if($widget->have_posts() && count($widget->posts) > 0) {
-				$first_post = $widget->posts[0];
-				$id = is_int($first_post) ? $first_post : $first_post->ID;
-				$widget_data = $this->metabox->all_meta($id, 'ucwp_widget');
-				$widget_type = $widget_data['type'];
-				$currency_symbol = Currency::get_symbol($widget_data['default_currency']);
-				return $this->widget_type_controller->load_widget($widget_type, [...$widget_data, ...$atts, 'type' => $widget_type, 'currency_symbol' => $currency_symbol]);
-			}
-
-			// if this is in the create/edit post page tell them to save to preview the widget but if in the front end tell them the widget does not exist
-			if(is_admin() && !is_preview()) {
-				return 'Save the post to preview the widget';
-			}
-			return "Widget with id ($id) does not exist";
-		}
 
 
-		private function register_widget_type(): static {
-			if ( !isset($this->widget_type_controller) ) {
-				$this->widget_type_controller = new WidgetType();
-			}
-//			$this->widget_type_controller->add_widget_type('crypto-price-picker-1', 'Crypto Price Picker', 'crypto-price-picker', 'card-001', ['coins'], [ 'count', 'orientation']);
-
-			foreach(self::WidgetTypes() as $type => $details) {
-				$this->widget_type_controller->add_widget_type($type, $details['display_name'], $details['view'], $details['card'], $details['params'], $details['setting_params'], $details['pro']);
-			}
-
-			return $this;
-		}
 
 		private function get_widget_type_options(): array {
-			$all_widget_types = $this->widget_type_controller->get_widget_types();
+			$all_widget_types = self::WidgetTypes();
 			$options = [];
-			foreach($all_widget_types as $widget_type) {
+			foreach($all_widget_types as $type => $widget_type) {
 				$details = [
 					'label' => $widget_type['display_name'],
 					'attributes' => [
@@ -297,7 +241,7 @@ use WP_Query;
 					}
 				}
 
-				$options[$widget_type['type']] = $details;
+				$options[$type] = $details;
 			}
 
 			return $options;
@@ -345,150 +289,19 @@ use WP_Query;
 		 * @return array An array of widget types.
 		 */
 		static function WidgetTypes(): array {
-			return [
-				'crypto-price-picker-1' => [
-					'display_name' => __('Crypto Price Label', 'ultimate-crypto-widget'),
-					'view' => 'crypto-price-picker',
-					'card' => 'card-001',
-					'pro' => false,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'orientation', 'default_currency']
-				],
-				'crypto-price-picker-2' => [
-					'display_name' => __('Crypto Price Label (2)', 'ultimate-crypto-widget'),
-					'view' => 'crypto-price-picker-pro',
-					'card' => 'card-002',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'orientation', 'default_currency']
-				],
-				'crypto-price-picker-3' => [
-					'display_name' => __('Crypto Price Label (3)', 'ultimate-crypto-widget'),
-					'view' => 'crypto-price-picker-pro',
-					'card' => 'card-003',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'orientation', 'default_currency']
-				],
-				'coin-marquee-1' => [
-					'display_name' => __('Coin Marquee', 'ultimate-crypto-widget'),
-					'view' => 'coin-marquee',
-					'card' => 'card-001',
-					'pro' => false,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'card_width', 'parent_width', 'speed', 'default_currency']
-				],
-				'coin-marquee-2' => [
-					'display_name' => __('Coin Marquee (2)', 'ultimate-crypto-widget'),
-					'view' => 'coin-marquee-pro',
-					'card' => 'card-002',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'card_width', 'parent_width', 'speed', 'default_currency']
-				],
-				'coin-marquee-3' => [
-					'display_name' => __('Coin Marquee (3)', 'ultimate-crypto-widget'),
-					'view' => 'coin-marquee-pro',
-					'card' => 'card-003',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ],
-					],
-					'setting_params' => ['count', 'card_width', 'parent_width', 'speed', 'no_of_days', 'default_currency', 'data_interval'],
-					'includes' => ['coin-gecko', 'numbers']
-				],
-				'crypto-price-table-1' => [
-					'display_name' => __('Crypto Price Table', 'ultimate-crypto-widget'),
-					'view' => 'crypto-price-table',
-					'card' => 'card-001',
-					'pro' => false,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'parent_width', 'default_currency', 'search_placeholder']
-				],
-				'crypto-price-table-2' => [
-					'display_name' => __('Crypto Price Table (2)', 'ultimate-crypto-widget'),
-					'view' => 'crypto-price-table-2',
-					'card' => 'card-002',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'parent_width', 'default_currency', 'search_placeholder']
-				],
-				'crypto-date-change-table'  => [
-					'display_name' => __('Crypto Date Change Table', 'ultimate-crypto-widget'),
-					'view' => 'crypto-date-change-table',
-					'card' => '',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'parent_width', 'default_currency', 'search_placeholder']
-				],
-				'price-slider-widget-1'  => [
-					'display_name' => __('Price Slider Widget', 'ultimate-crypto-widget'),
-					'view' => 'price-slider-widget',
-					'card' => 'card-001',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'parent_width', 'default_currency', 'speed']
-				],
-				'price-slider-widget-2'  => [
-					'display_name' => __('Price Slider Widget (2)', 'ultimate-crypto-widget'),
-					'view' => 'price-slider-widget',
-					'card' => 'card-002',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ]
-					],
-					'setting_params' => ['count', 'parent_width', 'default_currency', 'speed']
-				],
-				'historical-price-chart' => [
-					'display_name' => __('Historical Price Chart', 'ultimate-crypto-widget'),
-					'view' => 'historical-price-chart',
-					'card' => 'card-001',
-					'pro' => true,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ],
-					],
-					'setting_params' => ['coins', 'parent_width', 'default_currency', 'no_of_days', 'data_interval', 'dark_mode']
-				],
-				'multi-currencies-tab' => [
-					'display_name' => __('Multi Currencies Tab', 'ultimate-crypto-widget'),
-					'view' => 'multi-currencies-tab',
-					'card' => 'card-001',
-					'pro' => false,
-					'params' => [
-						'coins' => [CoinGeckoHelper::class, 'get_coins_with_market_data' ],
-						'default_currencies_rate' => [OpenExchangeHelper::class, 'get_default_currencies_rate'],
-						'default_currencies_symbol' => function($setting) {
-							$symbols    = [];
-							$currencies = is_string( $setting['currencies'] ) ? explode( ',', $setting['currencies'] ) : $setting['currencies'];
-							foreach ( $currencies as $currency ) {
-								$symbols[ $currency ] = Currency::get_symbol( $currency );
-							}
+			$types = [];
+			foreach (Services::container()->get(WidgetCatalog::class)->all() as $type => $definition) {
+				$types[$type] = [
+					'display_name'   => $definition->label,
+					'view'           => $definition->view,
+					'card'           => $definition->card,
+					// "pro" here means "cannot be used on this site": listed, but locked.
+					'pro'            => !$definition->available,
+					'setting_params' => $definition->settings,
+				];
+			}
 
-							return $symbols;
-						}
-					],
-					'setting_params' => ['coins', 'currencies', 'default_currency', 'no_of_days', 'data_interval', 'dark_mode']
-				],
-
-			];
+			return $types;
 		}
 
 		/**

@@ -120,9 +120,13 @@ class UCWPMetaBoxController {
 
 			case 'select':
 				$html .= "<select id=\"" . esc_attr($id) . "\" name=\"" . esc_attr($id . (($data['attributes']['multiple'] ?? false) ? '[]' : '')) . "\" $attributes_as_string>";
+				// A multi-select's saved value is "a,b,c".
+				$chosen = ($data['attributes']['multiple'] ?? false)
+					? \Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetFields::listToArray($data['default'] ?? '')
+					: null;
 				foreach ($data['options'] as $option => $option_data) {
 					$option_label = is_array($option_data) ? esc_html($option_data['label'] ?? $option) : esc_html($option_data);
-					$selected = $default_value == $option || (is_array($default_value) && in_array($option, $default_value)) ? 'selected' : '';
+					$selected = (null !== $chosen ? in_array((string) $option, $chosen, true) : $default_value == $option) ? 'selected' : '';
 					$other_attributes = is_array($option_data) ? $this->attributes_to_string(array_map('esc_attr', $option_data['attributes'] ?? [])) : '';
 					$html .= "<option value=\"" . esc_attr($option) . "\" $selected $other_attributes>";
 					$html .= esc_html($option_label);
@@ -192,7 +196,12 @@ class UCWPMetaBoxController {
 
 		$final_bool = true;
 		foreach ($names as $name) {
-			$data = sanitize_text_field($_POST[$name] ?? '');
+			$posted = wp_unslash($_POST[$name] ?? '');
+			// A multi-select posts an array. It is stored as "a,b,c", the same form the
+			// shortcode attribute takes. (sanitize_text_field() turns an array into ''.)
+			$data = is_array($posted)
+				? \Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetFields::listToString($posted)
+				: sanitize_text_field($posted);
 			$old_data = get_post_meta($post_id, $name, true);
 			$final_bool = $final_bool && (update_post_meta($post_id, $name, $data) || $old_data == $data);
 		}

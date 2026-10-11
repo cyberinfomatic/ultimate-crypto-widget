@@ -7,10 +7,11 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
-use Cyberinfomatic\UltimateCryptoWidget\Controllers\WidgetPostType;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetShortcode;
 use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\HttpStub;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
+use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\WidgetFactory;
 
 /**
  * These were open in the Pro 0.0.5 code and are already fixed in this repository.
@@ -44,11 +45,14 @@ final class RegressionTest extends TestCase {
 	public function test_shortcode_attributes_are_never_unserialized_into_objects(): void {
 		$payload = serialize( new UnserializeProbe() ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 
-		WidgetPostType::get_instance()->shortcode(
+		$shortcode = Services::container()->get( WidgetShortcode::class );
+		$shortcode(
 			array(
-				'type'             => 'crypto-price-picker-1',
+				'type'             => 'multi-currencies-tab',
 				'default_currency' => 'usd',
 				'count'            => $payload,
+				'coins'            => $payload,
+				'currencies'       => $payload,
 			)
 		);
 
@@ -106,6 +110,59 @@ final class RegressionTest extends TestCase {
 		$prices->markets();
 		$prices->coin( 'bitcoin' );
 		$this->assertSame( 4, count( HttpStub::$requests ), 'Cached prices survived "clear cache".' );
+	}
+
+	public function test_multi_select_fields_are_saved_and_shown_as_selected(): void {
+		$id = WidgetFactory::create(
+			'multi-currencies-tab',
+			array(
+				'ucwp_widget_coins'      => array( 'bitcoin', 'ethereum' ),
+				'ucwp_widget_currencies' => array( 'usd', 'eur', 'ngn' ),
+			)
+		);
+
+		$this->assertSame( 'bitcoin,ethereum', get_post_meta( $id, 'ucwp_widget_coins', true ) );
+		$this->assertSame( 'usd,eur,ngn', get_post_meta( $id, 'ucwp_widget_currencies', true ) );
+
+		ob_start();
+		\Cyberinfomatic\UltimateCryptoWidget\Controllers\WidgetPostType::get_instance()->get_metabox()->callback( get_post( $id ) );
+		$form = ob_get_clean();
+
+		$this->assertMatchesRegularExpression( '/<option value="ngn"\s+selected/', $form );
+		$this->assertDoesNotMatchRegularExpression( '/<option value="gbp"\s+selected/', $form );
+	}
+
+	public function test_a_widget_saved_without_a_type_does_not_crash_the_page(): void {
+		$id = WidgetFactory::create( 'historical-price-chart' ); // Pro: refused, so no type is stored.
+
+		wp_set_current_user( 0 );
+		$this->assertSame( '', do_shortcode( '[ucwp_widget id="' . $id . '"]' ) );
+
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );
+		$this->assertStringContainsString( 'Choose a widget type', do_shortcode( '[ucwp_widget id="' . $id . '"]' ) );
+	}
+
+	public function test_a_shortcode_attribute_cannot_change_a_saved_widgets_type(): void {
+		$id = WidgetFactory::create( 'crypto-price-table-1' );
+
+		do_shortcode( '[ucwp_widget id="' . $id . '" type="coin-marquee-1"]' );
+
+		$components = array();
+		foreach ( wp_scripts()->registered as $handle => $script ) {
+			if ( preg_match( '/"ucwp_render_component":"([^"]+)"/', (string) wp_scripts()->get_data( $handle, 'data' ), $match ) ) {
+				$components[] = stripslashes( $match[1] );
+			}
+		}
+		$this->assertSame( array( 'widgets/crypto-price-table/index' ), $components );
+	}
+
+	public function test_a_draft_widget_is_hidden_from_visitors(): void {
+		$id = WidgetFactory::create( 'crypto-price-table-1' );
+		wp_update_post( array( 'ID' => $id, 'post_status' => 'draft' ) );
+
+		wp_set_current_user( 0 );
+
+		$this->assertStringContainsString( 'does not exist', do_shortcode( '[ucwp_widget id="' . $id . '"]' ) );
 	}
 
 	/**

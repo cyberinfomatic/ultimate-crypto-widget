@@ -3,13 +3,13 @@
         "157"
     ],
     "ucwp_widget_coins": [
-        ""
+        "bitcoin,ethereum"
     ],
     "ucwp_widget_count": [
         "10"
     ],
     "ucwp_widget_currencies": [
-        ""
+        "usd,eur"
     ],
     "ucwp_widget_dark_mode": [
         "false"

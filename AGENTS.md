@@ -21,10 +21,11 @@ add-on builds on.
 `composer phpunit` runs the integration suite. It needs `composer install`, `npm ci && npm run build`
 and a MySQL database (`ucw_tests` by default; see `tests/wp-tests-config.php`).
 
+- `tests/fixtures/legacy-0.x/` holds the rows the 0.x plugins wrote; `DataCompatibilityTest` proves they
+  still read and render. Never edit those fixtures.
 - `tests/snapshots/` pins stored rows, shortcode output and REST responses. Refresh with
   `UPDATE_SNAPSHOTS=1 composer phpunit` only for an intended change.
-- `tests/Integration/KnownBugsTest.php` holds one test per open bug. When you fix one, its test fails
-  on purpose: remove the `known_bug()` wrapper and move it to `RegressionTest.php`.
+- `tests/Integration/RegressionTest.php` holds a test for every bug fixed so far; add one with each fix.
 
 ## Layout
 

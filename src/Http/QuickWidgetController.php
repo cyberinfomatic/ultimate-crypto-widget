@@ -2,19 +2,25 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Http;
 
-use Cyberinfomatic\UltimateCryptoWidget\Controllers\WidgetPostType;
+use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Frontend\Shortcodes;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Http\HttpError;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Http\Request;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetFields;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetShortcode;
 
 /**
  * Renders a widget preview for the admin "Quick widget" page.
  *
- * The widget is rendered by calling the shortcode handler with a checked list of
+ * The widget is rendered through Shortcodes::render() with a checked list of
  * attributes. A shortcode string is never assembled from the request and never
  * passed to do_shortcode(), so the request cannot run any other shortcode.
  */
 final class QuickWidgetController
 {
+	public function __construct(private readonly Shortcodes $shortcodes)
+	{
+	}
+
 	/**
 	 * @return array{content: string, shortcode: string}
 	 */
@@ -22,10 +28,8 @@ final class QuickWidgetController
 	{
 		$attributes = $this->attributes($request->input('atts'));
 
-		$content = WidgetPostType::get_instance()->shortcode($attributes);
-
 		return [
-			'content'   => (string) $content,
+			'content'   => $this->shortcodes->render('widget', $attributes),
 			'shortcode' => $this->describe($attributes),
 		];
 	}
@@ -45,7 +49,7 @@ final class QuickWidgetController
 			throw HttpError::badRequest(__('The widget settings are not valid.', 'ultimate-crypto-widget'));
 		}
 
-		$allowed    = $this->allowed();
+		$allowed    = array_merge(['id'], WidgetFields::NAMES);
 		$attributes = [];
 
 		foreach ($input as $name => $value) {
@@ -53,7 +57,7 @@ final class QuickWidgetController
 				continue;
 			}
 			if (is_array($value)) {
-				$value = implode(',', array_filter($value, 'is_scalar'));
+				$value = WidgetFields::listToString($value);
 			}
 			if (!is_scalar($value)) {
 				continue;
@@ -66,26 +70,13 @@ final class QuickWidgetController
 	}
 
 	/**
-	 * @return string[] "id" and one name per widget field ("type", "count", ...).
-	 */
-	private function allowed(): array
-	{
-		$names = ['id'];
-		foreach (WidgetPostType::fields() as $field) {
-			$names[] = str_replace('ucwp_widget_', '', (string) $field['id']);
-		}
-
-		return $names;
-	}
-
-	/**
 	 * The shortcode as text, for display only.
 	 *
 	 * @param array<string, string> $attributes
 	 */
 	private function describe(array $attributes): string
 	{
-		$text = '[ucwp_widget';
+		$text = '[' . WidgetShortcode::TAG;
 		foreach ($attributes as $name => $value) {
 			$text .= ' ' . $name . '="' . $value . '"';
 		}
