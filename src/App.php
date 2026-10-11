@@ -37,34 +37,39 @@ class App
 	}
 
 	public function enqueues(): static {
-		add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
-		add_action('wp_enqueue_scripts', [$this, 'enqueue_styles']);
+		// Nothing is loaded on the front end here: a widget brings its own script
+		// and style when it renders, so pages without a widget load nothing of ours.
 		add_action('admin_enqueue_scripts', [$this, 'admin_scripts']);
 		add_action('admin_enqueue_scripts', [$this, 'admin_styles']);
 		return $this;
 	}
 
-	public function enqueue_scripts(): static {
-		wp_enqueue_script( 'ucwp-crypto-price-table', plugins_url( 'assets/scripts/crypto-price-table.js', UCWP_PLUGIN_FILE ), array( 'jquery'  ), '1.0', true );
-		return $this;
-	}
+	/**
+	 * Whether the current admin screen belongs to this plugin.
+	 */
+	private function on_plugin_screen(): bool {
+		$screen = function_exists('get_current_screen') ? get_current_screen() : null;
+		if (!$screen) {
+			return false;
+		}
 
-	public function enqueue_styles(): static {
-//		font awesome
-		wp_enqueue_style( 'ucwp-font-awesome', plugins_url('/assets/libs/font-awesome/6.2.0/css/all.min.css' , UCWP_PLUGIN_FILE ) );
-		return $this;
+		return 'ucwp_widget' === $screen->post_type || str_contains((string) $screen->id, 'ultimate-crypto-widget');
 	}
 
 //	admin scripts
 	public function admin_scripts(): static {
-		wp_enqueue_script( 'ucwp-chosen-js',  plugins_url( '/assets/libs/chosen/1.8.7/chosen.jquery.min.js', UCWP_PLUGIN_FILE ), array( 'jquery' ), '1.0', true );
+		if ($this->on_plugin_screen()) {
+			wp_enqueue_script( 'ucwp-chosen-js',  plugins_url( '/assets/libs/chosen/1.8.7/chosen.jquery.min.js', UCWP_PLUGIN_FILE ), array( 'jquery' ), '1.0', true );
+		}
 		return $this;
 	}
 
 //	admin styles
 	public function admin_styles(): static {
-		wp_enqueue_style( 'ucwp-admin-metabox', plugins_url( '/assets/styles/metabox.css', UCWP_PLUGIN_FILE ) );
-		wp_enqueue_style( 'ucwp-chosen-css',  plugins_url( '/assets/libs/chosen/1.8.7/chosen.min.css', UCWP_PLUGIN_FILE ) );
+		if ($this->on_plugin_screen()) {
+			wp_enqueue_style( 'ucwp-admin-metabox', plugins_url( '/assets/styles/metabox.css', UCWP_PLUGIN_FILE ) );
+			wp_enqueue_style( 'ucwp-chosen-css',  plugins_url( '/assets/libs/chosen/1.8.7/chosen.min.css', UCWP_PLUGIN_FILE ) );
+		}
 		return $this;
 	}
 

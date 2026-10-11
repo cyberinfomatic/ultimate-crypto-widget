@@ -1,6 +1,7 @@
 import React from "react";
 import { CoinData } from "../../../types";
 import { HTMLProps, useState } from "react";
+import TrendArrow from "../../../helper-components/TrendArrow";
 
 const Card001 = ({
   coinData,
@@ -27,13 +28,7 @@ const Card001 = ({
               {coin?.name}({coin?.symbol})
             </span>
             <div className="ucwp-crypto-picker-card-coin-growth">
-              <i
-                className={`fa-solid ${
-                  coin.price_change_percentage_24h > 0
-                    ? "fa-arrow-up"
-                    : "fa-arrow-down"
-                }`}
-              ></i>
+              <TrendArrow up={coin.price_change_percentage_24h > 0} />
               <span>{coin?.price_change_percentage_24h}%</span>
             </div>
           </div>

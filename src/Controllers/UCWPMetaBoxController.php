@@ -42,15 +42,32 @@ class UCWPMetaBoxController {
 		);
 	}
 
+	/**
+	 * Whether the current admin screen shows this meta box's fields: the editor
+	 * and list of its post type, and the plugin's own pages.
+	 */
+	private function on_own_screen(): bool {
+		$screen = function_exists('get_current_screen') ? get_current_screen() : null;
+		if (!$screen) {
+			return false;
+		}
+
+		return $this->screen === $screen->post_type || str_contains((string) $screen->id, 'ultimate-crypto-widget');
+	}
+
 	function enqueue_scripts($path, $handle = 'ucwp_widget_admin_script', $deps = [], $ver = false, $in_footer = true): void {
 		add_action('admin_enqueue_scripts', function() use ($path, $handle, $deps, $ver, $in_footer) {
-			wp_enqueue_script($handle, $path, $deps, $ver, $in_footer);
+			if ($this->on_own_screen()) {
+				wp_enqueue_script($handle, $path, $deps, $ver, $in_footer);
+			}
 		});
 	}
 
 	function enqueue_styles($path, $handle = 'ucwp_widget_admin_style', $deps = [], $ver = false, $media = 'all'): void {
 		add_action('admin_enqueue_scripts', function() use ($path, $handle, $deps, $ver, $media) {
-			wp_enqueue_style($handle, $path, $deps, $ver, $media);
+			if ($this->on_own_screen()) {
+				wp_enqueue_style($handle, $path, $deps, $ver, $media);
+			}
 		});
 	}
 

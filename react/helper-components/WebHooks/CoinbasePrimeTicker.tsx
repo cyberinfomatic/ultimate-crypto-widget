@@ -35,7 +35,6 @@ function useCoinbasePrimeTickerWebSocket(
     const socket = new WebSocket("wss://ws-feed.prime.coinbase.com");
 
     socket.onopen = () => {
-      console.log("Connected to Coinbase Prime WebSocket");
       setConnected(true);
 
       const subscribeMessage = {
@@ -92,7 +91,6 @@ function useCoinbasePrimeTickerWebSocket(
     };
 
     socket.onclose = () => {
-      console.log("Disconnected from Coinbase Prime WebSocket");
       setConnected(false);
     };
 

@@ -10,7 +10,6 @@ const MarqueeChildren = ({children, speed = 2000, childrenCount = 5 , ...props} 
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setReset((prev) => !prev); // Trigger reset to restart animation
-			console.log('reset');
 		}, speed * childrenCount);
 
 	return () => clearInterval(interval);

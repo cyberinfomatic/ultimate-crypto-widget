@@ -23,7 +23,6 @@ function useKrakenTickerWebSocket(
   symbols: string[],
   defaultCurrencyDollarRate = 1
 ) {
-  console.log("KrakenTicker", symbols);
   const [connected, setConnected] = useState(false);
   const [tickerData, setTickerData] = useState<Record<string, TickerData>>({});
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +31,6 @@ function useKrakenTickerWebSocket(
     const socket = new WebSocket("wss://ws.kraken.com/v2");
 
     socket.onopen = () => {
-      console.log("Connected to Kraken WebSocket");
       setConnected(true);
 
       const subscribeMessage = {
@@ -50,7 +48,6 @@ function useKrakenTickerWebSocket(
     socket.onmessage = (event) => {
       try {
         const response: KrakenWebSocketResponse = JSON.parse(event.data);
-        console.log("Kraken WebSocket message:", response);
         if (
           response.channel === "ticker" &&
           response.data &&
@@ -80,7 +77,6 @@ function useKrakenTickerWebSocket(
     };
 
     socket.onclose = () => {
-      console.log("Disconnected from Kraken WebSocket");
       setConnected(false);
     };
 

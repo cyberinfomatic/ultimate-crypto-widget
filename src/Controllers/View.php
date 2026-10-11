@@ -44,9 +44,11 @@ final class View {
 			$react_id = 'ucwp-react-' . uniqid();
 			$data['ucwp_render_component'] = $component;
 			$data['react_id'] = $react_id;
-			$ver = UCW_ENV === 'dev' ? wp_rand(1, 1000) : null;
+			// The file's change time as the version: browsers fetch a new copy after an
+			// update and keep the cached one otherwise.
+			$ver = (string) filemtime($dir . $file);
 			wp_enqueue_script('wp-element');
-			wp_enqueue_script('ucwp-react-vendor', plugin_dir_url(UCWP_PLUGIN_FILE) . 'assets/react-build/vendors/index.js', ['wp-element', 'wp-i18n', 'jquery'], $ver, true);
+			wp_enqueue_script('ucwp-react-vendor', plugin_dir_url(UCWP_PLUGIN_FILE) . 'assets/react-build/vendors/index.js', ['wp-element', 'wp-i18n'], (string) filemtime($dir . 'vendors/index.js'), true);
 			wp_enqueue_script($react_id, plugin_dir_url(UCWP_PLUGIN_FILE) . 'assets/react-build/' . esc_attr($file), ['ucwp-react-vendor'], $ver, true);
 			wp_localize_script($react_id, 'ucwpReactData', $data);
 			$component = str_ends_with($component, '/index') ? substr($component, 0, -6) : $component;

@@ -28,7 +28,6 @@ function useBinanceTickerWebSocket(
     const socket = new WebSocket("wss://ws-api.binance.com:443/ws-api/v3");
 
     socket.onopen = () => {
-      console.log("Connected to Binance WebSocket");
       setConnected(true);
 
       symbols.forEach((symbol) => {
@@ -67,7 +66,6 @@ function useBinanceTickerWebSocket(
     };
 
     socket.onclose = () => {
-      console.log("Disconnected from Binance WebSocket");
       setConnected(false);
     };
 

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {CoinData} from "../../../types";
 import {HTMLProps, useState} from "react";
+import TrendArrow from "../../../helper-components/TrendArrow";
 
 const Card001 = ({coinData, currency_symbol = "$", ...props} : {coinData: CoinData, currency_symbol?: string} & HTMLProps<HTMLDivElement>) => {
 	const [coin, setCoin] = useState(coinData);
@@ -25,7 +26,7 @@ const Card001 = ({coinData, currency_symbol = "$", ...props} : {coinData: CoinDa
 					<span className="ucwp-coin-marquee-coin-price-text">{currency_symbol}{coin.current_price}</span>
 				</div>
 				<div className="wcp-coin-marquee-coin-growth">
-					<i className={`fa ${coin.price_change_percentage_24h > 0 ? 'fa-arrow-up' : 'fa-arrow-down'}`}></i>
+					<TrendArrow up={coin.price_change_percentage_24h > 0} />
 					<span
 						className="ucwp-coin-marquee-coin-growth-text">{coin.price_change_percentage_24h.toFixed(2)}%</span>
 				</div>

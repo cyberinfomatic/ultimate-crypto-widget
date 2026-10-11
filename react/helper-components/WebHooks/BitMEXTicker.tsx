@@ -31,7 +31,6 @@ function useBitMEXTickerWebSocket(
     const socket = new WebSocket("wss://ws.bitmex.com/realtime");
 
     socket.onopen = () => {
-      console.log("Connected to BitMEX WebSocket");
       setConnected(true);
 
       const subscribeMessage = {
@@ -77,7 +76,6 @@ function useBitMEXTickerWebSocket(
     };
 
     socket.onclose = () => {
-      console.log("Disconnected from BitMEX WebSocket");
       setConnected(false);
     };
 

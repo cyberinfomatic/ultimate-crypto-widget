@@ -43,7 +43,6 @@ function useBinanceStreamTickerWebSocket(
     const socket = new WebSocket("wss://stream.binance.com:9443/stream?streams=");
 
     socket.onopen = () => {
-      console.log("Connected to Binance Stream WebSocket");
       setConnected(true);
 
         const message = {
@@ -81,7 +80,6 @@ function useBinanceStreamTickerWebSocket(
     };
 
     socket.onclose = () => {
-      console.log("Disconnected from Binance WebSocket");
       setConnected(false);
     };
 

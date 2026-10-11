@@ -11,7 +11,6 @@ declare global {
   }
 }
 const ucwpReactData = window.ucwpReactData || {};
-console.log(ucwpReactData);
 
 // Store references to rendered roots
 window.ucwpRenderedRoots = {};
@@ -32,6 +31,5 @@ export default function ReactRender<PropType = any>(
   if (root) {
     const prop = { ...ucwpReactData as PropType &  React.JSX.IntrinsicAttributes & { settings: UCWPWidgetSetting; } };
     root.render(<Children {...prop} />);
-    console.log('React component rendered');
   }
 }

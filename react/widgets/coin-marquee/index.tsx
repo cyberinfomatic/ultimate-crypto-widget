@@ -21,7 +21,6 @@ ReactRender(({ coins, settings }: { coins: CoinData[], settings: UCWPWidgetSetti
 		coinList?.map((coin) => coin.symbol).slice(0, settings.count),
 		settings?.usd_conversion_rate ?? 1
 	);
-	console.log(connected, data, error, "binance")
 	return (
 		<Marquee className="ucwp-coin-marquee-main-marquee-element" style={{ width: parentWidth, display:'flex', gap: '10px' }} pauseOnHover={true} speed={animationDuration} >
 			<div className={`ucwp-coin-marquee-main`}>
