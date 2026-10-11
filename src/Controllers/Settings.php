@@ -89,6 +89,15 @@ class Settings {
 			]);
 		}
 
+		/**
+		 * Whether to show the "upgrade to Pro" notice. The Pro add-on turns it off.
+		 *
+		 * @param bool $show
+		 */
+		if (!apply_filters('ucwp_show_upgrade_notice', true)) {
+			return;
+		}
+
 		$proUrl = self::getGetProUrl();
 		$notificationMessage = sprintf(
 		/* translators: %1$s: Opening anchor tag with the Pro URL, %2$s: Closing anchor tag */
@@ -145,6 +154,13 @@ class Settings {
 	 */
 	static function getGetProUrl(): string {
 		$href = urlencode(home_url());
-		return 'https://ultimatecryptowidget.com/go-pro?utm_source=plugin&utm_medium=upgrade&utm_campaign=pro&utm_content=' . $href;
+		$url  = 'https://ultimatecryptowidget.com/go-pro?utm_source=plugin&utm_medium=upgrade&utm_campaign=pro&utm_content=' . $href;
+
+		/**
+		 * Where "upgrade to Pro" links lead.
+		 *
+		 * @param string $url
+		 */
+		return (string) apply_filters('ucwp_upgrade_url', $url);
 	}
 }
