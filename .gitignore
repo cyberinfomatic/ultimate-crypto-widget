@@ -15,3 +15,6 @@ dist/
 
 
 svn-local/
+# Test suite scratch space
+/tests/.wp-content/
+.phpunit.result.cache

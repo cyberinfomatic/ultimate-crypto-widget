@@ -1,41 +1,51 @@
 <?php
 /**
- * PHPUnit bootstrap file.
+ * PHPUnit bootstrap: loads WordPress's test suite, then the plugin.
+ *
+ * WordPress core and its test library come from Composer (roots/wordpress-no-content,
+ * wp-phpunit/wp-phpunit), so no SVN checkout or Docker is needed.
  *
  * @package Ultimate_Crypto_Widget
  */
 
-$_tests_dir = getenv( 'WP_TESTS_DIR' );
+$ucwp_root = dirname( __DIR__ );
 
-//require composer autoload
-require_once '../vendor/autoload.php';
-
-if ( ! $_tests_dir ) {
-	$_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
-}
-
-// Forward custom PHPUnit Polyfills configuration to PHPUnit bootstrap file.
-$_phpunit_polyfills_path = getenv( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH' );
-if ( false !== $_phpunit_polyfills_path ) {
-	define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', $_phpunit_polyfills_path );
-}
-
-if ( ! file_exists( "{$_tests_dir}/includes/functions.php" ) ) {
-	echo "Could not find {$_tests_dir}/includes/functions.php, have you run bin/install-wp-tests.sh ?" . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+if ( ! file_exists( $ucwp_root . '/vendor/autoload.php' ) ) {
+	echo 'Run "composer install" first.' . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	exit( 1 );
 }
 
-// Give access to tests_add_filter() function.
-require_once "{$_tests_dir}/includes/functions.php";
+require_once $ucwp_root . '/vendor/autoload.php';
 
-/**
- * Manually load the plugin being tested.
- */
-function _manually_load_plugin() {
-	require dirname( dirname( __FILE__ ) ) . '/Ultimate-Crypto-Widget.php';
+putenv( 'WP_PHPUNIT__TESTS_CONFIG=' . $ucwp_root . '/tests/wp-tests-config.php' ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv
+
+// roots/wordpress-no-content ships no wp-content; give the suite an empty one.
+foreach ( array( '', '/plugins', '/themes', '/uploads' ) as $ucwp_dir ) {
+	if ( ! is_dir( $ucwp_root . '/tests/.wp-content' . $ucwp_dir ) ) {
+		mkdir( $ucwp_root . '/tests/.wp-content' . $ucwp_dir, 0777, true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
+	}
 }
 
-tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+$ucwp_tests_dir = getenv( 'WP_PHPUNIT__DIR' );
 
-// Start up the WP testing environment.
-require "{$_tests_dir}/includes/bootstrap.php";
+require_once $ucwp_tests_dir . '/includes/functions.php';
+
+require_once __DIR__ . '/Support/HttpStub.php';
+
+tests_add_filter(
+	'muplugins_loaded',
+	static function () use ( $ucwp_root ) {
+		// No request in these tests may reach a real API.
+		\Cyberinfomatic\UltimateCryptoWidget\Tests\Support\HttpStub::install();
+
+
+		require $ucwp_root . '/ultimate-crypto-widget.php';
+	}
+);
+
+require $ucwp_tests_dir . '/includes/bootstrap.php';
+
+// These build on WP_UnitTestCase, which exists only now.
+require_once __DIR__ . '/Support/Snapshots.php';
+require_once __DIR__ . '/Support/WidgetFactory.php';
+require_once __DIR__ . '/Support/TestCase.php';

@@ -31,7 +31,6 @@
         "@phpcs",
         "@phpunit"
       ],
-      "setup-test" : "bash bin/install-wp-tests.sh",
       "setup-phpcs":  "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie",
       "phpcs": "vendor/bin/phpcs",
       "phpunit": "vendor/bin/phpunit",
@@ -44,12 +43,14 @@
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "^3.1",
-        "phpunit/phpunit": "10.0",
+        "phpunit/phpunit": "^9.6",
         "phpcompatibility/phpcompatibility-wp": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
         "phpcompatibility/phpcompatibility-paragonie": "*",
         "wp-cli/i18n-command": "^2.6",
-        "yoast/phpunit-polyfills": "^2.0"
+        "yoast/phpunit-polyfills": "^2.0",
+        "wp-phpunit/wp-phpunit": "^6.6",
+        "roots/wordpress-no-content": "^6.6"
     },
     "config": {
         "allow-plugins": {
