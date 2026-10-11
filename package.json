@@ -8,7 +8,7 @@
     "start:hot": "wp-scripts start --hot",
     "build": "wp-scripts build",
     "makepot": "composer run make-pot",
-    "test:js": "wp-scripts test-unit-js"
+    "test:js": "vitest run"
   },
   "babel": {
     "presets": [
