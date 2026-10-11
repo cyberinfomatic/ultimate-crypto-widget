@@ -293,6 +293,10 @@
 	animation-play-state: paused;
 }
 
+.ucw-ticker[data-reverse] .ucw-ticker__track {
+	animation-direction: reverse;
+}
+
 // The build's right-to-left stylesheet turns this into +50%, so the loop runs the other way there.
 @keyframes ucw-ticker {
 	to {
@@ -313,6 +317,250 @@
 
 .ucw-sparkline[data-direction="down"] {
 	color: var(--ucw-down);
+}
+
+// ---------------------------------------------------------------- LineChart
+
+.ucw-chart {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ucw-space-2);
+	min-inline-size: 0;
+	color: var(--ucw-fg-muted);
+}
+
+.ucw-chart[data-direction="up"] {
+	--ucw-chart-ink: var(--ucw-up);
+}
+
+.ucw-chart[data-direction="down"] {
+	--ucw-chart-ink: var(--ucw-down);
+}
+
+.ucw-chart__readout {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+	font-size: var(--ucw-text-xs);
+	font-variant-numeric: tabular-nums;
+}
+
+.ucw-chart__value {
+	color: var(--ucw-fg);
+	font-weight: var(--ucw-weight-bold);
+}
+
+.ucw-chart__plot {
+	position: relative;
+	block-size: var(--ucw-chart-height, 9rem);
+	color: var(--ucw-chart-ink, var(--ucw-fg-muted));
+	border-radius: var(--ucw-radius-sm);
+	cursor: crosshair;
+	touch-action: pan-y;
+}
+
+.ucw-chart__plot:focus-visible {
+	outline: 2px solid var(--ucw-accent);
+	outline-offset: 2px;
+}
+
+.ucw-chart__plot svg {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	overflow: visible;
+}
+
+.ucw-chart__line {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	// The drawing is stretched to fit; the line must stay the same thickness.
+	vector-effect: non-scaling-stroke;
+}
+
+.ucw-chart__area {
+	fill: currentColor;
+	fill-opacity: 0.1;
+	stroke: none;
+}
+
+.ucw-chart__marker {
+	position: absolute;
+	inset-block: 0;
+	inline-size: 1px;
+	background: var(--ucw-border-strong);
+	pointer-events: none;
+}
+
+// ---------------------------------------------------------------- Disclosure
+
+.ucw-disclosure {
+	border-block-start: 1px solid var(--ucw-border);
+}
+
+.ucw-disclosure:first-child {
+	border-block-start: 0;
+}
+
+.ucw-widget .ucw-disclosure__summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-3) var(--ucw-space-4);
+	cursor: pointer;
+	list-style: none;
+	transition: background-color var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-disclosure__summary::-webkit-details-marker {
+	display: none;
+}
+
+.ucw-disclosure__summary:hover {
+	background: var(--ucw-surface-hover);
+}
+
+.ucw-disclosure__summary:focus-visible {
+	outline: 2px solid var(--ucw-accent);
+	outline-offset: -2px;
+}
+
+.ucw-disclosure__chevron {
+	flex: none;
+	inline-size: 0.875rem;
+	block-size: 0.875rem;
+	color: var(--ucw-fg-muted);
+	transition: transform var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-disclosure[open] .ucw-disclosure__chevron {
+	transform: rotate(180deg);
+}
+
+.ucw-disclosure__panel {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-3) var(--ucw-space-4) var(--ucw-space-4);
+}
+
+// ---------------------------------------------------------------- SearchField
+
+.ucw-widget .ucw-search,
+.ucw-widget .ucw-search:focus {
+	inline-size: 100%;
+	min-block-size: 0;
+	margin: 0;
+	padding: var(--ucw-space-2) var(--ucw-space-3);
+	color: var(--ucw-fg);
+	background: var(--ucw-surface-sunken);
+	border: 1px solid var(--ucw-border);
+	border-radius: var(--ucw-radius-sm);
+	box-shadow: none;
+	font: inherit;
+	font-size: var(--ucw-text-sm);
+	line-height: var(--ucw-leading);
+}
+
+.ucw-widget .ucw-search::placeholder {
+	color: var(--ucw-fg-muted);
+}
+
+.ucw-widget .ucw-search:focus-visible {
+	border-color: var(--ucw-accent);
+	outline: 2px solid var(--ucw-accent-soft);
+	outline-offset: 0;
+}
+
+// ---------------------------------------------------------------- IconButton, Pager
+
+.ucw-widget .ucw-icon-button,
+.ucw-widget .ucw-icon-button:hover,
+.ucw-widget .ucw-icon-button:focus {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	inline-size: 2rem;
+	block-size: 2rem;
+	min-block-size: 0;
+	margin: 0;
+	padding: 0;
+	color: var(--ucw-fg);
+	background: var(--ucw-surface);
+	border: 1px solid var(--ucw-border);
+	border-radius: var(--ucw-radius-sm);
+	box-shadow: none;
+	cursor: pointer;
+	transition: background-color var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-widget .ucw-icon-button:hover:not(:disabled) {
+	background: var(--ucw-surface-hover);
+}
+
+.ucw-widget .ucw-icon-button[aria-pressed="true"] {
+	color: var(--ucw-accent);
+	border-color: var(--ucw-accent);
+}
+
+.ucw-widget .ucw-icon-button:disabled {
+	color: var(--ucw-fg-muted);
+	cursor: default;
+	opacity: 0.5;
+}
+
+.ucw-widget .ucw-icon-button:focus-visible {
+	outline: 2px solid var(--ucw-accent);
+	outline-offset: 1px;
+}
+
+.ucw-icon-button svg {
+	inline-size: 0.75rem;
+	block-size: 0.75rem;
+}
+
+[dir="rtl"] .ucw-icon-button svg {
+	transform: scaleX(-1);
+}
+
+.ucw-pager {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--ucw-space-2);
+	padding: var(--ucw-space-3) var(--ucw-space-4);
+	border-block-start: 1px solid var(--ucw-border);
+}
+
+.ucw-pager__status {
+	flex: 1;
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-xs);
+}
+
+// ---------------------------------------------------------------- Stat
+
+.ucw-stat {
+	display: inline-flex;
+	flex-direction: column;
+	min-inline-size: 0;
+}
+
+.ucw-stat__label {
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-xs);
+}
+
+.ucw-stat__value {
+	font-size: var(--ucw-text-sm);
+	font-variant-numeric: tabular-nums;
+	font-weight: var(--ucw-weight-medium);
+	white-space: nowrap;
 }
 
 // ---------------------------------------------------------------- Skeleton

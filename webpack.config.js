@@ -87,7 +87,7 @@ module.exports = {
 				vendors: {
 					// Libraries and the plugin's own shared code go in one bundle the widgets share.
 					// Scripts only: the design system's stylesheet is its own file, theme.css.
-					test: /[\\/]node_modules[\\/]|[\\/]react[\\/](helper|live|ds)[\\/].*\.(js|jsx|ts|tsx)$/,
+					test: /[\\/]node_modules[\\/]|[\\/]react[\\/](helper|live|ds|data)[\\/].*\.(js|jsx|ts|tsx)$/,
 					name: 'vendors',
 					chunks: 'all',
 					enforce: true,

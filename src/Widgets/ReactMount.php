@@ -54,12 +54,14 @@ final class ReactMount
 		}
 
 		return sprintf(
-			'<div id="%1$s" class="ucw-widget ucw-widget--%2$s" data-ucw-view="%2$s" data-ucw-theme="%5$s" data-ucw-props="%3$s">%4$s</div>',
+			'<div id="%1$s" class="ucw-widget ucw-widget--%2$s" data-ucw-view="%2$s" data-ucw-theme="%5$s" data-ucw-api="%6$s" data-ucw-props="%3$s">%4$s</div>',
 			esc_attr('ucwp-react-' . wp_unique_id()),
 			esc_attr($view),
 			esc_attr((string) wp_json_encode($props)),
 			esc_html__('Loading...', 'ultimate-crypto-widget'),
-			esc_attr($this->theme($props['settings'] ?? []))
+			esc_attr($this->theme($props['settings'] ?? [])),
+			// Widgets that load more data (charts, coin details) call this; it is right for any permalink setting.
+			esc_url(rest_url('ultimate-crypto-widget/v1/'))
 		);
 	}
 

@@ -26,7 +26,6 @@ export const coinbaseSpec: SocketFeedSpec = {
 			price,
 			high24h: num(m.high_24h),
 			low24h: num(m.low_24h),
-			volume24h: num(m.volume_24h),
 			time: Date.parse(m.time) || Date.now(),
 		};
 		if (open !== undefined && open > 0) {
@@ -65,7 +64,6 @@ export const krakenSpec: SocketFeedSpec = {
 				low24h: num(row.low),
 				change24h: num(row.change),
 				changePercent24h: num(row.change_pct),
-				volume24h: num(row.volume),
 				time: Date.now(),
 			});
 		});
@@ -100,7 +98,6 @@ export const binanceSpec: SocketFeedSpec = {
 				low24h: num(data.l),
 				change24h: num(data.p),
 				changePercent24h: num(data.P),
-				volume24h: num(data.v),
 				time: num(data.E) ?? Date.now(),
 			},
 		];

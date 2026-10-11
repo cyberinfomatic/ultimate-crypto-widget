@@ -44,7 +44,6 @@ export const pollingFeed = (intervalMs = 60000, fetcher: typeof fetch = (...args
 						low24h: num(coin.low_24h),
 						change24h: num(coin.price_change_24h),
 						changePercent24h: num(coin.price_change_percentage_24h),
-						volume24h: num(coin.total_volume),
 						time: Date.now(),
 					};
 					onTick(tick);

@@ -130,6 +130,8 @@ describe("exchange messages", () => {
 		});
 
 		expect(tick).toMatchObject({ symbol: "BTC", price: 110, change24h: 10, changePercent24h: 10, high24h: 120 });
+		// The exchange's own volume, in coins, must not replace the market's volume in money.
+		expect(toTickerData(tick, 1)).not.toHaveProperty("total_volume");
 		expect(coinbaseSpec.subscribeMessage(["BTC"])).toEqual({ type: "subscribe", product_ids: ["BTC-USD"], channels: ["ticker"] });
 	});
 

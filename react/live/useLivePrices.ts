@@ -25,7 +25,6 @@ export const toTickerData = (tick: Tick, usdRate: number): TickerData => {
 	if (tick.low24h !== undefined) data.low_24h = tick.low24h * usdRate;
 	if (tick.change24h !== undefined) data.price_change_24h = tick.change24h * usdRate;
 	if (tick.changePercent24h !== undefined) data.price_change_percentage_24h = tick.changePercent24h;
-	if (tick.volume24h !== undefined) data.total_volume = tick.volume24h;
 
 	return data as TickerData;
 };

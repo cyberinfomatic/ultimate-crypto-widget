@@ -6,6 +6,8 @@ type TickerProps = {
 	label: string;
 	/** Pixels per second. */
 	speed?: number;
+	/** Scroll towards the end of the line instead of the start. */
+	reverse?: boolean;
 	width?: unknown;
 	children: ReactNode;
 };
@@ -24,7 +26,7 @@ export function tickerDuration(contentWidth: number, speed: number): number {
  * keyboard focus, and for visitors who prefer reduced motion it stands still
  * and can be scrolled by hand.
  */
-export const Ticker = ({ label, speed = 50, width, children }: TickerProps) => {
+export const Ticker = ({ label, speed = 50, reverse = false, width, children }: TickerProps) => {
 	const group = useRef<HTMLDivElement>(null);
 	const [duration, setDuration] = useState(0);
 
@@ -46,7 +48,7 @@ export const Ticker = ({ label, speed = 50, width, children }: TickerProps) => {
 	const style = { inlineSize: cssSize(width), "--ucw-ticker-duration": `${duration}s` } as CSSProperties;
 
 	return (
-		<div className="ucw-ticker" role="group" aria-label={label} style={style} data-running={duration > 0 ? "" : undefined}>
+		<div className="ucw-ticker" role="group" aria-label={label} style={style} data-running={duration > 0 ? "" : undefined} data-reverse={reverse ? "" : undefined}>
 			<div className="ucw-ticker__track">
 				<div className="ucw-ticker__group" ref={group}>
 					{children}

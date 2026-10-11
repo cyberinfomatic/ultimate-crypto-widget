@@ -18,7 +18,9 @@
 	@include light.roles;
 }
 
-.ucw-widget[data-ucw-theme="dark"] {
+// Also on a part inside a widget, for a design that is dark whatever the widget's theme.
+.ucw-widget[data-ucw-theme="dark"],
+.ucw-widget [data-ucw-theme="dark"] {
 	@include dark.roles;
 }
 

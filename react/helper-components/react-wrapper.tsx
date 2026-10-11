@@ -1,6 +1,8 @@
 import React from "react";
 import { ComponentType } from "react";
 import { createRoot, Root } from "react-dom/client";
+import { DEFAULT_API } from "../data/api";
+import { EnvContext } from "../data/env";
 import { UCWPWidgetSetting } from "../types";
 
 declare global {
@@ -61,7 +63,11 @@ export default function ReactRender<PropType = any>(Component: ComponentType<Wid
 			}
 			const root = createRoot(element);
 			roots.set(element, root);
-			root.render(<Component {...(props as WidgetProps<PropType> & React.JSX.IntrinsicAttributes)} />);
+			root.render(
+				<EnvContext.Provider value={{ api: element.dataset.ucwApi || DEFAULT_API }}>
+					<Component {...(props as WidgetProps<PropType> & React.JSX.IntrinsicAttributes)} />
+				</EnvContext.Provider>
+			);
 			mounted += 1;
 		});
 		return mounted;

@@ -9,7 +9,8 @@ export interface Tick {
 	low24h?: number;
 	change24h?: number;
 	changePercent24h?: number;
-	volume24h?: number;
+	// No volume: an exchange reports its own, counted in coins, which is not the
+	// market-wide figure in money that the page already has.
 	/** Milliseconds since the epoch. */
 	time: number;
 }
