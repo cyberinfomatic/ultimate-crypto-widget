@@ -14,14 +14,16 @@ final class WidgetDefinition
 	public const DATA_CURRENCY_SYMBOLS = 'default_currencies_symbol';
 
 	/**
-	 * @param string   $type      Stored in the widget's "type" setting, e.g. "coin-marquee-1". Never change one.
-	 * @param string   $label     Shown in the admin; already translated.
-	 * @param string   $view      Folder under react/widgets that draws it.
-	 * @param string   $card      Which card design of that view, e.g. "card-001".
-	 * @param string[] $settings  Names of the settings passed to the component, in order.
-	 * @param string[] $data      DATA_* constants.
-	 * @param bool     $pro       Belongs to the Pro add-on.
-	 * @param bool     $available Can be rendered now. A Pro widget is listed but unavailable until the add-on provides it.
+	 * @param string      $type      Stored in the widget's "type" setting, e.g. "coin-marquee-1". Never change one.
+	 * @param string      $label     Shown in the admin; already translated.
+	 * @param string      $view      Folder under the build's widgets/ directory that draws it.
+	 * @param string      $card      Which card design of that view, e.g. "card-001".
+	 * @param string[]    $settings  Names of the settings passed to the component, in order.
+	 * @param string[]    $data      DATA_* constants.
+	 * @param bool        $pro       Belongs to the Pro add-on.
+	 * @param bool        $available Can be rendered now. A Pro widget is listed but unavailable until the add-on provides it.
+	 * @param string|null $buildDir  Directory holding the built scripts (with widgets/ and vendors/ inside), with a trailing slash. Null for this plugin's own.
+	 * @param string|null $buildUrl  The same directory as a URL. Required with $buildDir.
 	 */
 	public function __construct(
 		public readonly string $type,
@@ -31,7 +33,9 @@ final class WidgetDefinition
 		public readonly array $settings,
 		public readonly array $data = [self::DATA_COINS],
 		public readonly bool $pro = false,
-		public readonly bool $available = true
+		public readonly bool $available = true,
+		public readonly ?string $buildDir = null,
+		public readonly ?string $buildUrl = null
 	) {
 	}
 

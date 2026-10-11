@@ -8,6 +8,7 @@
 
 use Cyberinfomatic\UltimateCryptoWidget\Helpers\Debugger;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\Application;
+use Cyberinfomatic\UltimateCryptoWidget\Plugin;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\DataProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\HttpProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\LegacyProvider;
@@ -52,5 +53,8 @@ if ( ! defined( 'UCW_ENV' ) ) {
 Debugger::set_dev( 'dev' === UCW_ENV );
 
 $ucwp_app->providers( array( SettingsProvider::class, DataProvider::class, WidgetsProvider::class, LegacyProvider::class, HttpProvider::class ) )->boot();
+
+// Lets an add-on find the running plugin; fires the ucwp_loaded action.
+Plugin::started( $ucwp_app, $ucwp_plugin_file );
 
 unset( $ucwp_plugin_file, $ucwp_app );

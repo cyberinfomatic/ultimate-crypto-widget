@@ -2,7 +2,6 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Widgets;
 
-use Cyberinfomatic\UltimateCryptoWidget\Controllers\View;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceDataException;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Helpers\Currency;
@@ -15,7 +14,8 @@ final class WidgetRenderer
 {
 	public function __construct(
 		private readonly WidgetCatalog $catalog,
-		private readonly PriceProvider $prices
+		private readonly PriceProvider $prices,
+		private readonly ReactMount $mount
 	) {
 	}
 
@@ -35,7 +35,7 @@ final class WidgetRenderer
 			$props[$need] = $this->data($need, $settings, (string) $props['settings']['default_currency']);
 		}
 
-		return (string) View::importReactComponent($definition->view, $props);
+		return $this->mount->mount($definition, $props);
 	}
 
 	/**

@@ -72,5 +72,8 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: JavaScript tests
+        run: npm run test:js
+
       - name: PHPUnit
         run: composer phpunit
