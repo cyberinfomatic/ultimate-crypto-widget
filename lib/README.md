@@ -2,7 +2,7 @@
 
 ## wptoolkit
 
-[WPToolkit](https://github.com/codad5/wptoolkit) **1.0.0-rc.7**, the standalone zip from its GitHub
+[WPToolkit](https://github.com/codad5/wptoolkit) **1.0.0-rc.8**, the standalone zip from its GitHub
 release, with its namespace renamed to `Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit` so it
 cannot clash with another plugin that bundles a different version.
 

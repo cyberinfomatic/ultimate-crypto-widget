@@ -11,6 +11,7 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\Types\ChoiceType;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\Types\InputType;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\Types\OtherTypes;
+use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\Types\ChoicePickerAssets;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Exceptions\InvalidConfigException;
 
 /**
@@ -37,7 +38,7 @@ final class FieldTypes
             'hidden' => new InputType('hidden'),
             'password' => new InputType('password', 'raw'),
             'textarea' => OtherTypes::textarea(),
-            'select' => new ChoiceType('select'),
+            'select' => new ChoiceType('select', new ChoicePickerAssets()),
             'radio' => new ChoiceType('radio'),
             'checkbox' => OtherTypes::checkbox(),
             'media' => OtherTypes::media(),
