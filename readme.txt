@@ -2,128 +2,132 @@
 Contributors: heisenejii
 Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 8.2
 Stable tag: 1.0.0-beta.1
 License: GPL-2.0-or-later
 Donate link: http://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Display real-time cryptocurrency prices with customizable widgets on your WordPress site. Easy setup, no coding required.
+Live cryptocurrency prices: tables, a ticker, price cards and a multi-currency list. Use it as a block, a shortcode or in Elementor.
 
 == Description ==
-### Ultimate Crypto Plugin 📈
-Introducing the **[Ultimate Crypto Plugin](http://ultimatecryptowidget.com?utm_source=wp-ultimate-crypto-widget "Ultimate Crypto Widget")**  your all-in-one solution for displaying dynamic cryptocurrency data on your WordPress site! Whether you're a developer or a regular WordPress user, our plugin makes it easy to integrate **real-time crypto prices**, charts, and stats directly into your website.
 
+Ultimate Crypto Widget shows live cryptocurrency prices on your WordPress site. Pick a widget, choose its coins and currency, and place it with the block editor, a shortcode or Elementor. Prices update on the page as the market moves.
 
-#### [Screenshot](#screenshots "Ultimate Crypto Widget screenshots.") | [View Demos](http://ultimatecryptowidget.com?utm_source=wp-ultimate-crypto-widget "Ultimate Crypto Widget plugin demos.")
+**Widgets in the free plugin**
 
-Key Features:
-- Real-Time Crypto Prices: Automatically fetch and display up-to-date prices in real-time for a wide range of cryptocurrencies.
-- Support for many Cryptocurrencies and Currency Pairs: Get data for over 5000 cryptocurrencies and 50+ fiat currencies.
-- Customizable Widgets: Choose from various widget styles and configurations to match your site's design.
-- Smooth Animations: Enjoy sleek, continuous scrolling of crypto data, powered by Framer Motion for a professional look and feel.
-- Easy to Use: Simple setup and integration with your WordPress dashboard  no coding required!
-- Responsive Design: Ensure your crypto widgets look great on all devices, from desktops to mobile phones.
+* **Price table** – ranked coins with price and 24-hour change.
+* **Coin marquee** – a scrolling ticker strip.
+* **Price cards** – one card per coin, side by side or stacked.
+* **Multi-currency list** – a price list your visitors can switch between currencies.
 
-**Source Code and Unminified Files:**
-To access the original, unminified versions of the JavaScript and CSS files used in this plugin, visit our [GitHub repository](https://github.com/cyberinfomatic/ultimate-crypto-widget/).
+**What you get**
 
-## Third-Party Services
-This plugin relies on the following third-party services:
+* **Three ways to place a widget**: the Crypto Widget block, the `[ucwp_widget]` shortcode, or the Crypto Widget element in Elementor.
+* **Live prices** without a page reload.
+* **No account needed**: prices come from CoinGecko's public API. A free CoinGecko key is optional and only raises the request limit for busy sites.
+* **Light, dark or automatic** colours, and your own accent colour, for every widget at once.
+* **30 display currencies** and the top 100 coins to choose from.
+* **A live preview** while you set a widget up.
+* **Nothing loaded where it is not used**: a page without a widget loads no script or style from this plugin.
+* **Accessible and translatable**: keyboard and screen-reader friendly, right-to-left ready, prices and numbers formatted for the page's language.
 
-1. **CoinGecko API**: Used to fetch real-time cryptocurrency data.
-   - **Website**: [CoinGecko API](https://www.coingecko.com/en/api)
-   - **Terms of Service**: [CoinGecko API Terms of Service](https://www.coingecko.com/en/terms)
-   - **Privacy Policy**: [CoinGecko Privacy Policy](https://www.coingecko.com/en/privacy)
+**More with Pro**
 
-2. **OpenExchangeRates API**: Used to fetch exchange rates for various currencies.
-   - **Website**: [OpenExchangeRates API](https://openexchangerates.org/)
-   - **Terms of Service**: [OpenExchangeRates Terms of Service](https://openexchangerates.org/terms)
-   - **Privacy Policy**: [OpenExchangeRates Privacy Policy](https://openexchangerates.org/privacy)
+The [Pro add-on](https://ultimatecryptowidget.com/) adds price history charts, searchable tables with pages, coin detail cards, sliders, an accordion and more card designs, plus extra style controls (typeface, rise and fall colours, corner radius, spacing).
 
-3. **Kraken API**: Used to fetch real-time cryptocurrency data using Kraken webhooks API.
-   - **Website**: [Kraken API](https://www.kraken.com/features/api)
-   - **Terms of Service**: [Kraken API Terms of Service](https://www.kraken.com/legal)
-   - **Privacy Policy**: [Kraken Privacy Policy](https://www.kraken.com/legal)
+**Source code**
 
-4. **Binance API**: Used to fetch real-time cryptocurrency data using Binance API.
-   - **Website**: [Binance API](https://www.binance.com/en/support/faq/360002502072)
-   - **Terms of Service**: [Binance API Terms of Service](https://www.binance.com/en/terms)
-   - **Privacy Policy**: [Binance Privacy Policy](https://www.binance.com/en/privacy)
+The unminified source of every script and style is in the plugin's [GitHub repository](https://github.com/cyberinfomatic/ultimate-crypto-widget/), under `react/`. Build it with `npm ci && npm run build`.
 
+== External services ==
 
+This plugin shows market data, so it has to fetch it. These are all the services it contacts.
 
-Make sure to review the terms of service and privacy policies of [Ours](https://ultimatecryptowidget.com/privacy-policy/) and the third-party services before using this plugin.
+**CoinGecko** – coin prices, market data and currency rates.
+Your *server* asks CoinGecko when a widget is drawn and keeps the answer for the number of minutes you set (10 by default). The requests contain the coins and currency a widget shows and, if you saved one, your CoinGecko API key. No visitor information is sent.
+[Terms](https://www.coingecko.com/en/terms) · [Privacy policy](https://www.coingecko.com/en/privacy)
+
+**Coinbase, Kraken and Binance** – live price updates.
+A *visitor's browser* opens a connection to one of these exchanges' public price streams while a widget is on the page, so prices can move without a reload. Coinbase is tried first, then Kraken, then Binance. The connection says which coins the widget shows; as with any connection, the exchange sees the visitor's IP address. No account, cookie or personal data from your site is sent. If none can be reached, the widget asks your own site for fresh prices instead.
+Coinbase: [terms](https://www.coinbase.com/legal/user_agreement) · [privacy](https://www.coinbase.com/legal/privacy)
+Kraken: [terms](https://www.kraken.com/legal) · [privacy](https://www.kraken.com/legal/privacy)
+Binance: [terms](https://www.binance.com/en/terms) · [privacy](https://www.binance.com/en/privacy)
+
+Coin logos are loaded by the visitor's browser from the addresses CoinGecko provides.
 
 == Installation ==
-### Plugin Installation Instructions for Ultimate Crypto Plugin
 
-#### Free Version
-1. **Install via WordPress Plugin Directory**:
-    Go to your WordPress dashboard.
-    Navigate to **Plugins** > **Add New**.
-    In the search bar, type **Ultimate Crypto Plugin**.
-    Click **Install Now** on the plugin and then **Activate**.
+1. In your dashboard go to **Plugins → Add New**, search for **Ultimate Crypto Widget**, then **Install** and **Activate**.
+2. Open **Crypto Widgets** in the dashboard menu.
+3. Create a widget, or add the **Crypto Widget** block straight to a page.
 
-#### Pro Version
-1. **Purchase and Download**:
-    Visit our website and subscribe to the Pro plan.
-    Download the Pro version ZIP file after purchase.
-
-2. **Install via WordPress Dashboard**:
-    Go to your WordPress dashboard.
-    Navigate to **Plugins** > **Add New**.
-    Click the **Upload Plugin** button at the top.
-    Choose the downloaded ZIP file and click **Install Now**.
-    Once installed, click **Activate Plugin**.
-
-3. **Activate Pro Features**:
-    After activation, go to the plugin settings page.
-    Enter your license key received upon purchase.
-    Click **Activate** to unlock Pro features.
-
-Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
+The Pro add-on is a separate plugin. It needs this one installed and active. Install its zip under **Plugins → Add New → Upload Plugin**, then enter your key under **Crypto Widgets → Pro License**.
 
 == Frequently Asked Questions ==
 
-1. **What is the Ultimate Crypto Plugin?**
-    Ultimate Crypto Plugin is a top-requested cryptocurrency widget plugin for WordPress.
+= Do I need an API key? =
 
-2. **How do I install the plugin?**
-    Refer to the plugin installation instructions section above.
+No. The widgets work without one. If your site is busy and prices stop updating, add a free CoinGecko key under **Crypto Widgets → Settings** to raise the limit.
 
-3. **What features are included in the free version?**
-    The features of the free version are listed on the [plugin page](https://ultimatecryptowidget.com/).
+= How do I put a widget on a page? =
 
-4. **What additional features are available in the Pro version?**
-    The additional features of the Pro version can also be found on the [plugin page](https://ultimatecryptowidget.com/).
+Any of three ways. In the block editor, add the **Crypto Widget** block and choose a saved widget or set one up in the block. With a shortcode, create a widget under **Crypto Widgets → Widgets** and paste the shortcode it gives you, for example `[ucwp_widget id="12"]`. In Elementor, drag in the **Crypto Widget** element.
 
-5. **How do I upgrade to the Pro version?**
-    Upgrade by subscribing to one of our annual plans. Details are available on the [plugin page](https://ultimatecryptowidget.com/).
+= What is the Quick widget screen? =
 
-6. **Can I customize the appearance of the widgets?**
-    Yes, the appearance is highly customizable, including options like count, speed of marquee, and many more.
+It builds a shortcode that carries its own settings, such as `[ucwp_widget type="coin-marquee-1" count="5"]`, so you can try a widget without saving one.
 
-7. **How do I update the plugin?**
-    For the free version, update via the WordPress plugin page. For the Pro version, you will be informed of new updates via email, and you will need to reinstall the updated plugin.
+= Can I change the colours? =
 
-8. **Is the plugin responsive and mobile-friendly?**
-    Yes, the plugin is designed to be fully responsive and mobile-friendly.
+Yes. Under **Crypto Widgets → Settings → Appearance** choose light, dark or "match the visitor's device", and an accent colour. A single widget can also be set to dark on its own.
 
-9. **Do I need any coding skills to use this plugin?**
-    No coding skills are required; you just need to be a crypto enthusiast.
+= I am updating from 0.x. Will my widgets still work? =
 
-10. **How do I get support for the plugin?**
-     For support, send an email to admin@cyberinfomatic.com with the subject "Ultimate Crypto Plugin Widget".
+Yes. Saved widgets, their settings and every `[ucwp_widget]` shortcode keep working as they are. The widgets have a new design; if you wrote your own CSS against the old `ucwp-…` class names, it will need updating to the new `ucw-…` ones.
 
-11. **What are the Ultimate Crypto Plugin, Ultimate Crypto Widget, UCWP, and UCW?**
-     Ultimate Crypto Plugin and Ultimate Crypto Widget are the names of the plugin, while UCWP and UCW are their respective short forms. All are associated with the plugin.
+= Does a page without a widget load anything from this plugin? =
 
-12. **Where can I find information about the payment plans?**
-     Payment plan details can be found on the [plugin page](https://ultimatecryptowidget.com/).
+No. Scripts and styles are loaded only on pages that show a widget.
+
+= Is it translatable? =
+
+Yes, including the text inside the widgets. It also supports right-to-left languages. See `docs/translating.md` in the source repository.
+
+= Where do I get help? =
+
+In the [support forum](https://wordpress.org/support/plugin/ultimate-crypto-widget/).
+
+== Screenshots ==
+
+1. The four free widgets: price table, coin marquee, price cards and multi-currency list.
+2. The same widgets in the dark theme.
+3. Setting a widget up, with the live preview.
+4. The Crypto Widget block in the editor.
 
 == Changelog ==
+
+= 1.0.0 =
+
+A rebuild of the plugin.
+
+* New: a **Crypto Widget block** for the block editor, with a live preview.
+* New: a **Crypto Widget element for Elementor**.
+* New: a modern design for every widget, with light, dark and automatic colours and an accent colour you choose.
+* New: a live preview while you set a widget up, and a redesigned admin.
+* New: the widgets work **without any API key**. Open Exchange Rates is no longer used.
+* New: live prices now come from Coinbase, then Kraken, then Binance, so they also work for visitors in the United States.
+* New: every text can be translated, including inside the widgets; right-to-left languages are supported; prices follow the page's language.
+* Security: closed a hole that let a visitor run shortcodes through the plugin's REST API. Every REST route now checks who is asking, validates its input and is rate limited.
+* Security: draft widgets are no longer visible to visitors.
+* Performance: scripts and styles load only on pages that show a widget; the scripts are much smaller.
+* Fix: several widgets on one page no longer overwrite each other.
+* Fix: prices in a currency other than US dollars were converted with a rounded rate.
+* Fix: a coin's 24-hour volume could be replaced by a wrong figure once live prices arrived.
+* Change: the widgets' HTML and class names are new (`ucw-…`). Custom CSS written for the old ones needs updating.
+* Change: the Pro version is now a separate add-on for this plugin.
+* Requires WordPress 6.5.5 and PHP 8.2.
 
 = 0.1.5 =
 * Tested up to WordPress 6.8
@@ -155,14 +159,5 @@ Enjoy the enhanced capabilities of the Ultimate Crypto Plugin Pro version!
 
 == Upgrade Notice ==
 
-= 0.1.5 =
-* Tested up to WordPress 6.8 and requires PHP 8.2 to remove compatibility warnings on newer releases.
-
-= 0.0.2 =
-* Support Wordpress version 6.6.1 to remove error message about compatibility.
-
-== Screenshots ==
-
-1. **Widget Settings Page** – Screenshot of the plugin's widget settings page in the WordPress dashboard.
-2. **Crypto Prices Widget** – Screenshot showing a live crypto prices widget on a website.
-
+= 1.0.0 =
+A rebuild with a new design, a block and Elementor element, and an important security fix. Your saved widgets and shortcodes keep working. Custom CSS for the old widgets will need updating.
