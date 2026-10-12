@@ -16,8 +16,12 @@ final class Preview
 {
 	public const ACTION = 'ucwp_preview';
 
-	/** Tells the page holding the frame how tall the widget is, so the frame can fit it. */
-	private const HEIGHT_SCRIPT = '<script>(function(){var tell=function(){parent.postMessage({ucwPreviewHeight:document.documentElement.scrollHeight},location.origin)};if(window.ResizeObserver){new ResizeObserver(tell).observe(document.body)}tell()})();</script>';
+	/**
+	 * Tells the page holding the frame how tall the widget is, so the frame can fit it.
+	 * The body's own height, not the document's: a document is never shorter than its frame,
+	 * so that would let a frame grow but never shrink.
+	 */
+	private const HEIGHT_SCRIPT = '<script>(function(){var tell=function(){parent.postMessage({ucwPreviewHeight:document.body.offsetHeight},location.origin)};if(window.ResizeObserver){new ResizeObserver(tell).observe(document.body)}tell()})();</script>';
 
 	public function __construct(private readonly Shortcodes $shortcodes)
 	{

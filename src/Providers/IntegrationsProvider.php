@@ -7,6 +7,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Integrations\Elementor\CryptoWidget;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\HookRegistrar;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\ServiceProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Frontend\Shortcodes;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetSchema;
 
 /**
@@ -34,7 +35,20 @@ final class IntegrationsProvider extends ServiceProvider
 			if (!is_object($widgets) || !method_exists($widgets, 'register')) {
 				return;
 			}
-			CryptoWidget::use($container->get(Shortcodes::class), $container->get(WidgetSchema::class), $container->get(Preview::class));
+			// One element per widget type this site can use: this plugin's own, and an add-on's
+			// once it has unlocked them.
+			$types = [];
+			foreach ($container->get(WidgetCatalog::class)->all() as $type => $definition) {
+				if ($definition->available) {
+					$types[$type] = ['label' => $definition->label, 'view' => $definition->view];
+				}
+			}
+			CryptoWidget::use($container->get(Shortcodes::class), $container->get(WidgetSchema::class), $container->get(Preview::class), $types);
+
+			foreach (array_keys($types) as $type) {
+				$widgets->register(CryptoWidget::forType((string) $type));
+			}
+			// The element with a type picker stays registered, out of the panel, for any page that has it.
 			$widgets->register(new CryptoWidget());
 		});
 	}

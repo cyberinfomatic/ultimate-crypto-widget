@@ -25,11 +25,31 @@ final class ElementorTest extends TestCase {
 		require_once __DIR__ . '/../Support/ElementorStubs.php';
 	}
 
-	private function element(): CryptoWidget {
-		$container = Services::container();
-		CryptoWidget::use( $container->get( Shortcodes::class ), $container->get( WidgetSchema::class ), $container->get( Preview::class ) );
+	/**
+	 * An element as Elementor builds one that is placed on a page: from its saved data.
+	 *
+	 * @param array<string, mixed> $settings
+	 */
+	private function element( string $type = '', array $settings = array() ): CryptoWidget {
+		do_action( 'elementor/widgets/register', $this->manager() );
 
-		return new CryptoWidget();
+		$name = '' === $type ? CryptoWidget::GENERIC : CryptoWidget::NAME_PREFIX . $type;
+
+		return new CryptoWidget( array( 'widgetType' => $name, 'settings' => $settings ), array() );
+	}
+
+	/**
+	 * Stands in for Elementor's widget manager: it keeps what is registered, by name.
+	 */
+	private function manager(): object {
+		return new class() {
+			/** @var array<string, object> */
+			public array $registered = array();
+
+			public function register( object $widget ): void {
+				$this->registered[ $widget->get_name() ] = $widget;
+			}
+		};
 	}
 
 	public function test_nothing_of_elementor_is_touched_on_a_site_without_it(): void {
@@ -38,20 +58,55 @@ final class ElementorTest extends TestCase {
 		$this->assertFalse( class_exists( \Elementor\Plugin::class, false ) );
 	}
 
-	public function test_the_element_registers_itself_when_elementor_asks(): void {
-		$manager = new class() {
-			/** @var object[] */
-			public array $registered = array();
-
-			public function register( object $widget ): void {
-				$this->registered[] = $widget;
-			}
-		};
+	public function test_every_widget_type_the_site_can_use_gets_its_own_element(): void {
+		$manager = $this->manager();
 
 		do_action( 'elementor/widgets/register', $manager );
 
-		$this->assertCount( 1, $manager->registered );
-		$this->assertSame( 'ucwp-widget', $manager->registered[0]->get_name() );
+		$names = array_keys( $manager->registered );
+		foreach ( self::free_widget_types() as $type ) {
+			$this->assertContains( 'ucwp-' . $type, $names );
+		}
+		$this->assertNotContains( 'ucwp-historical-price-chart', $names, 'A Pro type must wait for the add-on.' );
+
+		$table = $manager->registered['ucwp-crypto-price-table-1'];
+		$this->assertSame( 'Crypto Price Table', $table->get_title() );
+		$this->assertSame( 'eicon-table', $table->get_icon() );
+		$this->assertSame( array( 'ucwp' ), $table->get_categories() );
+		$this->assertTrue( $table->show_in_panel() );
+	}
+
+	public function test_an_add_ons_types_get_elements_once_they_are_usable(): void {
+		$unlock = static function ( \Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog $catalog ): void {
+			$catalog->register( new \Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetDefinition( 'historical-price-chart', 'Historical Price Chart', 'historical-price-chart', 'card-001', array( 'coins', 'no_of_days' ), array(), true, true ) );
+		};
+		add_action( 'ucwp_register_widgets', $unlock );
+		$container = Services::container();
+
+		// What the provider does, with a catalogue that has the add-on's type unlocked.
+		$types = array();
+		foreach ( ( new \Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog() )->all() as $type => $definition ) {
+			if ( $definition->available ) {
+				$types[ $type ] = array( 'label' => $definition->label, 'view' => $definition->view );
+			}
+		}
+		remove_action( 'ucwp_register_widgets', $unlock );
+		CryptoWidget::use( $container->get( Shortcodes::class ), $container->get( WidgetSchema::class ), $container->get( Preview::class ), $types );
+
+		$chart = CryptoWidget::forType( 'historical-price-chart' );
+
+		$this->assertSame( 'ucwp-historical-price-chart', $chart->get_name() );
+		$this->assertSame( 'Historical Price Chart', $chart->get_title() );
+		$this->assertSame( 'eicon-skill-bar', $chart->get_icon() );
+	}
+
+	public function test_the_element_with_a_type_picker_is_kept_but_not_offered(): void {
+		$manager = $this->manager();
+
+		do_action( 'elementor/widgets/register', $manager );
+
+		$this->assertArrayHasKey( 'ucwp-widget', $manager->registered );
+		$this->assertFalse( $manager->registered['ucwp-widget']->show_in_panel() );
 	}
 
 	public function test_it_has_its_own_group_in_elementors_panel(): void {
@@ -67,48 +122,55 @@ final class ElementorTest extends TestCase {
 		do_action( 'elementor/elements/categories_registered', $elements );
 
 		$this->assertSame( 'Crypto Widgets', $elements->categories['ucwp']['title'] ?? null );
-		$this->assertSame( array( 'ucwp' ), $this->element()->get_categories() );
+		$this->assertSame( array( 'ucwp' ), $this->element( 'coin-marquee-1' )->get_categories() );
 	}
 
-	public function test_its_controls_come_from_the_widget_settings(): void {
+	public function test_an_element_offers_only_its_own_types_settings(): void {
+		$marquee = $this->element( 'coin-marquee-1' );
+		$marquee->build_controls();
+
+		// No type picker, no conditions: the element already is the type.
+		$this->assertSame( array( 'ucw_count', 'ucw_speed', 'ucw_card_width', 'ucw_parent_width', 'ucw_default_currency' ), array_keys( $marquee->controls ) );
+		$this->assertArrayNotHasKey( 'condition', $marquee->controls['ucw_speed'] );
+
+		$speed = $marquee->controls['ucw_speed'];
+		$this->assertSame( 'number', $speed['type'] );
+		$this->assertSame( array( 100.0, 5000.0, '3000' ), array( $speed['min'], $speed['max'], $speed['default'] ) );
+
+		$tabs = $this->element( 'multi-currencies-tab' );
+		$tabs->build_controls();
+		$this->assertArrayNotHasKey( 'ucw_speed', $tabs->controls );
+		$this->assertSame( 'select2', $tabs->controls['ucw_currencies']['type'] );
+		$this->assertTrue( $tabs->controls['ucw_currencies']['multiple'] );
+		$this->assertSame( array(), $tabs->controls['ucw_coins']['default'] );
+	}
+
+	public function test_the_generic_element_still_has_every_setting_behind_a_type_picker(): void {
 		$element = $this->element();
 		$element->build_controls();
 
-		$this->assertSame(
-			array( 'ucw_type', 'ucw_count', 'ucw_orientation', 'ucw_speed', 'ucw_card_width', 'ucw_parent_width', 'ucw_default_currency', 'ucw_no_of_days', 'ucw_data_interval', 'ucw_search_placeholder', 'ucw_coins', 'ucw_currencies', 'ucw_dark_mode' ),
-			array_keys( $element->controls )
-		);
-
-		$type = $element->controls['ucw_type'];
-		$this->assertArrayHasKey( 'coin-marquee-1', $type['options'] );
-		$this->assertArrayNotHasKey( 'historical-price-chart', $type['options'], 'A type the site cannot use must not be offered.' );
-
-		$speed = $element->controls['ucw_speed'];
-		$this->assertSame( 'number', $speed['type'] );
-		$this->assertSame( array( 100.0, 5000.0 ), array( $speed['min'], $speed['max'] ) );
-		$this->assertContains( 'coin-marquee-1', $speed['condition']['ucw_type'] );
-		$this->assertNotContains( 'crypto-price-table-1', $speed['condition']['ucw_type'] );
-
-		$coins = $element->controls['ucw_coins'];
-		$this->assertSame( 'select2', $coins['type'] );
-		$this->assertTrue( $coins['multiple'] );
-		$this->assertSame( array(), $coins['default'] );
+		$this->assertSame( 'ucw_type', array_key_first( $element->controls ) );
+		$this->assertCount( 13, $element->controls );
+		$this->assertArrayNotHasKey( 'historical-price-chart', $element->controls['ucw_type']['options'], 'A type the site cannot use must not be offered.' );
+		$this->assertContains( 'coin-marquee-1', $element->controls['ucw_speed']['condition']['ucw_type'] );
+		$this->assertNotContains( 'crypto-price-table-1', $element->controls['ucw_speed']['condition']['ucw_type'] );
 	}
 
 	public function test_it_draws_the_same_widget_as_the_shortcode(): void {
 		if ( ! self::has_react_build() ) {
 			$this->markTestSkipped( 'React bundles are not built.' );
 		}
-		$element           = $this->element();
-		$element->settings = array(
-			'ucw_type'             => 'crypto-price-table-1',
-			'ucw_count'            => '5',
-			'ucw_parent_width'     => '100%',
-			'ucw_default_currency' => 'eur',
-			// Left over from another type; this type has no speed.
-			'ucw_speed'            => '900',
-			'ucw_coins'            => array( 'bitcoin', 'ethereum' ),
-			'_element_id'          => 'something-of-elementors',
+		$element = $this->element(
+			'crypto-price-table-1',
+			array(
+				'ucw_count'            => '5',
+				'ucw_parent_width'     => '100%',
+				'ucw_default_currency' => 'eur',
+				// Not settings of this type; they must not reach the widget.
+				'ucw_speed'            => '900',
+				'ucw_type'             => 'coin-marquee-1',
+				'_element_id'          => 'something-of-elementors',
+			)
 		);
 
 		$from_element   = $element->output();
@@ -116,6 +178,15 @@ final class ElementorTest extends TestCase {
 
 		$this->assertSame( self::widget_props( $from_shortcode ), self::widget_props( $from_element ) );
 		$this->assertContains( 'ultimate-crypto-widget-widget-crypto-price-table', wp_scripts()->queue );
+	}
+
+	public function test_a_page_that_has_the_generic_element_still_draws(): void {
+		if ( ! self::has_react_build() ) {
+			$this->markTestSkipped( 'React bundles are not built.' );
+		}
+		$element = $this->element( '', array( 'ucw_type' => 'coin-marquee-1', 'ucw_count' => '5' ) );
+
+		$this->assertStringContainsString( 'data-ucw-view="coin-marquee"', $element->output() );
 	}
 
 	public function test_a_list_chosen_in_elementor_is_passed_in_its_stored_shape(): void {
@@ -135,10 +206,7 @@ final class ElementorTest extends TestCase {
 		);
 	}
 
-	public function test_it_draws_nothing_until_a_type_is_chosen(): void {
-		$element           = $this->element();
-		$element->settings = array( 'ucw_count' => '5' );
-
-		$this->assertSame( '', $element->output() );
+	public function test_the_generic_element_draws_nothing_until_a_type_is_chosen(): void {
+		$this->assertSame( '', $this->element( '', array( 'ucw_count' => '5' ) )->output() );
 	}
 }

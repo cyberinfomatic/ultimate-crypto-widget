@@ -34,6 +34,14 @@ if ( ! class_exists( Widget_Base::class ) ) {
 		/** @var array<string, mixed> */
 		public array $settings = array();
 
+		/**
+		 * As in Elementor: no data for the instance that describes an element type,
+		 * the element's saved data for one placed on a page.
+		 */
+		public function __construct( $data = array(), $args = null ) {
+			$this->settings = is_array( $data ) && isset( $data['settings'] ) && is_array( $data['settings'] ) ? $data['settings'] : array();
+		}
+
 		abstract public function get_name();
 
 		abstract protected function register_controls();
