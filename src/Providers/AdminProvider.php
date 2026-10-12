@@ -37,7 +37,7 @@ final class AdminProvider extends ServiceProvider
 		$container->singleton(WidgetEditor::class, static fn (Container $c): WidgetEditor => new WidgetEditor(
 			$c->get(EntityRegistrar::class),
 			$c->get(FieldTypes::class),
-			new WidgetSchema($c->get(WidgetCatalog::class), $c->get(PriceProvider::class)),
+			$c->get(WidgetSchema::class),
 			$c->get(WidgetCatalog::class),
 			$c->get(Preview::class),
 			$app->hooks()

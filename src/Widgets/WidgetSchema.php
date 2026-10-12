@@ -101,6 +101,55 @@ final class WidgetSchema
 		return $out;
 	}
 
+	/**
+	 * The same fields as plain data, for editors that draw their own controls (the
+	 * block editor, page builders). Coin choices are fetched here, so call it only
+	 * where a form is about to be shown.
+	 *
+	 * @return list<array{name: string, label: string, help: string, control: string, default: string, usedBy: string[], options: list<array{value: string, label: string, locked: bool}>, min: ?float, max: ?float, step: ?float, limit: int}>
+	 */
+	public function toArray(): array
+	{
+		$out = [];
+		foreach ($this->fields() as $field) {
+			$attributes = $field->htmlAttributes();
+			$locked     = (array) $field->setting('locked', []);
+
+			$choices = ListFieldType::NAME === $field->type ? $field->setting('choices', []) : $field->choices();
+			if ($choices instanceof \Closure) {
+				$choices = $choices();
+			}
+			$options = [];
+			foreach (is_array($choices) ? $choices : [] as $value => $label) {
+				$options[] = ['value' => (string) $value, 'label' => (string) $label, 'locked' => in_array((string) $value, $locked, true)];
+			}
+
+			$number = static fn (string $key): ?float => isset($attributes[$key]) && is_numeric($attributes[$key]) ? (float) $attributes[$key] : null;
+
+			$out[] = [
+				'name'    => $field->name,
+				'label'   => $field->labelText(),
+				'help'    => (string) $field->setting('description', ''),
+				'control' => match ($field->type) {
+					WidgetTypeFieldType::NAME => 'type',
+					ListFieldType::NAME       => 'list',
+					'select'                  => 'select',
+					'number'                  => 'number',
+					default                   => 'text',
+				},
+				'default' => is_scalar($field->defaultValue()) ? (string) $field->defaultValue() : '',
+				'usedBy'  => 'type' === $field->name ? [] : array_values(array_filter(explode(' ', (string) ($attributes['data-ucw-for'] ?? '')))),
+				'options' => $options,
+				'min'     => $number('min'),
+				'max'     => $number('max'),
+				'step'    => $number('step'),
+				'limit'   => (int) $field->setting('max', 0),
+			];
+		}
+
+		return $out;
+	}
+
 	private function typeField(FieldFactory $f): Field
 	{
 		$labels = [];

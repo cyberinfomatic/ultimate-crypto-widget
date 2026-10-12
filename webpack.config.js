@@ -25,11 +25,12 @@ function getEntries(dir = 'react/widgets') {
 	return entries;
 }
 
-// Each widget is its own bundle; so are the admin screen and the shared stylesheet.
+// Each widget is its own bundle; so are the admin script, the block and the shared stylesheet.
 const entries = {
 	...getEntries(),
 	admin: path.resolve(__dirname, 'react/admin/index.ts'),
 	theme: path.resolve(__dirname, 'react/theme/index.ts'),
+	block: path.resolve(__dirname, 'react/block/index.tsx'),
 };
 const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {

@@ -16,6 +16,9 @@ final class Preview
 {
 	public const ACTION = 'ucwp_preview';
 
+	/** Tells the page holding the frame how tall the widget is, so the frame can fit it. */
+	private const HEIGHT_SCRIPT = '<script>(function(){var tell=function(){parent.postMessage({ucwPreviewHeight:document.documentElement.scrollHeight},location.origin)};if(window.ResizeObserver){new ResizeObserver(tell).observe(document.body)}tell()})();</script>';
+
 	public function __construct(private readonly Shortcodes $shortcodes)
 	{
 	}
@@ -122,7 +125,7 @@ final class Preview
 			esc_html__('Widget preview', 'ultimate-crypto-widget'),
 			$styles,
 			$widget,
-			$scripts
+			$scripts . self::HEIGHT_SCRIPT
 		);
 	}
 }

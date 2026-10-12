@@ -1,0 +1,8 @@
+// The block's controls in the editor sidebar. What sits in the canvas is styled
+// inline, because the canvas is a frame this stylesheet does not reach.
+
+.ucw-block-controls {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}

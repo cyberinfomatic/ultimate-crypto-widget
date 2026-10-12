@@ -113,10 +113,26 @@ function setUpCopying(): void {
 	});
 }
 
+/** Makes each preview frame as tall as the widget inside it says it is. */
+function fitPreviews(): void {
+	window.addEventListener("message", (event) => {
+		const height = Number(event.data?.ucwPreviewHeight);
+		if (event.origin !== window.location.origin || !(height > 0)) {
+			return;
+		}
+		document.querySelectorAll<HTMLIFrameElement>("iframe[data-ucw-preview]").forEach((frame) => {
+			if (frame.contentWindow === event.source) {
+				frame.style.blockSize = `${Math.min(height, 1600)}px`;
+			}
+		});
+	});
+}
+
 const start = () => {
 	// The post editor's own form, or the quick widget's.
 	document.querySelectorAll<HTMLElement>("form#post, form[data-ucw-editor]").forEach(setUp);
 	setUpCopying();
+	fitPreviews();
 };
 
 if (document.readyState === "loading") {

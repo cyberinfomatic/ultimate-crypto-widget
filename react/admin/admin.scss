@@ -85,7 +85,8 @@
 .ucw-preview {
 	display: block;
 	inline-size: 100%;
-	block-size: 26rem;
+	// Until the widget reports its own height.
+	block-size: 12rem;
 	border: 1px solid #dcdcde;
 	border-radius: 0.5rem;
 	background: #fff;
