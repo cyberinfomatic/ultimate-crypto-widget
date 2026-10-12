@@ -1,12 +1,10 @@
 import React from "react";
-import { __, sprintf } from "@wordpress/i18n";
 import { formatPrice, LineChart, Notice, Skeleton, Sparkline, toCount } from "../ds";
 import { thin } from "./api";
 import { useChart } from "./useRemote";
 
 type PriceChartProps = {
 	coinId: string;
-	coinName: string;
 	/** A saved "number of days" setting; 7 when it is missing. */
 	days: unknown;
 	currency?: string;
@@ -15,17 +13,24 @@ type PriceChartProps = {
 	enabled?: boolean;
 	/** A small bare line instead of the full chart. */
 	spark?: boolean;
+	/** What the chart shows, for screen readers, given the number of days: "Bitcoin price, last 7 days". */
+	describe: (days: number) => string;
+	/** Shown when the history cannot be loaded. */
+	unavailable: string;
 };
 
 /** Enough points for a smooth line without drawing every sample. */
 const MAX_POINTS = 120;
 
-/** A coin's price history, loaded from the plugin's API, with its loading and failed states. */
-export const PriceChart = ({ coinId, coinName, days, currency, symbol, enabled = true, spark = false }: PriceChartProps) => {
+/**
+ * A coin's price history, loaded from the plugin's API, with its loading and failed
+ * states. Its wording comes from the caller, so it is translated with the calling
+ * plugin's own strings.
+ */
+export const PriceChart = ({ coinId, days, currency, symbol, enabled = true, spark = false, describe, unavailable }: PriceChartProps) => {
 	const dayCount = Math.min(365, toCount(days, 7));
 	const chart = useChart(coinId, dayCount, currency, enabled);
-	/* translators: 1: coin name, 2: number of days. */
-	const label = sprintf(__("%1$s price, last %2$d days", "ultimate-crypto-widget"), coinName, dayCount);
+	const label = describe(dayCount);
 
 	if (chart.status === "idle") {
 		return null;
@@ -34,7 +39,7 @@ export const PriceChart = ({ coinId, coinName, days, currency, symbol, enabled =
 		return <Skeleton height={spark ? "28" : "144"} width={spark ? "96" : undefined} />;
 	}
 	if (chart.status === "error" || chart.data.length < 2) {
-		return spark ? null : <Notice>{__("The price history is not available right now.", "ultimate-crypto-widget")}</Notice>;
+		return spark ? null : <Notice>{unavailable}</Notice>;
 	}
 
 	const points = thin(chart.data, MAX_POINTS);

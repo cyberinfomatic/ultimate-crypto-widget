@@ -14,6 +14,7 @@ export { LineChart } from "./components/LineChart";
 export type { ChartPoint } from "./components/LineChart";
 export { Notice } from "./components/Notice";
 export { clampPage, pageCount, pageOf, Pager } from "./components/Pager";
+export type { PagerLabels } from "./components/Pager";
 export { Price } from "./components/Price";
 export { filterByText, SearchField } from "./components/SearchField";
 export { Skeleton } from "./components/Skeleton";

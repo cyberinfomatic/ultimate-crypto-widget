@@ -14,12 +14,7 @@
         }
     },
     "scripts": {
-        "makepot-audit": [
-            "wp --allow-root i18n make-pot . languages/ultimate-crypto-widget.pot --slug=ultimate-crypto-widget --exclude=\".github,.wordpress-org,node_modules,vendor,build,deploy,dist\""
-        ],
-        "make-pot": [
-            "@makepot-audit --skip-audit"
-        ],
+        "make-pot": "wp i18n make-pot . languages/ultimate-crypto-widget.pot --slug=ultimate-crypto-widget --domain=ultimate-crypto-widget --exclude=.github,node_modules,vendor,dist,tests,lib,react --skip-audit",
         "test": [
             "@setup-phpcs",
             "@phpcs",

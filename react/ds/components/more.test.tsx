@@ -11,6 +11,8 @@ import { Ticker } from "./Ticker";
 
 const html = (node: React.ReactElement) => renderToStaticMarkup(node);
 
+const labels = { status: (page: number, pages: number) => `Page ${page} of ${pages}`, previous: "Previous page", next: "Next page" };
+
 describe("LineChart", () => {
 	const points = [
 		{ time: Date.UTC(2026, 0, 1), value: 10 },
@@ -106,16 +108,16 @@ describe("Pager", () => {
 	});
 
 	it("disables the button that has nowhere to go", () => {
-		const first = html(<Pager page={0} pageSize={10} total={25} onChange={() => {}} />);
+		const first = html(<Pager labels={labels} page={0} pageSize={10} total={25} onChange={() => {}} />);
 
 		expect(first).toContain("Page 1 of 3");
 		expect(first).toMatch(/aria-label="Previous page"[^>]*disabled/);
 		expect(first).not.toMatch(/aria-label="Next page"[^>]*disabled/);
-		expect(html(<Pager page={2} pageSize={10} total={25} onChange={() => {}} />)).toMatch(/aria-label="Next page"[^>]*disabled/);
+		expect(html(<Pager labels={labels} page={2} pageSize={10} total={25} onChange={() => {}} />)).toMatch(/aria-label="Next page"[^>]*disabled/);
 	});
 
 	it("draws nothing when everything fits on one page", () => {
-		expect(html(<Pager page={0} pageSize={10} total={10} onChange={() => {}} />)).toBe("");
+		expect(html(<Pager labels={labels} page={0} pageSize={10} total={10} onChange={() => {}} />)).toBe("");
 	});
 });
 

@@ -65,3 +65,14 @@ then builds only `name` and `singular_name`. A plugin that ships translations ha
 
 **Our workaround:** `Admin\WidgetEditor::registerPostType()` calls `register_post_type()` directly and
 builds the settings form with `$registrar->metaBox()` rather than an entity.
+
+## 6. No autoloading for the plugin's own classes without Composer (missing feature)
+
+`bootstrap/autoload.php` loads the toolkit's classes only. A plugin's own namespace is expected to
+come from `vendor/autoload.php`. A plugin with no runtime Composer packages ships no `vendor/` folder,
+so it writes its own small PSR-4 loader; both of ours do (`src/Helpers/autoloader.php` here, the top
+of `src/boot.php` in the Pro add-on).
+
+**Suggestion:** a guard option that registers the consumer's namespace with the standalone loader,
+e.g. `'psr4' => array( 'Acme\\Plugin\\' => 'src' )`, and an equivalent on `Application` for an add-on
+that borrows a host plugin's copy of the toolkit.

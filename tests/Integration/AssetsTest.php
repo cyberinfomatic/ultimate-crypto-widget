@@ -97,6 +97,30 @@ final class AssetsTest extends TestCase {
 		}
 	}
 
+	public function test_widget_scripts_get_their_translations(): void {
+		if ( ! self::has_react_build() ) {
+			$this->markTestSkipped( 'React bundles are not built.' );
+		}
+
+		do_shortcode( '[ucwp_widget type="crypto-price-table-1" count="5" parent_width="100%" default_currency="usd"]' );
+
+		$script = wp_scripts()->registered['ultimate-crypto-widget-widget-crypto-price-table'];
+		$this->assertContains( 'wp-i18n', $script->deps );
+		$this->assertSame( 'ultimate-crypto-widget', $script->textdomain );
+		$this->assertStringEndsWith( '/languages', untrailingslashit( wp_normalize_path( (string) $script->translations_path ) ) );
+	}
+
+	public function test_right_to_left_sites_get_the_mirrored_theme(): void {
+		if ( ! self::has_react_build() ) {
+			$this->markTestSkipped( 'React bundles are not built.' );
+		}
+
+		do_shortcode( '[ucwp_widget type="coin-marquee-1" default_currency="usd"]' );
+
+		$this->assertSame( 'replace', wp_styles()->registered['ultimate-crypto-widget-theme-style']->extra['rtl'] ?? null );
+		$this->assertFileExists( UCWP_PLUGIN_DIR . 'assets/react-build/theme-rtl.css' );
+	}
+
 	public function test_admin_styles_stay_on_the_plugins_own_screens(): void {
 		set_current_screen( 'dashboard' );
 		do_action( 'admin_enqueue_scripts', 'index.php' );

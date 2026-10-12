@@ -1,8 +1,16 @@
 import React from "react";
-import { __, sprintf } from "@wordpress/i18n";
 import { IconButton } from "./IconButton";
 
+/** The pager's wording, from whoever uses it, so it is translated with that plugin's own strings. */
+export type PagerLabels = {
+	/** "Page 2 of 5". Both numbers start at 1. */
+	status: (page: number, pages: number) => string;
+	previous: string;
+	next: string;
+};
+
 type PagerProps = {
+	labels: PagerLabels;
 	/** The first page is 0. */
 	page: number;
 	pageSize: number;
@@ -24,7 +32,7 @@ export function pageOf<T>(items: T[], page: number, pageSize: number): T[] {
 }
 
 /** Previous and next, with where the reader is. Draws nothing for a single page. */
-export const Pager = ({ page, pageSize, total, onChange }: PagerProps) => {
+export const Pager = ({ labels, page, pageSize, total, onChange }: PagerProps) => {
 	const pages = pageCount(total, pageSize);
 	const current = clampPage(page, total, pageSize);
 
@@ -35,11 +43,10 @@ export const Pager = ({ page, pageSize, total, onChange }: PagerProps) => {
 	return (
 		<div className="ucw-pager">
 			<span className="ucw-pager__status" aria-live="polite">
-				{/* translators: 1: current page number, 2: number of pages. */}
-				{sprintf(__("Page %1$d of %2$d", "ultimate-crypto-widget"), current + 1, pages)}
+				{labels.status(current + 1, pages)}
 			</span>
-			<IconButton label={__("Previous page", "ultimate-crypto-widget")} icon="previous" disabled={current === 0} onClick={() => onChange(current - 1)} />
-			<IconButton label={__("Next page", "ultimate-crypto-widget")} icon="next" disabled={current >= pages - 1} onClick={() => onChange(current + 1)} />
+			<IconButton label={labels.previous} icon="previous" disabled={current === 0} onClick={() => onChange(current - 1)} />
+			<IconButton label={labels.next} icon="next" disabled={current >= pages - 1} onClick={() => onChange(current + 1)} />
 		</div>
 	);
 };
