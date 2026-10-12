@@ -8,7 +8,6 @@
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Support;
 
 use Cyberinfomatic\UltimateCryptoWidget\Admin\WidgetEditor;
-use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 
 /**
  * Saves a ucwp_widget post through the plugin's own save handler, so the rows in

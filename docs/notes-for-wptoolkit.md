@@ -52,3 +52,16 @@ likely copied and then deleted.
 
 **Suggestion:** apply the exclusions while walking the tree, so an excluded folder is never entered,
 and check with a project that has a large `node_modules`.
+
+## 5. A post type's labels cannot be translated (missing feature)
+
+`#[PostType('book', singular: 'Book', plural: 'Books')]` takes its labels as attribute arguments, which
+PHP evaluates as constants, so they cannot go through `__()`. `EntityRegistrar::registerPostType()`
+then builds only `name` and `singular_name`. A plugin that ships translations has to set
+`register: false` and call `register_post_type()` itself.
+
+**Suggestion:** let the registrar take the labels at registration time, e.g.
+`$registrar->entity(Book::class, labels: [...])`, or accept a `labels` callback.
+
+**Our workaround:** `Admin\WidgetEditor::registerPostType()` calls `register_post_type()` directly and
+builds the settings form with `$registrar->metaBox()` rather than an entity.

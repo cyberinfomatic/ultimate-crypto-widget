@@ -5,7 +5,6 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Providers;
 use Cyberinfomatic\UltimateCryptoWidget\Data\CoinGeckoProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Data\Http\WordPressHttpClient;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
-use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Adapters\Cache\CacheFactory;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\Settings\Settings;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Contracts\Container\Container;
@@ -31,8 +30,6 @@ final class DataProvider extends ServiceProvider
 
 		$container->singleton(PriceProvider::class, static fn (Container $c): PriceProvider => self::make($c));
 
-		// Until the old static helpers are gone they reach services through this.
-		Services::use($container);
 	}
 
 	/**

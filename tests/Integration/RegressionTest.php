@@ -8,7 +8,7 @@
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetShortcode;
-use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
+use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\HttpStub;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\WidgetFactory;

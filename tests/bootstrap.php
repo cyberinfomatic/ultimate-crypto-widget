@@ -48,6 +48,7 @@ tests_add_filter(
 require $ucwp_tests_dir . '/includes/bootstrap.php';
 
 // These build on WP_UnitTestCase, which exists only now.
+require_once __DIR__ . '/Support/Services.php';
 require_once __DIR__ . '/Support/Snapshots.php';
 require_once __DIR__ . '/Support/WidgetFactory.php';
 require_once __DIR__ . '/Support/TestCase.php';

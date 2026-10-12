@@ -8,7 +8,6 @@
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Support;
 
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog;
-use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Throwable;
 use WP_UnitTestCase;
 

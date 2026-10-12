@@ -7,7 +7,7 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
-use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
+use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\Settings\Settings;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 

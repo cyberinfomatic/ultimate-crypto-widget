@@ -7,7 +7,7 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
-use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
+use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\WidgetFactory;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetFields;

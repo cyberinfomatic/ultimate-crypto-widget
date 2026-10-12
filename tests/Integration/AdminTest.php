@@ -10,7 +10,7 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 use Cyberinfomatic\UltimateCryptoWidget\Admin\Preview;
 use Cyberinfomatic\UltimateCryptoWidget\Admin\Screens;
 use Cyberinfomatic\UltimateCryptoWidget\Admin\WidgetEditor;
-use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
+use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\WidgetFactory;
 

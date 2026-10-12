@@ -9,7 +9,7 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceDataException;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
-use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
+use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\HttpStub;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 
