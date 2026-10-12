@@ -25,21 +25,34 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Check version match
+      - name: Check that every version matches the tag
         run: |
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
           RELEASE_VERSION=${GITHUB_REF#refs/tags/v}
-          if [ "$PACKAGE_VERSION" != "$RELEASE_VERSION" ]; then
-            echo "Error: Version mismatch. package.json version ($PACKAGE_VERSION) does not match release tag ($RELEASE_VERSION)"
-            exit 1
-          fi
-
-      - name: Make Pot file
-        run: |
-          composer run make-pot
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          HEADER_VERSION=$(grep -m1 -E '^ \* Version:' ultimate-crypto-widget.php | awk '{print $3}')
+          STABLE_TAG=$(grep -m1 -E '^Stable tag:' readme.txt | awk '{print $3}')
+          for found in "package.json:$PACKAGE_VERSION" "plugin header:$HEADER_VERSION" "readme stable tag:$STABLE_TAG"; do
+            if [ "${found##*:}" != "$RELEASE_VERSION" ]; then
+              echo "Error: ${found%%:*} says ${found##*:} but the release tag says $RELEASE_VERSION"
+              exit 1
+            fi
+          done
 
       - name: Install Node.js dependencies
         run: npm ci
+
+      - name: Build the scripts
+        run: npm run build
+
+      - name: Check the code
+        run: |
+          npm run typecheck
+          npm run test:js
+          composer phpcs
+
+      # After the build: the template takes the scripts' strings from the built files.
+      - name: Make the translation template
+        run: composer make-pot
 
       # Builds the assets, stages a clean copy, verifies it and writes dist/ultimate-crypto-widget-<version>.zip
       - name: Build and verify the zip
@@ -64,33 +77,34 @@ jobs:
           asset_name: ultimate-crypto-widget-${{ github.ref_name }}.zip
           asset_content_type: application/zip
 
-      # SVN deployment
+      # WordPress.org. Trunk becomes exactly what is in the zip: a file removed from the
+      # plugin is removed there too, so nothing from an older version keeps shipping.
       - name: Deploy to WordPress.org
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: ultimate-crypto-widget
         run: |
-          # Extract the free version zip
-          unzip dist/plugin-free.zip -d dist/plugin-free-extracted
-
-          # Check out the SVN repo
-          svn co https://plugins.svn.wordpress.org/${SLUG} svn
-
-          # Copy the extracted free version to the SVN trunk
-          cp -R dist/plugin-free-extracted/ultimate-crypto-widget/* svn/trunk/
-
-          # Copy assets to the SVN assets folder
-          mkdir -p svn/assets
-          cp -R svn/trunk/assets/images/* svn/assets/
-
-          # Create a new tag in SVN (remove 'v' prefix)
           SVN_TAG=${GITHUB_REF#refs/tags/v}
-          svn cp svn/trunk svn/tags/$SVN_TAG
 
-          # Add new files to SVN
+          unzip -q dist/plugin-free.zip -d dist/plugin-free-extracted
+          svn co -q "https://plugins.svn.wordpress.org/${SLUG}" svn
+
+          if [ -d "svn/tags/${SVN_TAG}" ]; then
+            echo "Error: tag ${SVN_TAG} already exists on WordPress.org"
+            exit 1
+          fi
+
+          rsync -a --delete --exclude='.svn' "dist/plugin-free-extracted/${SLUG}/" svn/trunk/
+
+          # The banner and icon shown on the plugin's page live outside trunk.
+          mkdir -p svn/assets
+          cp assets/images/banner-* assets/images/icon-* svn/assets/ 2>/dev/null || true
+
           cd svn
-          svn add . --force
+          svn add --force . > /dev/null
+          # Anything rsync deleted is "missing" to SVN until it is told.
+          svn status | grep '^!' | sed 's/^! *//' | while IFS= read -r missing; do svn rm -q "$missing@"; done
+          svn cp -q trunk "tags/${SVN_TAG}"
 
-          # Commit to SVN
           svn ci -m "Release ${SVN_TAG}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
