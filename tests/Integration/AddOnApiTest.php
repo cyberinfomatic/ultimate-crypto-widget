@@ -11,7 +11,10 @@ use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\Application;
 use Cyberinfomatic\UltimateCryptoWidget\Plugin;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
+use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Assets\AssetManager;
+use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Assets\JsNamespace;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\ReactMount;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetBundle;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetDefinition;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetRenderer;
@@ -39,10 +42,10 @@ final class AddOnApiTest extends TestCase {
 	}
 
 	public function test_an_add_on_can_unlock_a_listed_type_and_add_new_ones(): void {
-		$register = static function ( WidgetCatalog $catalog ): void {
+		$register = function ( WidgetCatalog $catalog ): void {
 			// Replaces the teaser of the same type.
-			$catalog->register( new WidgetDefinition( 'historical-price-chart', 'Historical Price Chart', 'sample-pro-widget', 'card-001', array( 'coins', 'default_currency' ), array( WidgetDefinition::DATA_COINS ), true, true, self::BUILD, 'https://example.org/addon/build/' ) );
-			$catalog->register( new WidgetDefinition( 'brand-new-widget', 'Brand New', 'sample-pro-widget', '', array( 'default_currency' ), array(), true, true, self::BUILD, 'https://example.org/addon/build/' ) );
+			$catalog->register( new WidgetDefinition( 'historical-price-chart', 'Historical Price Chart', 'sample-pro-widget', 'card-001', array( 'coins', 'default_currency' ), array( WidgetDefinition::DATA_COINS ), true, true, $this->bundle() ) );
+			$catalog->register( new WidgetDefinition( 'brand-new-widget', 'Brand New', 'sample-pro-widget', '', array( 'default_currency' ), array(), true, true, $this->bundle() ) );
 		};
 		add_action( 'ucwp_register_widgets', $register );
 		$catalog = new WidgetCatalog();
@@ -57,7 +60,7 @@ final class AddOnApiTest extends TestCase {
 
 	public function test_an_add_ons_widget_loads_its_scripts_from_the_add_ons_own_folder(): void {
 		$catalog = new WidgetCatalog();
-		$catalog->register( new WidgetDefinition( 'brand-new-widget', 'Brand New', 'sample-pro-widget', 'card-009', array( 'count', 'default_currency' ), array( WidgetDefinition::DATA_COINS ), true, true, self::BUILD, 'https://example.org/addon/build/' ) );
+		$catalog->register( new WidgetDefinition( 'brand-new-widget', 'Brand New', 'sample-pro-widget', 'card-009', array( 'count', 'default_currency' ), array( WidgetDefinition::DATA_COINS ), true, true, $this->bundle() ) );
 
 		$html = $this->renderer( $catalog )->render( 'brand-new-widget', array( 'count' => '3' ) );
 
@@ -68,17 +71,51 @@ final class AddOnApiTest extends TestCase {
 		foreach ( wp_scripts()->queue as $handle ) {
 			$sources[] = wp_scripts()->registered[ $handle ]->src;
 		}
-		$this->assertContains( 'https://example.org/addon/build/widgets/sample-pro-widget/index.js', $sources );
-		$this->assertContains( 'https://example.org/addon/build/vendors/index.js', $sources );
-		$this->assertContains( 'https://example.org/addon/build/widgets/sample-pro-widget.css', wp_list_pluck( wp_styles()->registered, 'src' ) );
+		$this->assertContains( 'https://example.org/addon/addon-build/widgets/sample-pro-widget/index.js', $sources );
+		$this->assertContains( 'https://example.org/addon/addon-build/vendors/index.js', $sources );
+
+		// Its handles are the add-on's own, so they cannot collide with this plugin's.
+		$this->assertContains( 'sample-addon-vendors', wp_scripts()->queue );
+		$this->assertNotContains( 'ultimate-crypto-widget-vendors', wp_scripts()->queue );
+
+		// Its stylesheet comes after the look every widget shares.
+		$style = wp_styles()->registered['sample-addon-widget-sample-pro-widget-style'] ?? null;
+		$this->assertNotNull( $style );
+		$this->assertSame( 'https://example.org/addon/addon-build/widgets/sample-pro-widget.css', $style->src );
+		if ( self::has_react_build() ) {
+			$this->assertContains( 'ultimate-crypto-widget-theme-style', $style->deps );
+		}
 	}
 
 	public function test_a_widget_whose_script_is_missing_renders_nothing_rather_than_a_broken_box(): void {
 		$catalog = new WidgetCatalog();
-		$catalog->register( new WidgetDefinition( 'not-built', 'Not built', 'no-such-view', '', array( 'default_currency' ), array(), true, true, self::BUILD, 'https://example.org/addon/build/' ) );
+		$catalog->register( new WidgetDefinition( 'not-built', 'Not built', 'no-such-view', '', array( 'default_currency' ), array(), true, true, $this->bundle() ) );
 
 		$this->assertSame( '', $this->renderer( $catalog )->render( 'not-built', array() ) );
 		$this->assertSame( array(), wp_scripts()->queue );
+	}
+
+	/**
+	 * A build belonging to another plugin, loaded through that plugin's own asset manager.
+	 */
+	private function bundle(): WidgetBundle {
+		static $bundle = null;
+		if ( null === $bundle ) {
+			$addon  = Application::create( dirname( self::BUILD ) . '/sample-addon.php', array( 'slug' => 'sample-addon' ) );
+			$assets = new AssetManager(
+				$addon->identity(),
+				new JsNamespace( $addon->identity(), Application::VERSION ),
+				dirname( self::BUILD ),
+				'https://example.org/addon',
+				UCWP_PLUGIN_DIR . 'lib/wptoolkit',
+				'https://example.org/lib',
+				'sample-addon',
+				dirname( self::BUILD ) . '/languages'
+			);
+			$bundle = new WidgetBundle( $assets, self::BUILD, 'addon-build/' );
+		}
+
+		return $bundle;
 	}
 
 	private function renderer( WidgetCatalog $catalog ): WidgetRenderer {

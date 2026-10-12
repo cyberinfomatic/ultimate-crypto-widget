@@ -29,19 +29,20 @@ addressed as `/wp-content/assets/…` (404). Symlinks are common in development 
 **Fix:** for a plugin use `plugin_dir_url($config->file)`, which WordPress resolves through
 `wp_register_plugin_realpath()`; keep the current logic for themes and mu-plugins.
 
-**Our workaround:** `src/Providers/AssetsProvider.php` rebuilds the `AssetManager` with that URL.
+**Our workaround:** `AssetsProvider::managerFor()` builds the `AssetManager` with that URL.
 **Our test:** `AssetsTest::test_scripts_are_addressed_through_wordpress_so_a_linked_plugin_folder_works`.
 
-## 3. `AssetManager` cannot load a file from another plugin's folder (missing feature)
+## 3. Two applications built from one copy of the library (works; worth documenting)
 
-An add-on registers widgets into this plugin, and their bundles live in the add-on's folder. Sources
-are resolved against one base folder only, so those bundles get no manifest, version, translations
-or RTL handling from the toolkit.
+The Pro add-on does not bundle the toolkit. It creates its own `Application` from the copy the core
+plugin bundles (`Application::create($proFile, ['slug' => 'ultimate-crypto-widget-pro'])`), and so
+gets its own identity, hooks, pages and asset manager. That works today. Two things would make it a
+supported pattern rather than a discovery:
 
-**Suggestion:** let an asset carry its own base, e.g.
-`$assets->script('name', 'build/x.js')->from($dir, $url)` (and a text domain for its translations).
-
-**Our workaround:** `ReactMount::loadFromAddOn()` calls `wp_enqueue_script()` directly.
+- say in the docs that an add-on may do this, and what it must check first (the host plugin is
+  active and its toolkit version is new enough);
+- item 2 applies to the add-on's asset manager as well, so both plugins currently build it by hand
+  (`AssetsProvider::managerFor()`).
 
 ## 4. `wptoolkit-build` staging is slow on Windows (performance)
 

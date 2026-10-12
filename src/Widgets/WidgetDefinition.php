@@ -22,8 +22,7 @@ final class WidgetDefinition
 	 * @param string[]    $data      DATA_* constants.
 	 * @param bool        $pro       Belongs to the Pro add-on.
 	 * @param bool        $available Can be rendered now. A Pro widget is listed but unavailable until the add-on provides it.
-	 * @param string|null $buildDir  Directory holding the built scripts (with widgets/ and vendors/ inside), with a trailing slash. Null for this plugin's own.
-	 * @param string|null $buildUrl  The same directory as a URL. Required with $buildDir.
+	 * @param WidgetBundle|null $bundle The build that holds the widget's script. Null for this plugin's own; an add-on passes its own.
 	 */
 	public function __construct(
 		public readonly string $type,
@@ -34,8 +33,7 @@ final class WidgetDefinition
 		public readonly array $data = [self::DATA_COINS],
 		public readonly bool $pro = false,
 		public readonly bool $available = true,
-		public readonly ?string $buildDir = null,
-		public readonly ?string $buildUrl = null
+		public readonly ?WidgetBundle $bundle = null
 	) {
 	}
 
