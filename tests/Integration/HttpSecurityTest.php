@@ -155,6 +155,13 @@ final class HttpSecurityTest extends TestCase {
 	public function test_public_routes_are_rate_limited(): void {
 		wp_set_current_user( 0 );
 
+		// The limit counts per clock minute. Started in a minute's last seconds, the
+		// requests would be split over two minutes and none refused, so wait it out.
+		$into_minute = time() % 60;
+		if ( $into_minute > 50 ) {
+			sleep( 61 - $into_minute );
+		}
+
 		$last = null;
 		for ( $i = 0; $i < 31; $i++ ) {
 			$last = $this->get( '/coin-info', array( 'coin_id' => 'bitcoin' ) );
