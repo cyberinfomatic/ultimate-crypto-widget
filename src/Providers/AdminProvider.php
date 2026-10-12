@@ -61,6 +61,7 @@ final class AdminProvider extends ServiceProvider
 		$editor->register();
 
 		$form->section('general', __('Price data', 'ultimate-crypto-widget'));
+		$form->section('appearance', __('Appearance', 'ultimate-crypto-widget'));
 		$form->register($hooks, Screens::SETTINGS);
 
 		(new Screens($pages, $form, $editor, $preview, $types, $prices))->register();

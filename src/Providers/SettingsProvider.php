@@ -8,6 +8,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Contracts\Log\Logger;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\FieldFactory;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\FieldTypes;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\ServiceProvider;
+use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Support\Validation\Rules;
 
 /**
  * The plugin's settings.
@@ -46,6 +47,21 @@ final class SettingsProvider extends ServiceProvider
 							->description(__('How long prices are kept before they are fetched again, in minutes.', 'ultimate-crypto-widget'))
 							->default(10)
 							->rules('integer|min:1|max:1440'),
+						$field->select('theme', [
+							'light' => __('Light', 'ultimate-crypto-widget'),
+							'dark'  => __('Dark', 'ultimate-crypto-widget'),
+							'auto'  => __('Match the visitor\'s device', 'ultimate-crypto-widget'),
+						])
+							->label(__('Colours', 'ultimate-crypto-widget'))
+							->description(__('A widget with its own "Dark" setting stays dark.', 'ultimate-crypto-widget'))
+							->default('light')
+							->with('group', 'appearance'),
+						$field->text('accent_color')
+							->label(__('Accent colour', 'ultimate-crypto-widget'))
+							->description(__('Used for highlights such as the selected tab. A colour code like #4f46e5; leave empty for the default.', 'ultimate-crypto-widget'))
+							->rules([Rules::regex('/^#[0-9a-fA-F]{6}$/')])
+							->attributes(['placeholder' => '#4f46e5', 'maxlength' => 7, 'class' => 'ucw-colour-field'])
+							->with('group', 'appearance'),
 					],
 					$c->get(FieldTypes::class),
 					$app->identity(),
