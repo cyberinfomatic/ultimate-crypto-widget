@@ -14,9 +14,10 @@ use Codad5\WPToolkit\Build\Version;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$report = Build::plugin( __DIR__ )
+Build::plugin( __DIR__ )
 	->version( Version::fromHeader() )
-	->run( 'npm run build' )
+	// Its output is shown as it runs, so a long build does not look stuck.
+	->runVerbose( 'npm run build' )
 	->exclude(
 		Patterns::fromDistignore(),
 		// Sources and tooling: the zip carries only what runs.
@@ -44,6 +45,5 @@ $report = Build::plugin( __DIR__ )
 		'/lib/wptoolkit/resources/stubs'
 	)
 	->verify( array( '*.map', '*.ts', '*.tsx', '*.scss', 'composer.json', 'package.json' ), 5 )
+	// zip() prints the summary when it finishes.
 	->zip( 'dist/{slug}-{version}.zip' );
-
-echo $report->summary() . PHP_EOL;

@@ -45,6 +45,15 @@ final class AutoloadTest extends TestCase {
 		$this->assertSame( wp_normalize_path( $file ), wp_normalize_path( (string) $reflection->getFileName() ) );
 	}
 
+	public function test_classes_are_loaded_by_the_plugins_own_loader_not_composers(): void {
+		// Composer is present in development only. If it mapped the plugin's namespace, the
+		// tests would pass with a loader no live site has.
+		$composer = require dirname( __DIR__, 2 ) . '/vendor/autoload.php';
+
+		$this->assertArrayNotHasKey( self::PREFIX, $composer->getPrefixesPsr4() );
+		$this->assertFalse( $composer->findFile( self::PREFIX . 'Plugin' ) );
+	}
+
 	public function test_a_class_from_every_folder_is_reachable(): void {
 		$folders = array();
 		foreach ( array_keys( $this->class_file_provider() ) as $relative ) {
@@ -61,7 +70,8 @@ final class AutoloadTest extends TestCase {
 	 * @return array<string, array{0: string, 1: string}>
 	 */
 	public function class_file_provider(): array {
-		$root  = dirname( __DIR__, 2 ) . '/src';
+		// The copy under test: the repository, or an unpacked release zip (UCWP_TEST_PLUGIN_DIR).
+		$root  = rtrim( str_replace( '\\', '/', getenv( 'UCWP_TEST_PLUGIN_DIR' ) ?: dirname( __DIR__, 2 ) ), '/' ) . '/src';
 		$cases = array();
 
 		$files = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $root, \FilesystemIterator::SKIP_DOTS ) );

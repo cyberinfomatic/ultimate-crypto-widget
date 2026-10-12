@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "codad5/wptoolkit",
-            "version": "v1.0.0-rc.3",
+            "version": "v1.0.0-rc.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codad5/wptoolkit.git",
-                "reference": "b976dfe9e8c9a44882617e56bacfd1f7ac692dcf"
+                "reference": "dfa4ff2b4064cec37ab3b3f3ee6ee22cc7651834"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codad5/wptoolkit/zipball/b976dfe9e8c9a44882617e56bacfd1f7ac692dcf",
-                "reference": "b976dfe9e8c9a44882617e56bacfd1f7ac692dcf",
+                "url": "https://api.github.com/repos/codad5/wptoolkit/zipball/dfa4ff2b4064cec37ab3b3f3ee6ee22cc7651834",
+                "reference": "dfa4ff2b4064cec37ab3b3f3ee6ee22cc7651834",
                 "shasum": ""
             },
             "require": {
@@ -118,7 +118,7 @@
                 "issues": "https://github.com/codad5/wptoolkit/issues",
                 "source": "https://github.com/codad5/wptoolkit"
             },
-            "time": "2026-10-11T13:03:47+00:00"
+            "time": "2026-10-12T09:06:37+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
