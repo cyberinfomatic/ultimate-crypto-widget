@@ -1,6 +1,7 @@
 # Notes for WPToolkit
 
-Found while building Ultimate Crypto Widget on WPToolkit 1.0.0-rc.4. Each has a workaround in this
+Found while building Ultimate Crypto Widget on WPToolkit 1.0.0-rc.4. Checked again on 1.0.0-rc.5:
+items 1 and 2 are unchanged there, item 6 is mostly fixed. Each has a workaround in this
 plugin that should be deleted once the toolkit is fixed.
 
 ## 1. `WpHttpClient` loses response headers and raises a warning (bug)
@@ -66,13 +67,16 @@ then builds only `name` and `singular_name`. A plugin that ships translations ha
 **Our workaround:** `Admin\WidgetEditor::registerPostType()` calls `register_post_type()` directly and
 builds the settings form with `$registrar->metaBox()` rather than an entity.
 
-## 6. No autoloading for the plugin's own classes without Composer (missing feature)
+## 6. Autoloading the plugin's own classes without Composer (fixed in rc.5; one case left)
 
-`bootstrap/autoload.php` loads the toolkit's classes only. A plugin's own namespace is expected to
-come from `vendor/autoload.php`. A plugin with no runtime Composer packages ships no `vendor/` folder,
-so it writes its own small PSR-4 loader; both of ours do (`src/Helpers/autoloader.php` here, the top
-of `src/boot.php` in the Pro add-on).
+**Fixed in 1.0.0-rc.5** for a plugin that bundles the toolkit: the guard's `namespaces` option loads
+the plugin's classes by PSR-4. This plugin uses it and its hand-written loader is gone
+(`tests/Integration/AutoloadTest.php` checks every file's name against its class).
 
-**Suggestion:** a guard option that registers the consumer's namespace with the standalone loader,
-e.g. `'psr4' => array( 'Acme\\Plugin\\' => 'src' )`, and an equivalent on `Application` for an add-on
-that borrows a host plugin's copy of the toolkit.
+**Still open:** an add-on that borrows a host plugin's copy of the toolkit cannot call the guard (the
+guard file is in the host's folder, and the add-on must first find out whether the host is there).
+The Pro add-on therefore still has a ten-line loader at the top of its `src/boot.php`.
+
+**Suggestion:** a supported way to register namespaces after boot, for example
+`Application::create(…)->namespaces(array( 'Acme\\Addon\\' => __DIR__ ))`, or documenting
+`bootstrap/namespaces.php` as something an add-on may require directly.

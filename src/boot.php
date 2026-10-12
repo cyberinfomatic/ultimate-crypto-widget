@@ -37,8 +37,6 @@ if ( ! defined( 'UCWP_PLUGIN_BASENAME' ) ) {
 	define( 'UCWP_PLUGIN_BASENAME', plugin_basename( $ucwp_plugin_file ) );
 }
 
-require_once __DIR__ . '/Helpers/autoloader.php';
-
 $ucwp_app = Application::create(
 	$ucwp_plugin_file,
 	array(

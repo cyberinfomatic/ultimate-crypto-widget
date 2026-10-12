@@ -20,8 +20,8 @@
 	<!--
 		Style: PSR-12, indented with tabs as WordPress code is.
 
-		Not applied to the main file, src/boot.php and the autoloader (WordPress-style PHP 5.6 on
-		purpose: they must parse on an old server to say so) or to views (templates).
+		Not applied to the main file and src/boot.php (WordPress-style; the main file is PHP 5.6 on
+		purpose, so it parses on an old server and can say so) or to views (templates).
 	-->
 	<rule ref="PSR12">
 		<exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
@@ -30,7 +30,6 @@
 		<exclude-pattern>ultimate-crypto-widget\.php$</exclude-pattern>
 		<exclude-pattern>*/views/*</exclude-pattern>
 		<exclude-pattern>*/src/boot\.php$</exclude-pattern>
-		<exclude-pattern>*/src/Helpers/autoloader\.php$</exclude-pattern>
 	</rule>
 	<rule ref="Generic.WhiteSpace.ScopeIndent">
 		<properties>

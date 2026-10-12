@@ -33,12 +33,15 @@ call_user_func(
 	require __DIR__ . '/lib/wptoolkit/bootstrap/guard.php',
 	__FILE__,
 	array(
-		'php'      => '8.2',
-		'wp'       => '6.5.5',
-		'toolkit'  => '^1.0',
-		'name'     => 'Ultimate Crypto Widget',
+		'php'        => '8.2',
+		'wp'         => '6.5.5',
+		'toolkit'    => '^1.0',
+		'name'       => 'Ultimate Crypto Widget',
 		// The bundled copy in lib/wptoolkit, never a Composer vendor directory.
-		'autoload' => 'standalone',
+		'autoload'   => 'standalone',
+		// The plugin's own classes, by PSR-4: …\Widgets\WidgetCatalog is src/Widgets/WidgetCatalog.php.
+		// File and folder names must match class names exactly, including case.
+		'namespaces' => array( 'Cyberinfomatic\\UltimateCryptoWidget\\' => __DIR__ . '/src' ),
 	),
 	function () {
 		require __DIR__ . '/src/boot.php';
