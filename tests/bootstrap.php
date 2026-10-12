@@ -47,6 +47,10 @@ tests_add_filter(
 
 require $ucwp_tests_dir . '/includes/bootstrap.php';
 
+// The settings form is built on the plugin's own admin screens. Tests never visit one, so build
+// it once here, before WordPress backs up the hooks it registers (it restores them after each test).
+\Cyberinfomatic\UltimateCryptoWidget\Plugin::app()->container()->get( \Cyberinfomatic\UltimateCryptoWidget\Admin\WidgetEditor::class )->box();
+
 // These build on WP_UnitTestCase, which exists only now.
 require_once __DIR__ . '/Support/Services.php';
 require_once __DIR__ . '/Support/Snapshots.php';

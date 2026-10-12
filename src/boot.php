@@ -7,6 +7,7 @@
  */
 
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\Application;
+use Cyberinfomatic\UltimateCryptoWidget\Migrations\ConvertCommaLists;
 use Cyberinfomatic\UltimateCryptoWidget\Plugin;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\AdminProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\AssetsProvider;
@@ -50,7 +51,11 @@ if ( ! defined( 'UCW_ENV' ) ) {
 	define( 'UCW_ENV', $ucwp_app->isDevelopment() ? 'dev' : 'prod' );
 }
 
-$ucwp_app->providers( array( AssetsProvider::class, SettingsProvider::class, DataProvider::class, WidgetsProvider::class, AdminProvider::class, BlocksProvider::class, IntegrationsProvider::class, HttpProvider::class ) )->boot();
+$ucwp_app
+	->providers( array( AssetsProvider::class, SettingsProvider::class, DataProvider::class, WidgetsProvider::class, AdminProvider::class, BlocksProvider::class, IntegrationsProvider::class, HttpProvider::class ) )
+	// Changes to stored data, each run once: on activation and on the next admin page load.
+	->migrations( array( ConvertCommaLists::class ) )
+	->boot();
 
 // Lets an add-on find the running plugin; fires the ucwp_loaded action.
 Plugin::started( $ucwp_app, $ucwp_plugin_file );

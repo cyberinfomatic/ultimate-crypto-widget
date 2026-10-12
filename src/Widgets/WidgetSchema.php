@@ -7,7 +7,6 @@ use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\Field;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\FieldFactory;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Support\Validation\Rules;
-use Cyberinfomatic\UltimateCryptoWidget\Widgets\Fields\ListFieldType;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\Fields\WidgetTypeFieldType;
 
 /**
@@ -21,6 +20,12 @@ final class WidgetSchema
 {
 	/** How many coins a widget may show unless an add-on offers more. */
 	private const COUNTS = [5, 10];
+
+	/** The field setting that says how many choices a multiple-choice field may hold. */
+	public const MAX_CHOICES = 'max_choices';
+
+	/** @var array<string, string>|null The coins to choose from, fetched once per request. */
+	private ?array $coins = null;
 
 	public function __construct(
 		private readonly WidgetCatalog $catalog,
@@ -68,15 +73,18 @@ final class WidgetSchema
 			'search_placeholder' => $f->text('search_placeholder')
 				->label(__('Search box hint', 'ultimate-crypto-widget'))
 				->rules('max:60'),
-			'coins'              => $f->of('coins', ListFieldType::NAME)
+			// Several choices: the toolkit's own multiple-choice field, which stores one row holding
+			// an array. A long list gets its chip picker with search by itself.
+			'coins'              => $f->select('coins', $this->coinChoices())
+				->multiple()
 				->label(__('Coins', 'ultimate-crypto-widget'))
-				->description(__('Leave empty to show the top coins by market value.', 'ultimate-crypto-widget'))
-				->with('choices', fn (): array => $this->coinChoices()),
-			'currencies'         => $f->of('currencies', ListFieldType::NAME)
+				->description(__('Leave empty to show the top coins by market value.', 'ultimate-crypto-widget')),
+			'currencies'         => $f->select('currencies', $this->currencyChoices())
+				->multiple()
 				->label(__('Other currencies', 'ultimate-crypto-widget'))
 				->description(__('Up to three, offered as tabs beside the widget\'s own currency.', 'ultimate-crypto-widget'))
-				->with('choices', $this->currencyChoices())
-				->with('max', 3),
+				// The toolkit checks each value, not how many; WidgetEditor enforces this when saving.
+				->with(self::MAX_CHOICES, 3),
 			'dark_mode'          => $f->select('dark_mode', [
 				'false' => __('Light', 'ultimate-crypto-widget'),
 				'true'  => __('Dark', 'ultimate-crypto-widget'),
@@ -92,7 +100,12 @@ final class WidgetSchema
 			}
 			if ('type' !== $name) {
 				// Which widget types have this setting; the editor shows a field only for those.
-				$field = $field->attributes(['data-ucw-for' => implode(' ', $usedBy[$name] ?? [])] + $field->htmlAttributes());
+				$extra = ['data-ucw-for' => implode(' ', $usedBy[$name] ?? [])];
+				if ((int) $field->setting(self::MAX_CHOICES, 0) > 0) {
+					// How many may be chosen; the editor's script stops a tick beyond it.
+					$extra['data-ucw-max'] = (int) $field->setting(self::MAX_CHOICES, 0);
+				}
+				$field = $field->attributes($extra + $field->htmlAttributes());
 			}
 			$out[] = $field;
 		}
@@ -114,12 +127,8 @@ final class WidgetSchema
 			$attributes = $field->htmlAttributes();
 			$locked     = (array) $field->setting('locked', []);
 
-			$choices = ListFieldType::NAME === $field->type ? $field->setting('choices', []) : $field->choices();
-			if ($choices instanceof \Closure) {
-				$choices = $choices();
-			}
 			$options = [];
-			foreach (is_array($choices) ? $choices : [] as $value => $label) {
+			foreach ($field->choices() as $value => $label) {
 				$options[] = ['value' => (string) $value, 'label' => (string) $label, 'locked' => in_array((string) $value, $locked, true)];
 			}
 
@@ -129,9 +138,8 @@ final class WidgetSchema
 				'name'    => $field->name,
 				'label'   => $field->labelText(),
 				'help'    => (string) $field->setting('description', ''),
-				'control' => match ($field->type) {
+				'control' => $field->isMultiple() ? 'list' : match ($field->type) {
 					WidgetTypeFieldType::NAME => 'type',
-					ListFieldType::NAME       => 'list',
 					'select'                  => 'select',
 					'number'                  => 'number',
 					default                   => 'text',
@@ -142,7 +150,7 @@ final class WidgetSchema
 				'min'     => $number('min'),
 				'max'     => $number('max'),
 				'step'    => $number('step'),
-				'limit'   => (int) $field->setting('max', 0),
+				'limit'   => (int) $field->setting(self::MAX_CHOICES, 0),
 			];
 		}
 
@@ -228,10 +236,15 @@ final class WidgetSchema
 	 */
 	private function coinChoices(): array
 	{
+		if (null !== $this->coins) {
+			return $this->coins;
+		}
+
 		try {
 			$coins = $this->prices->markets();
 		} catch (PriceDataException) {
-			return [];
+			// Not remembered as a success, but not asked for again within this request.
+			return $this->coins = [];
 		}
 
 		$choices = [];
@@ -241,6 +254,6 @@ final class WidgetSchema
 			}
 		}
 
-		return $choices;
+		return $this->coins = $choices;
 	}
 }

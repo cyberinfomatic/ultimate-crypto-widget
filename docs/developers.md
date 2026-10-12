@@ -156,7 +156,17 @@ Rules, in full in [standards/frontend.md](standards/frontend.md):
 `WidgetSchema` is the one description of a widget's settings: what each is, what it may hold, and
 which types use it. The widget editor (a toolkit `MetaBox`), the block's sidebar and the Elementor
 element are all drawn from it, so a new setting appears in all three. Its names and stored shapes
-come from `WidgetFields`; coins and currencies are stored as `"a,b,c"` (`ListFieldType`).
+come from `WidgetFields`. Coins and currencies are the toolkit's own multiple-choice field: one meta row
+holding an array, shown as a chip picker with search when the list is long. Everywhere outside the database
+(the shortcode's `coins="a,b"`, the widget's data, REST) they are text, `"a,b,c"`; `WidgetFields::listToString()`
+converts, and reads either form. How many may be chosen is a field setting (`WidgetSchema::MAX_CHOICES`), enforced
+when saving by `WidgetEditor::enforceLimits()`, because the toolkit checks each value, not how many.
+
+The settings form lists the top coins, so it is built only on the widget screens
+(`WidgetEditor::needsForm()`), never on a visitor's page view.
+
+Stored data changes go through a migration (`src/Migrations/`, registered in `src/boot.php`), never a branch on a
+"data version".
 
 ## REST API
 

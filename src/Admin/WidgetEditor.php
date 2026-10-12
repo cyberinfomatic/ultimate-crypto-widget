@@ -4,11 +4,12 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Admin;
 
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\Column;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\Columns;
+use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\NoticeType;
+use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\Notices;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\HookRegistrar;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\EntityRegistrar;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\FieldTypes;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\MetaBox;
-use Cyberinfomatic\UltimateCryptoWidget\Widgets\Fields\ListFieldType;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\Fields\WidgetTypeFieldType;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetFields;
@@ -34,6 +35,7 @@ final class WidgetEditor
 		private readonly WidgetSchema $schema,
 		private readonly WidgetCatalog $catalog,
 		private readonly Preview $preview,
+		private readonly Notices $notices,
 		private readonly HookRegistrar $hooks
 	) {
 	}
@@ -45,22 +47,19 @@ final class WidgetEditor
 	{
 		$this->registerPostType();
 
-		$this->types->register(ListFieldType::NAME, new ListFieldType());
 		$this->types->register(WidgetTypeFieldType::NAME, new WidgetTypeFieldType());
 
-		$this->box = $this->registrar
-			->metaBox('settings', __('Widget settings', 'ultimate-crypto-widget'), WidgetRepository::POST_TYPE, $this->schema->fields())
-			->prefix(WidgetFields::META_PREFIX)
-			->placement('normal', 'high');
+		// The settings form lists the top coins, which costs a price request when the cache is
+		// cold. It is built where a widget is edited or listed, never on a visitor's page view.
+		$this->hooks->addAction('admin_init', function (): void {
+			global $pagenow;
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only decides whether to build the form.
+			if (self::needsForm((string) $pagenow, $_REQUEST)) {
+				$this->box();
+			}
+		});
 
 		$this->hooks->addAction('add_meta_boxes_' . WidgetRepository::POST_TYPE, fn () => $this->addBoxes());
-
-		(new Columns($this->box, [
-			Column::field('type')
-				->label(__('Type', 'ultimate-crypto-widget'))
-				->position(Column::AFTER_TITLE)
-				->format(fn (mixed $type): string => esc_html($this->catalog->get((string) $type)?->label ?? '—')),
-		]))->register($this->hooks);
 
 		$this->hooks->addFilter('manage_' . WidgetRepository::POST_TYPE . '_posts_columns', fn (array $columns): array => $this->withShortcodeColumn($columns), 20);
 		$this->hooks->addAction('manage_' . WidgetRepository::POST_TYPE . '_posts_custom_column', function (string $column, int $postId): void {
@@ -76,7 +75,94 @@ final class WidgetEditor
 	 */
 	public function box(): MetaBox
 	{
-		return $this->box ?? throw new \LogicException('The widget editor is registered on "init".');
+		return $this->box ??= $this->buildBox();
+	}
+
+	/**
+	 * Whether an admin request is about the widget post type: its edit and list screens, and
+	 * quick edit in the list.
+	 *
+	 * @param array<string, mixed> $request The request's parameters.
+	 */
+	public static function needsForm(string $page, array $request): bool
+	{
+		$quickEdit = 'admin-ajax.php' === $page && 'inline-save' === ($request['action'] ?? '');
+		if (!$quickEdit && !in_array($page, ['post.php', 'post-new.php', 'edit.php'], true)) {
+			return false;
+		}
+
+		$type = is_string($request['post_type'] ?? null) ? $request['post_type'] : '';
+		if ('' === $type) {
+			// An existing post is named by its id; its type is looked up.
+			$id   = $request['post'] ?? $request['post_ID'] ?? 0;
+			$type = is_scalar($id) && absint($id) > 0 ? (string) get_post_type(absint($id)) : '';
+		}
+
+		return WidgetRepository::POST_TYPE === $type;
+	}
+
+	/**
+	 * Refuses a choice list longer than its field allows, keeping what was saved before.
+	 *
+	 * The toolkit validates each chosen value, not how many were chosen. Hooked before the
+	 * form's own save (priority 10): a refused field is taken out of the request, so the form
+	 * leaves it as it was, and the person is told why. The other fields are saved.
+	 */
+	public function enforceLimits(int $postId, WP_Post $post): void
+	{
+		$box = $this->box();
+		if (!$box->maySave($postId, $post)) {
+			return;
+		}
+
+		foreach ($box->fields() as $name => $field) {
+			$max = (int) $field->setting(WidgetSchema::MAX_CHOICES, 0);
+			$key = $box->metaKey($name);
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- the form's nonce was checked by maySave().
+			if ($max < 1 || !$field->isMultiple() || !isset($_POST[$key])) {
+				continue;
+			}
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- counted only.
+			$chosen = array_filter((array) wp_unslash($_POST[$key]), static fn ($value): bool => is_scalar($value) && '' !== (string) $value);
+			if (count($chosen) <= $max) {
+				continue;
+			}
+
+			unset($_POST[$key]);
+			$this->notices->flash(
+				sprintf(
+					/* translators: 1: setting name, 2: most that may be chosen, 3: number chosen. */
+					__('%1$s: choose up to %2$d (you chose %3$d). It was left as it was; your other changes were saved.', 'ultimate-crypto-widget'),
+					$field->labelText(),
+					$max,
+					count($chosen)
+				),
+				NoticeType::Error
+			);
+		}
+	}
+
+	/**
+	 * The settings form and the list columns that read from it.
+	 */
+	private function buildBox(): MetaBox
+	{
+		$box = $this->registrar
+			->metaBox('settings', __('Widget settings', 'ultimate-crypto-widget'), WidgetRepository::POST_TYPE, $this->schema->fields())
+			->prefix(WidgetFields::META_PREFIX)
+			->placement('normal', 'high');
+
+		$this->hooks->addAction('save_post_' . WidgetRepository::POST_TYPE, [$this, 'enforceLimits'], 5, 2);
+
+		(new Columns($box, [
+			Column::field('type')
+				->label(__('Type', 'ultimate-crypto-widget'))
+				->position(Column::AFTER_TITLE)
+				->format(fn (mixed $type): string => esc_html($this->catalog->get((string) $type)?->label ?? '—')),
+		]))->register($this->hooks);
+
+		return $box;
 	}
 
 	/**

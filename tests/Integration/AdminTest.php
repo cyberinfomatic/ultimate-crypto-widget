@@ -78,6 +78,27 @@ final class AdminTest extends TestCase {
 		$this->assertDoesNotMatchRegularExpression( '/<option value="coin-marquee-1"[^>]*disabled/', $form );
 	}
 
+	public function test_the_settings_form_is_built_only_for_requests_about_widgets(): void {
+		$widget = WidgetFactory::create( 'coin-marquee-1' );
+		$page   = self::factory()->post->create( array( 'post_type' => 'page' ) );
+
+		// Edit, add and list screens of the widget type, and quick edit in the list.
+		$this->assertTrue( WidgetEditor::needsForm( 'post.php', array( 'post' => (string) $widget ) ) );
+		$this->assertTrue( WidgetEditor::needsForm( 'post.php', array( 'post_ID' => (string) $widget, 'post_type' => '' ) ) );
+		$this->assertTrue( WidgetEditor::needsForm( 'post-new.php', array( 'post_type' => 'ucwp_widget' ) ) );
+		$this->assertTrue( WidgetEditor::needsForm( 'edit.php', array( 'post_type' => 'ucwp_widget' ) ) );
+		$this->assertTrue( WidgetEditor::needsForm( 'admin-ajax.php', array( 'action' => 'inline-save', 'post_type' => 'ucwp_widget' ) ) );
+
+		// Anything else: other post types, other screens, other ajax calls, odd input. These
+		// would otherwise cost a coin-list request on a cold cache.
+		$this->assertFalse( WidgetEditor::needsForm( 'post.php', array( 'post' => (string) $page ) ) );
+		$this->assertFalse( WidgetEditor::needsForm( 'post-new.php', array() ) );
+		$this->assertFalse( WidgetEditor::needsForm( 'index.php', array( 'post_type' => 'ucwp_widget' ) ) );
+		$this->assertFalse( WidgetEditor::needsForm( 'admin-ajax.php', array( 'action' => 'heartbeat', 'post_type' => 'ucwp_widget' ) ) );
+		$this->assertFalse( WidgetEditor::needsForm( 'post.php', array( 'post' => array( 'x' ) ) ) );
+		$this->assertFalse( WidgetEditor::needsForm( '', array() ) );
+	}
+
 	public function test_the_widget_list_shows_each_widgets_type_and_shortcode(): void {
 		$id      = WidgetFactory::create( 'crypto-price-table-1' );
 		$columns = apply_filters( 'manage_ucwp_widget_posts_columns', array( 'cb' => '', 'title' => 'Title', 'date' => 'Date' ) );

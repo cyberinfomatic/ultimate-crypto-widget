@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fieldApplies, meaningful, previewUrl, shortcodeFor, withinLimit } from "./editor";
+import { fieldApplies, joinChosen, meaningful, previewUrl, shortcodeFor, withinLimit } from "./editor";
 
 describe("fieldApplies", () => {
 	it("shows a setting only for the widget types that use it", () => {
@@ -62,5 +62,16 @@ describe("withinLimit", () => {
 	it("keeps the first few when there is a limit", () => {
 		expect(withinLimit(["a", "b", "c", "d"], 3)).toEqual(["a", "b", "c"]);
 		expect(withinLimit(["a", "b"], 0)).toEqual(["a", "b"]);
+	});
+});
+
+describe("joinChosen", () => {
+	it("writes ticked values the way the shortcode does", () => {
+		expect(joinChosen(["bitcoin", "ethereum"])).toBe("bitcoin,ethereum");
+	});
+
+	it("drops the form's empty entry, spaces and repeats", () => {
+		expect(joinChosen(["", " usd ", "eur", "usd"])).toBe("usd,eur");
+		expect(joinChosen([])).toBe("");
 	});
 });

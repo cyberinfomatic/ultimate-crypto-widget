@@ -10,6 +10,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\FieldTypes;
 use Cyberinfomatic\UltimateCryptoWidget\Plugin;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetFields;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetRepository;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetSchema;
 
 /**
  * The plugin's menu and its screens: overview, widgets, quick widget, settings.
@@ -27,7 +28,7 @@ final class Screens
 	public function __construct(
 		private readonly Pages $pages,
 		private readonly SettingsForm $form,
-		private readonly WidgetEditor $editor,
+		private readonly WidgetSchema $schema,
 		private readonly Preview $preview,
 		private readonly FieldTypes $types,
 		private readonly PriceProvider $prices
@@ -131,13 +132,13 @@ final class Screens
 	private function quickWidget(): array
 	{
 		$fields = [];
-		foreach ($this->editor->box()->fields() as $name => $field) {
-			$id       = 'ucw-quick-' . $name;
+		foreach ($this->schema->fields() as $field) {
+			$id       = 'ucw-quick-' . $field->name;
 			$fields[] = [
 				'id'          => $id,
 				'label'       => $field->labelText(),
 				'description' => (string) $field->setting('description', ''),
-				'input'       => $this->types->get($field->type)->render($field, WidgetFields::metaKey($name), $id, $field->defaultValue()),
+				'input'       => $this->types->get($field->type)->render($field, WidgetFields::metaKey($field->name), $id, $field->defaultValue()),
 			];
 		}
 

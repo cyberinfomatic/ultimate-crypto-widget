@@ -43,6 +43,11 @@ export function previewUrl(base: string, values: WidgetValues): string {
 	return query === "" ? base : `${base}${base.includes("?") ? "&" : "?"}${query}`;
 }
 
+/** Ticked values as the shortcode writes a list: "a,b,c", without empty entries or repeats. */
+export function joinChosen(values: string[]): string {
+	return values.map((value) => value.trim()).filter((value, index, all) => value !== "" && all.indexOf(value) === index).join(",");
+}
+
 /** The first `max` items, or all of them when there is no limit (0). */
 export function withinLimit<T>(items: T[], max: number): T[] {
 	return max > 0 ? items.slice(0, max) : items;

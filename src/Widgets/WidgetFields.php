@@ -30,7 +30,11 @@ final class WidgetFields
 		'dark_mode',
 	];
 
-	/** Settings that hold several values, stored and written as "a,b,c". */
+	/**
+	 * Settings that hold several values. In the database they are one row holding an array (the
+	 * toolkit's multiple-choice field); in a shortcode attribute, the widget's data and REST they
+	 * are text, "a,b,c", which is what listToString() makes.
+	 */
 	public const LISTS = ['coins', 'currencies'];
 
 	/** Used when a widget has no value for a setting. */

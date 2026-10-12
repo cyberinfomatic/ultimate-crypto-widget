@@ -82,3 +82,33 @@ guard".
 
 **Suggestion:** make that supported, for example `Application::namespaces(array( … ))`, or say in
 the docs that `bootstrap/namespaces.php` may be required directly.
+
+## 7. A multiple-choice field cannot be limited to a number of choices (missing feature)
+
+Rules run on each chosen value, so `Rules::max()` cannot say "at most 3 choices". This plugin limits the
+currencies a widget offers to three and enforces it in `WidgetEditor::enforceLimits()`, which runs just before
+the meta box saves, removes a too-long list from the request and flashes an error through `Notices`.
+
+**Suggestion:** a field setting such as `->maxChoices(3)`, checked by `FieldValidator`, with the picker stopping
+a tick beyond it.
+
+## 8. A field's options must be an array when the field is built (limitation)
+
+The coins to choose from come from a price API. Because `->options()` takes an array, building the form costs
+that request. This plugin builds the form only on the widget screens, and keeps the result for the request.
+
+**Suggestion:** accept a closure that is called when the field is drawn or validated.
+
+## 9. `MetaBox::render()` puts a fieldset inside a paragraph (bug)
+
+Each field is printed as `<p class="wptoolkit-field"><label>…</label><br />{input}<br /><span class="description">…</span></p>`.
+A browser closes a paragraph when a `<fieldset>` starts (the rc.8 checkbox and chip pickers are fieldsets), so the label,
+the fieldset and the description end up as loose siblings and an empty paragraph follows. A script that hides or lays out
+"a field" as one element cannot. `react/admin/index.ts` puts such a row back together.
+
+**Fix:** use a `<div class="wptoolkit-field">` instead of a `<p>`.
+
+## 10. One invalid value rejects a whole multiple-choice field (behaviour, probably intended)
+
+A list that contains a value that is not one of the options is refused as a whole, and the old value is kept. The old code
+of this plugin dropped the bad value and saved the rest. Noted because it is a change; this plugin keeps the toolkit's way.

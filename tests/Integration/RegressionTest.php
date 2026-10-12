@@ -121,15 +121,16 @@ final class RegressionTest extends TestCase {
 			)
 		);
 
-		$this->assertSame( 'bitcoin,ethereum', get_post_meta( $id, 'ucwp_widget_coins', true ) );
-		$this->assertSame( 'usd,eur,ngn', get_post_meta( $id, 'ucwp_widget_currencies', true ) );
+		$this->assertSame( array( 'bitcoin', 'ethereum' ), get_post_meta( $id, 'ucwp_widget_coins', true ) );
+		$this->assertSame( array( 'usd', 'eur', 'ngn' ), get_post_meta( $id, 'ucwp_widget_currencies', true ) );
 
 		ob_start();
 		Services::container()->get( \Cyberinfomatic\UltimateCryptoWidget\Admin\WidgetEditor::class )->box()->render( get_post( $id ) );
 		$form = ob_get_clean();
 
-		$this->assertMatchesRegularExpression( '/<option value="ngn"\s+selected/', $form );
-		$this->assertDoesNotMatchRegularExpression( '/<option value="gbp"\s+selected/', $form );
+		$this->assertMatchesRegularExpression( '/<input[^>]*name="ucwp_widget_currencies\[\]"[^>]*value="ngn"[^>]*checked/', $form );
+		$this->assertDoesNotMatchRegularExpression( '/<input[^>]*name="ucwp_widget_currencies\[\]"[^>]*value="gbp"[^>]*checked/', $form );
+		$this->assertMatchesRegularExpression( '/<input[^>]*name="ucwp_widget_coins\[\]"[^>]*value="bitcoin"[^>]*checked/', $form );
 	}
 
 	public function test_a_widget_saved_without_a_type_does_not_crash_the_page(): void {

@@ -40,6 +40,7 @@ final class AdminProvider extends ServiceProvider
 			$c->get(WidgetSchema::class),
 			$c->get(WidgetCatalog::class),
 			$c->get(Preview::class),
+			$c->get(Notices::class),
 			$app->hooks()
 		));
 
@@ -53,7 +54,7 @@ final class AdminProvider extends ServiceProvider
 	/**
 	 * Runs on "init": add-ons have registered their widget types and text can be translated.
 	 */
-	public function boot(WidgetEditor $editor, Preview $preview, SettingsForm $form, Pages $pages, FieldTypes $types, PriceProvider $prices, Notices $notices, AssetManager $assets): void
+	public function boot(WidgetEditor $editor, WidgetSchema $schema, Preview $preview, SettingsForm $form, Pages $pages, FieldTypes $types, PriceProvider $prices, Notices $notices, AssetManager $assets): void
 	{
 		$hooks = $this->app->hooks();
 
@@ -64,7 +65,7 @@ final class AdminProvider extends ServiceProvider
 		$form->section('appearance', __('Appearance', 'ultimate-crypto-widget'));
 		$form->register($hooks, Screens::SETTINGS);
 
-		(new Screens($pages, $form, $editor, $preview, $types, $prices))->register();
+		(new Screens($pages, $form, $schema, $preview, $types, $prices))->register();
 
 		$hooks->addAction('admin_post_' . Preview::ACTION, [$preview, 'handle']);
 		$hooks->addAction('admin_post_' . CacheTools::ACTION, [new CacheTools($prices, $notices), 'handle']);
