@@ -33,6 +33,23 @@ final class AddOnApiTest extends TestCase {
 		$this->assertSame( 1, did_action( 'ucwp_loaded' ) );
 	}
 
+	public function test_an_add_on_gets_its_classes_loaded_by_the_toolkits_loader(): void {
+		$this->assertFalse( class_exists( 'UcwSampleAddon\\Greeting\\Hello', false ) );
+
+		Plugin::autoload( 'UcwSampleAddon\\', __DIR__ . '/../fixtures/addon-src' );
+
+		$this->assertTrue( class_exists( 'UcwSampleAddon\\Greeting\\Hello' ) );
+		$this->assertSame( 'hello', \UcwSampleAddon\Greeting\Hello::say() );
+		// A class that is not there is simply not found; nothing is thrown.
+		$this->assertFalse( class_exists( 'UcwSampleAddon\\Greeting\\Missing' ) );
+	}
+
+	public function test_an_add_on_is_told_when_its_class_folder_is_wrong(): void {
+		$this->expectException( \InvalidArgumentException::class );
+
+		Plugin::autoload( 'UcwSampleAddon\\', __DIR__ . '/no-such-folder' );
+	}
+
 	public function test_pro_widget_types_are_listed_but_cannot_be_used_without_the_add_on(): void {
 		$chart = ( new WidgetCatalog() )->get( 'historical-price-chart' );
 

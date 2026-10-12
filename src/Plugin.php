@@ -67,4 +67,31 @@ final class Plugin
 	{
 		return self::$file;
 	}
+
+	/**
+	 * Loads an add-on's classes by PSR-4, with the same loader WPToolkit gives this plugin:
+	 *
+	 *     Plugin::autoload('Acme\\CryptoAddon\\', __DIR__ . '/src');
+	 *
+	 * `Acme\CryptoAddon\Admin\Page` is then read from `src/Admin/Page.php`. File and folder
+	 * names must match class names exactly, including case. An add-on borrows this plugin's
+	 * copy of the toolkit and cannot call the toolkit's guard itself, so it asks here.
+	 *
+	 * @param string $prefix    The namespace every class of the add-on starts with.
+	 * @param string $directory The folder that namespace maps to.
+	 * @throws \InvalidArgumentException When the prefix is empty or the folder does not exist.
+	 */
+	public static function autoload(string $prefix, string $directory): void
+	{
+		$prefix    = trim($prefix, '\\');
+		$directory = rtrim($directory, '/\\');
+		if ('' === $prefix || !is_dir($directory)) {
+			throw new \InvalidArgumentException(sprintf('Cannot autoload "%s" from "%s": give a namespace and a folder that exists.', $prefix, $directory));
+		}
+
+		// bootstrap/namespaces.php, in the toolkit copy this plugin runs on.
+		$toolkit  = dirname((string) (new \ReflectionClass(Application::class))->getFileName(), 3);
+		$register = require $toolkit . '/bootstrap/namespaces.php';
+		$register([$prefix . '\\' => $directory]);
+	}
 }

@@ -54,6 +54,22 @@ final class ElementorTest extends TestCase {
 		$this->assertSame( 'ucwp-widget', $manager->registered[0]->get_name() );
 	}
 
+	public function test_it_has_its_own_group_in_elementors_panel(): void {
+		$elements = new class() {
+			/** @var array<string, array<string, string>> */
+			public array $categories = array();
+
+			public function add_category( string $name, array $properties ): void {
+				$this->categories[ $name ] = $properties;
+			}
+		};
+
+		do_action( 'elementor/elements/categories_registered', $elements );
+
+		$this->assertSame( 'Crypto Widgets', $elements->categories['ucwp']['title'] ?? null );
+		$this->assertSame( array( 'ucwp' ), $this->element()->get_categories() );
+	}
+
 	public function test_its_controls_come_from_the_widget_settings(): void {
 		$element = $this->element();
 		$element->build_controls();

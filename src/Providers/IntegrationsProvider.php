@@ -18,6 +18,16 @@ final class IntegrationsProvider extends ServiceProvider
 	{
 		$container = $this->app->container();
 
+		// A group of our own in Elementor's panel, so the element is easy to find.
+		$hooks->addAction('elementor/elements/categories_registered', static function ($elements): void {
+			if (is_object($elements) && method_exists($elements, 'add_category')) {
+				$elements->add_category(CryptoWidget::CATEGORY, [
+					'title' => __('Crypto Widgets', 'ultimate-crypto-widget'),
+					'icon'  => 'eicon-price-table',
+				]);
+			}
+		});
+
 		// Elementor fires this only when it is active and needs its elements, so our
 		// element class (which extends one of Elementor's) is never loaded otherwise.
 		$hooks->addAction('elementor/widgets/register', static function ($widgets) use ($container): void {

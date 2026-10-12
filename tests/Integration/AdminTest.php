@@ -125,6 +125,24 @@ final class AdminTest extends TestCase {
 		);
 	}
 
+	public function test_a_preview_address_survives_values_with_special_characters(): void {
+		wp_set_current_user( WidgetFactory::editor() );
+		$settings = array(
+			'type'               => 'crypto-price-table-1',
+			'parent_width'       => '100%',
+			'coins'              => 'bitcoin,ethereum',
+			'search_placeholder' => 'Find a coin & more #1',
+		);
+
+		$url = Services::container()->get( Preview::class )->url( 0, $settings );
+
+		// Read it back the way PHP will when the frame asks for it.
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $query );
+		$this->assertSame( $settings, $query['s'] );
+		$this->assertSame( 'ucwp_preview', $query['action'] );
+		$this->assertStringNotContainsString( '100%&', $url, 'A bare % makes the address malformed.' );
+	}
+
 	public function test_the_preview_is_refused_to_visitors_and_without_a_fresh_link(): void {
 		$preview = Services::container()->get( Preview::class );
 

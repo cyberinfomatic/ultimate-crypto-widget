@@ -73,10 +73,12 @@ builds the settings form with `$registrar->metaBox()` rather than an entity.
 the plugin's classes by PSR-4. This plugin uses it and its hand-written loader is gone
 (`tests/Integration/AutoloadTest.php` checks every file's name against its class).
 
-**Still open:** an add-on that borrows a host plugin's copy of the toolkit cannot call the guard (the
+**Add-ons:** an add-on that borrows a host plugin's copy of the toolkit cannot call the guard (the
 guard file is in the host's folder, and the add-on must first find out whether the host is there).
-The Pro add-on therefore still has a ten-line loader at the top of its `src/boot.php`.
+We bridge that in the host: `Plugin::autoload($prefix, $directory)` requires
+`bootstrap/namespaces.php` from the toolkit copy in use and registers the add-on's namespace, and
+the Pro add-on calls it. It works, but it leans on a file the toolkit describes as "required by the
+guard".
 
-**Suggestion:** a supported way to register namespaces after boot, for example
-`Application::create(…)->namespaces(array( 'Acme\\Addon\\' => __DIR__ ))`, or documenting
-`bootstrap/namespaces.php` as something an add-on may require directly.
+**Suggestion:** make that supported, for example `Application::namespaces(array( … ))`, or say in
+the docs that `bootstrap/namespaces.php` may be required directly.

@@ -22,6 +22,16 @@ final class CryptoWidget extends Widget_Base
 	/** Elementor control ids are shared by a whole element; ours are prefixed. */
 	public const PREFIX = 'ucw_';
 
+	/** The group the element is listed under in Elementor's panel. */
+	public const CATEGORY = 'ucwp';
+
+	/**
+	 * Run when the editor's preview frame has loaded: the preview page reports its height as
+	 * the widget draws and resizes, and the frame follows. An attribute, because Elementor puts
+	 * an element's HTML into its canvas without running script tags.
+	 */
+	private const FIT_FRAME = "var f=this;window.addEventListener('message',function(e){var h=e.data&&Number(e.data.ucwPreviewHeight);if(e.source===f.contentWindow&&h>0){f.style.height=Math.min(h,1600)+'px'}});f.style.height=Math.min(f.contentDocument.documentElement.scrollHeight,1600)+'px'";
+
 	private static ?Shortcodes $shortcodes = null;
 	private static ?WidgetSchema $schema   = null;
 	private static ?Preview $preview       = null;
@@ -57,7 +67,7 @@ final class CryptoWidget extends Widget_Base
 	 */
 	public function get_categories(): array
 	{
-		return ['general'];
+		return [self::CATEGORY];
 	}
 
 	/**
@@ -109,9 +119,10 @@ final class CryptoWidget extends Widget_Base
 			// The editor redraws an element without loading its scripts, so the
 			// widget is shown in a frame there, as in the block editor.
 			printf(
-				'<iframe src="%s" title="%s" style="display:block;width:100%%;height:420px;border:0;pointer-events:none"></iframe>',
+				'<iframe src="%s" title="%s" style="display:block;width:100%%;height:240px;border:0;pointer-events:none" onload="%s"></iframe>',
 				esc_url(self::$preview->url(0, $attributes)),
-				esc_attr__('Widget preview', 'ultimate-crypto-widget')
+				esc_attr__('Widget preview', 'ultimate-crypto-widget'),
+				esc_attr(self::FIT_FRAME)
 			);
 			return;
 		}

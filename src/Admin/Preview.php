@@ -34,7 +34,8 @@ final class Preview
 			array_filter([
 				'action'   => self::ACTION,
 				'id'       => $widgetId > 0 ? $widgetId : null,
-				's'        => [] === $settings ? null : $settings,
+				// add_query_arg() does not encode values: "100%" or "a,b" must be encoded here.
+				's'        => [] === $settings ? null : array_map('rawurlencode', array_map('strval', $settings)),
 				'_wpnonce' => wp_create_nonce(self::ACTION),
 			], static fn ($value): bool => null !== $value),
 			admin_url('admin-post.php')
