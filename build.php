@@ -21,7 +21,14 @@ $report = Build::plugin( __DIR__ )
 		Patterns::fromDistignore(),
 		// Sources and tooling: the zip carries only what runs.
 		'/react',
-		'/assets/styles/sass',
+		'/build.php',
+		// Images for the plugin's WordPress.org page, not for the plugin itself. The
+		// release workflow sends the banners and icons to WordPress.org separately.
+		'/assets/images/banner-*',
+		'/assets/images/icon-*',
+		'/assets/images/old-icon*',
+		'/assets/images/ucwp-logo.png',
+		'/assets/coin-logos',
 		'/bin',
 		'/vendor',
 		'/dist',

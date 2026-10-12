@@ -4,6 +4,10 @@ A WordPress plugin that renders cryptocurrency widgets from a custom post type, 
 React bundle. This repository is the free plugin on WordPress.org and the shared core that the Pro
 add-on builds on.
 
+Read [docs/developers.md](docs/developers.md) first: how a widget reaches the page, the hooks, how an
+add-on plugs in. `docs/translating.md` covers text; `docs/notes-for-wptoolkit.md` lists the toolkit
+gaps this plugin works around.
+
 ## Rules
 
 - Do **not** rename or reformat stored data: the `ucwp_widget` post type, the `ucwp_widget_*` meta
