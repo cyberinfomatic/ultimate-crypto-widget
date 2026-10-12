@@ -7,6 +7,9 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Support;
 
+use Cyberinfomatic\UltimateCryptoWidget\Admin\WidgetEditor;
+use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
+
 /**
  * Saves a ucwp_widget post through the plugin's own save handler, so the rows in
  * the database are the ones the plugin really writes.
@@ -38,12 +41,16 @@ final class WidgetFactory {
 	 */
 	public static function create( string $type, array $fields = array() ): int {
 		$previous = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$user     = get_current_user_id();
+
+		// Only someone who may edit the widget can save its settings.
+		wp_set_current_user( self::editor() );
 
 		$_POST = array_merge(
 			self::FORM,
 			array( 'ucwp_widget_type' => $type ),
 			$fields,
-			array( 'ucwp_widget_nonce' => wp_create_nonce( basename( UCWP_PLUGIN_FILE ) ) )
+			self::nonce()
 		);
 
 		// wp_insert_post fires save_post_ucwp_widget, which runs the plugin's save handler.
@@ -56,8 +63,38 @@ final class WidgetFactory {
 		);
 
 		$_POST = $previous;
+		wp_set_current_user( $user );
 
 		return (int) $id;
+	}
+
+	/**
+	 * The settings form's nonce field, as the edit screen prints it. Made for the current user.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function nonce(): array {
+		$box = Services::container()->get( WidgetEditor::class )->box();
+
+		return array( $box->nonceName() => wp_create_nonce( $box->nonceAction() ) );
+	}
+
+	/**
+	 * An administrator to save widgets as.
+	 */
+	public static function editor(): int {
+		static $id = 0;
+		if ( 0 === $id || false === get_userdata( $id ) ) {
+			$id = (int) wp_insert_user(
+				array(
+					'user_login' => 'ucw_editor_' . wp_generate_password( 6, false ),
+					'user_pass'  => wp_generate_password(),
+					'role'       => 'administrator',
+				)
+			);
+		}
+
+		return $id;
 	}
 
 	/**

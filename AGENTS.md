@@ -30,6 +30,16 @@ and a MySQL database (`ucw_tests` by default; see `tests/wp-tests-config.php`).
 ## Layout
 
 - `ultimate-crypto-widget.php` — bootstrap
-- `src/` — PHP (`Controllers/`, `Helpers/`, `Views/`)
-- `react/` — widgets (TypeScript), built with `npm run build` (`@wordpress/scripts`)
-- `assets/` — scripts, styles, libraries
+- `src/Providers/` — one WPToolkit service provider per concern; `src/boot.php` lists them
+- `src/Widgets/` — the catalogue of widget types, their settings (`WidgetFields`, `WidgetSchema`),
+  the shortcode and the renderer
+- `src/Admin/` — the widget editor, preview, menu and screens (toolkit `MetaBox`, `Pages`, `SettingsForm`)
+- `src/Data/` — the price source (`PriceProvider`, CoinGecko); `src/Http/` — REST controllers
+- `views/` — admin templates, printed through the toolkit's escaper (`$e`)
+- `react/ds/` — the design system; `react/widgets/` — one folder per widget; `react/data/`, `react/live/` —
+  REST client and live prices; `react/admin/` — the editor's script. Built with `npm run build`.
+- `assets/react-build/` — build output (not committed)
+
+Hooks go through the toolkit's `HookRegistrar` (`$hooks->addAction()` / `addFilter()`), assets through
+`AssetManager`, settings through `Settings`. Do not call `add_action`, `wp_enqueue_*` or
+`register_setting` directly.

@@ -78,21 +78,4 @@ class Currency {
 	public static function get_symbol(string $currency): string {
 		return self::SYMBOLS[strtolower($currency)] ?? '';
 	}
-
-	/**
-	 * Convert an amount from one currency to another.
-	 *
-	 * @param int $amount Amount to convert.
-	 * @param string $from Currency code to convert from.
-	 * @param string $to Currency code to convert to.
-	 * @return int Converted amount.
-	 */
-	public static function convert(int $amount, string $from, string $to): int {
-		$from = strtolower($from);
-		$to = strtolower($to);
-		// Sanitize input (optional depending on context)
-		$amount = absint($amount); // Ensure amount is a non-negative integer
-		return OpenExchangeHelper::convert($from, $to, $amount);
-	}
-
 }

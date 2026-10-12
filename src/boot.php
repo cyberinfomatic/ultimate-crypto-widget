@@ -6,13 +6,12 @@
  * @package UltimateCryptoWidget
  */
 
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\Debugger;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\Application;
 use Cyberinfomatic\UltimateCryptoWidget\Plugin;
+use Cyberinfomatic\UltimateCryptoWidget\Providers\AdminProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\AssetsProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\DataProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\HttpProvider;
-use Cyberinfomatic\UltimateCryptoWidget\Providers\LegacyProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\SettingsProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Providers\WidgetsProvider;
 
@@ -51,9 +50,7 @@ if ( ! defined( 'UCW_ENV' ) ) {
 	define( 'UCW_ENV', $ucwp_app->isDevelopment() ? 'dev' : 'prod' );
 }
 
-Debugger::set_dev( 'dev' === UCW_ENV );
-
-$ucwp_app->providers( array( AssetsProvider::class, SettingsProvider::class, DataProvider::class, WidgetsProvider::class, LegacyProvider::class, HttpProvider::class ) )->boot();
+$ucwp_app->providers( array( AssetsProvider::class, SettingsProvider::class, DataProvider::class, WidgetsProvider::class, AdminProvider::class, HttpProvider::class ) )->boot();
 
 // Lets an add-on find the running plugin; fires the ucwp_loaded action.
 Plugin::started( $ucwp_app, $ucwp_plugin_file );

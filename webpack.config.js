@@ -28,7 +28,7 @@ function getEntries(dir = 'react/widgets') {
 // Each widget is its own bundle; so are the admin screen and the shared stylesheet.
 const entries = {
 	...getEntries(),
-	admin: path.resolve(__dirname, 'react/admin/index.tsx'),
+	admin: path.resolve(__dirname, 'react/admin/index.ts'),
 	theme: path.resolve(__dirname, 'react/theme/index.ts'),
 };
 const isProduction = process.env.NODE_ENV === 'production';
@@ -71,8 +71,6 @@ module.exports = {
 	resolve: {
 		extensions: ['.*', '.js', '.jsx', '.ts', '.tsx'],
 		alias: {
-			'@/styles': path.resolve(__dirname, 'assets/styles'),
-			'@/components': path.resolve(__dirname, 'react/components'),
 		},
 		plugins: [
 			new TsconfigPathsPlugin(),

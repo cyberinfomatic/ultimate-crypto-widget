@@ -7,6 +7,8 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
+use Cyberinfomatic\UltimateCryptoWidget\Admin\WidgetEditor;
+use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\Snapshots;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\WidgetFactory;
@@ -69,7 +71,75 @@ final class WidgetDataTest extends TestCase {
 	public function test_a_pro_widget_type_is_not_saved(): void {
 		$id = WidgetFactory::create( 'historical-price-chart' );
 
-		$this->assertSame( array(), WidgetFactory::rows( $id ), 'A Pro type must not be stored by the free plugin.' );
+		$this->assertArrayNotHasKey( 'ucwp_widget_type', WidgetFactory::rows( $id ), 'A Pro type must not be stored by the free plugin.' );
+		// The rest of the form is kept, so nothing has to be typed again once a usable type is chosen.
+		$this->assertSame( array( '10' ), WidgetFactory::rows( $id )['ucwp_widget_count'] ?? null );
+	}
+
+	public function test_a_refused_field_is_reported_to_whoever_saved(): void {
+		wp_set_current_user( WidgetFactory::editor() );
+		WidgetFactory::create( 'historical-price-chart' );
+
+		ob_start();
+		Services::container()->get( WidgetEditor::class )->box()->printErrors();
+		$notice = (string) ob_get_clean();
+
+		$this->assertStringContainsString( 'role="alert"', $notice );
+		$this->assertStringContainsString( 'Widget type', $notice );
+	}
+
+	public function test_someone_who_cannot_edit_widgets_cannot_save_one(): void {
+		$id = WidgetFactory::create( 'coin-marquee-1' );
+
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+		$_POST = array( 'ucwp_widget_count' => '5' ) + WidgetFactory::nonce();
+		do_action( 'save_post_ucwp_widget', $id, get_post( $id ), true );
+		$_POST = array();
+
+		$this->assertSame( '10', get_post_meta( $id, 'ucwp_widget_count', true ) );
+	}
+
+	public function test_a_setting_outside_its_limits_is_refused_and_the_old_value_kept(): void {
+		$id = WidgetFactory::create( 'coin-marquee-1' );
+
+		wp_set_current_user( WidgetFactory::editor() );
+		$_POST = array(
+			'ucwp_widget_speed'        => '999999',
+			'ucwp_widget_parent_width' => '100%;background:red',
+			'ucwp_widget_card_width'   => '200',
+		) + WidgetFactory::nonce();
+		do_action( 'save_post_ucwp_widget', $id, get_post( $id ), true );
+		$_POST = array();
+
+		$this->assertSame( '3000', get_post_meta( $id, 'ucwp_widget_speed', true ) );
+		$this->assertSame( '400', get_post_meta( $id, 'ucwp_widget_parent_width', true ) );
+		$this->assertSame( '200', get_post_meta( $id, 'ucwp_widget_card_width', true ), 'A valid field beside invalid ones is still saved.' );
+	}
+
+	public function test_a_list_keeps_only_real_ids_and_stays_within_its_limit(): void {
+		$id = WidgetFactory::create(
+			'multi-currencies-tab',
+			array(
+				'ucwp_widget_coins'      => array( 'bitcoin', '../etc', 'eth ereum', 'solana' ),
+				'ucwp_widget_currencies' => array( 'usd', 'eur', 'gbp', 'ngn', 'jpy' ),
+			)
+		);
+
+		$this->assertSame( 'bitcoin,solana', get_post_meta( $id, 'ucwp_widget_coins', true ) );
+		$this->assertSame( 'usd,eur,gbp', get_post_meta( $id, 'ucwp_widget_currencies', true ) );
+	}
+
+	public function test_clearing_a_list_in_the_form_clears_it(): void {
+		$id = WidgetFactory::create( 'multi-currencies-tab' );
+		$this->assertSame( 'bitcoin,ethereum', get_post_meta( $id, 'ucwp_widget_coins', true ) );
+
+		wp_set_current_user( WidgetFactory::editor() );
+		// What the form posts when nothing is selected: only its empty hidden input.
+		$_POST = array( 'ucwp_widget_coins' => '' ) + WidgetFactory::nonce();
+		do_action( 'save_post_ucwp_widget', $id, get_post( $id ), true );
+		$_POST = array();
+
+		$this->assertSame( '', get_post_meta( $id, 'ucwp_widget_coins', true ) );
 	}
 
 	public function widget_type_provider(): array {

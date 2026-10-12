@@ -104,7 +104,7 @@ final class AssetsTest extends TestCase {
 
 		set_current_screen( 'edit-ucwp_widget' );
 		do_action( 'admin_enqueue_scripts', 'edit.php' );
-		$this->assertContains( 'ucwp-admin-metabox', wp_styles()->queue );
+		$this->assertContains( 'ultimate-crypto-widget-admin-style', wp_styles()->queue );
 
 		set_current_screen( 'front' );
 	}

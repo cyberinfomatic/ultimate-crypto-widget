@@ -125,7 +125,7 @@ final class RegressionTest extends TestCase {
 		$this->assertSame( 'usd,eur,ngn', get_post_meta( $id, 'ucwp_widget_currencies', true ) );
 
 		ob_start();
-		\Cyberinfomatic\UltimateCryptoWidget\Controllers\WidgetPostType::get_instance()->get_metabox()->callback( get_post( $id ) );
+		Services::container()->get( \Cyberinfomatic\UltimateCryptoWidget\Admin\WidgetEditor::class )->box()->render( get_post( $id ) );
 		$form = ob_get_clean();
 
 		$this->assertMatchesRegularExpression( '/<option value="ngn"\s+selected/', $form );

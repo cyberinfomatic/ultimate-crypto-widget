@@ -7,7 +7,6 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
-use Cyberinfomatic\UltimateCryptoWidget\Controllers\WidgetPostType;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceDataException;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
 use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
@@ -156,7 +155,7 @@ final class PriceProviderTest extends TestCase {
 	public function test_the_widget_catalogue_needs_no_open_exchange_account(): void {
 		delete_option( 'ultimate_crypto_widget_openexchangerates_app_id' );
 
-		$this->assertNotEmpty( WidgetPostType::WidgetTypes() );
+		$this->assertNotEmpty( self::widget_types() );
 		$this->assertNotSame( '', (string) do_shortcode( '[ucwp_widget type="multi-currencies-tab" default_currency="usd" currencies="usd,eur"]' ) );
 	}
 

@@ -7,7 +7,7 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Integration;
 
-use Cyberinfomatic\UltimateCryptoWidget\App;
+use Cyberinfomatic\UltimateCryptoWidget\Plugin;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\Application;
 use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 use ReflectionClass;
@@ -18,7 +18,8 @@ use ReflectionClass;
 final class BootTest extends TestCase {
 
 	public function test_the_plugin_started(): void {
-		$this->assertTrue( App::$started );
+		$this->assertInstanceOf( Application::class, Plugin::app() );
+		$this->assertSame( 1, did_action( 'ucwp_loaded' ) );
 		$this->assertSame( 1, did_action( 'init' ) );
 	}
 

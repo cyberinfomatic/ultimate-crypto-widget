@@ -78,11 +78,15 @@ final class DataCompatibilityTest extends TestCase {
 		foreach ( $rows as $key => $values ) {
 			$form[ $key ] = $values[0];
 		}
-		$_POST = $form + array( 'ucwp_widget_nonce' => wp_create_nonce( basename( UCWP_PLUGIN_FILE ) ) );
+		wp_set_current_user( WidgetFactory::editor() );
+		$_POST = $form + WidgetFactory::nonce();
 		wp_update_post( array( 'ID' => $id, 'post_title' => 'Saved again' ) );
 		$_POST = array();
 
-		$this->assertSame( $rows, WidgetFactory::rows( $id ) );
+		// A setting that was stored empty may lose its row (an absent setting and an
+		// empty one mean the same); every setting that had a value keeps it exactly.
+		$this->assertSame( array_filter( $rows, static fn ( array $values ): bool => '' !== $values[0] ), WidgetFactory::rows( $id ) );
+		$this->assertSame( 'Saved again', get_post( $id )->post_title, 'The save must really have run.' );
 	}
 
 	public function test_a_list_stored_in_any_older_shape_is_understood(): void {

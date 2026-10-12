@@ -7,7 +7,7 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Tests\Support;
 
-use Cyberinfomatic\UltimateCryptoWidget\Controllers\WidgetPostType;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog;
 use Cyberinfomatic\UltimateCryptoWidget\Legacy\Services;
 use Throwable;
 use WP_UnitTestCase;
@@ -42,7 +42,7 @@ abstract class TestCase extends WP_UnitTestCase {
 	 * @return string[]
 	 */
 	protected static function widget_types(): array {
-		return array_keys( WidgetPostType::WidgetTypes() );
+		return array_keys( Services::container()->get( WidgetCatalog::class )->all() );
 	}
 
 	/**
@@ -53,10 +53,8 @@ abstract class TestCase extends WP_UnitTestCase {
 	protected static function free_widget_types(): array {
 		return array_keys(
 			array_filter(
-				WidgetPostType::WidgetTypes(),
-				static function ( array $type ): bool {
-					return empty( $type['pro'] );
-				}
+				Services::container()->get( WidgetCatalog::class )->all(),
+				static fn ( $definition ): bool => $definition->available
 			)
 		);
 	}
