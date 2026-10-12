@@ -8,7 +8,8 @@
     "start:hot": "wp-scripts start --hot",
     "build": "wp-scripts build",
     "makepot": "composer run make-pot",
-    "test:js": "vitest run"
+    "test:js": "vitest run",
+    "typecheck": "tsc -p ."
   },
   "babel": {
     "presets": [
@@ -32,6 +33,7 @@
     "sass": "^1.105.1",
     "sass-loader": "^17.0.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "~5.4.5",
     "vite": "^8.3.4",
     "vitest": "^5.0.3"
   },

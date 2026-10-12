@@ -72,8 +72,14 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Type check
+        run: npm run typecheck
+
       - name: JavaScript tests
         run: npm run test:js
+
+      - name: Coding standards
+        run: composer phpcs
 
       - name: PHPUnit
         run: composer phpunit

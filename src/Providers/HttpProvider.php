@@ -2,10 +2,10 @@
 
 namespace Cyberinfomatic\UltimateCryptoWidget\Providers;
 
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\Currency;
 use Cyberinfomatic\UltimateCryptoWidget\Http\MarketsController;
 use Cyberinfomatic\UltimateCryptoWidget\Http\QuickWidgetController;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Foundation\ServiceProvider;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\Currencies;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Http\Router;
 
 /**
@@ -22,7 +22,7 @@ final class HttpProvider extends ServiceProvider
 
 	public function boot(Router $router): void
 	{
-		$currencies = 'in:' . implode(',', array_keys(Currency::CURRENCY_PAIR));
+		$currencies = 'in:' . implode(',', Currencies::CODES);
 
 		// Public on purpose: the widgets call these from visitors' browsers, often on
 		// cached pages. The limits protect the site owner's CoinGecko quota.

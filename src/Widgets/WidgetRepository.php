@@ -24,9 +24,8 @@ final class WidgetRepository
 		}
 
 		// Visitors see published widgets; whoever can edit one may preview a draft.
-		if ('publish' !== $post->post_status
-			&& (in_array($post->post_status, ['trash', 'auto-draft'], true) || !current_user_can('edit_post', $post->ID))
-		) {
+		$hidden = in_array($post->post_status, ['trash', 'auto-draft'], true) || !current_user_can('edit_post', $post->ID);
+		if ('publish' !== $post->post_status && $hidden) {
 			return null;
 		}
 

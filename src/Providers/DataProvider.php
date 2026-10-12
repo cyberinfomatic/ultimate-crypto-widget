@@ -29,7 +29,6 @@ final class DataProvider extends ServiceProvider
 		$container->singleton(HttpClient::class, static fn (): HttpClient => new WordPressHttpClient());
 
 		$container->singleton(PriceProvider::class, static fn (Container $c): PriceProvider => self::make($c));
-
 	}
 
 	/**

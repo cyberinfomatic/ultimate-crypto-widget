@@ -4,7 +4,6 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Widgets;
 
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceDataException;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\Currency;
 
 /**
  * Turns a widget type and its settings into HTML: a mount point plus the data the
@@ -64,7 +63,7 @@ final class WidgetRenderer
 			$currency = WidgetFields::DEFAULTS['default_currency'];
 		}
 		$out['default_currency'] = $currency;
-		$out['currency_symbol']  = $settings['currency_symbol'] ?? Currency::get_symbol($currency);
+		$out['currency_symbol']  = $settings['currency_symbol'] ?? Currencies::symbolFor($currency);
 
 		// Live prices arrive in US dollars; the component multiplies them by this.
 		// Stays 1 when the rate is unknown, so a price is still shown.
@@ -102,7 +101,7 @@ final class WidgetRenderer
 			case WidgetDefinition::DATA_CURRENCY_SYMBOLS:
 				$symbols = [];
 				foreach ($currencies as $code) {
-					$symbols[$code] = Currency::get_symbol($code);
+					$symbols[$code] = Currencies::symbolFor($code);
 				}
 
 				return $symbols;

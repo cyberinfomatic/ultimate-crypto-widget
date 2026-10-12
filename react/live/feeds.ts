@@ -1,6 +1,7 @@
 import { num, socketFeed, SocketFeedSpec } from "./socket-feed";
 import { Tick } from "./types";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- exchange messages are untyped JSON; every value read from one goes through num() or a type check.
 type Json = Record<string, any>;
 
 /**

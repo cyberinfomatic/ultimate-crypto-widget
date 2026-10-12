@@ -16,12 +16,14 @@
     "scripts": {
         "make-pot": "wp i18n make-pot . languages/ultimate-crypto-widget.pot --slug=ultimate-crypto-widget --domain=ultimate-crypto-widget --exclude=.github,node_modules,vendor,dist,tests,lib,react --skip-audit",
         "test": [
-            "@setup-phpcs",
             "@phpcs",
             "@phpunit"
         ],
-        "setup-phpcs": "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie",
-        "phpcs": "vendor/bin/phpcs",
+        "setup-phpcs": "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/phpcsstandards/phpcsutils,vendor/phpcsstandards/phpcsextra",
+        "phpcs": [
+            "@setup-phpcs",
+            "vendor/bin/phpcs"
+        ],
         "phpunit": "vendor/bin/phpunit",
         "post-install-cmd": [
             "@setup-phpcs"

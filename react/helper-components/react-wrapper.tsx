@@ -8,7 +8,7 @@ import { UCWPWidgetSetting } from "../types";
 declare global {
 	interface Window {
 		/** How pages rendered by plugin versions before 1.0 handed data to a widget. */
-		ucwpReactData?: Record<string, any>;
+		ucwpReactData?: Record<string, unknown>;
 		/** Re-scan the page for one widget type, e.g. after an editor inserts one. */
 		ucwMount?: Record<string, () => void>;
 	}
@@ -29,7 +29,7 @@ const viewOfThisScript = (): string | null => {
 };
 
 /** The data a widget's element carries, or null if it is missing or broken. */
-const propsOf = (element: HTMLElement): Record<string, any> | null => {
+const propsOf = (element: HTMLElement): Record<string, unknown> | null => {
 	try {
 		const props = JSON.parse(element.dataset.ucwProps ?? "null");
 		return props && typeof props === "object" ? props : null;
@@ -44,7 +44,7 @@ const propsOf = (element: HTMLElement): Record<string, any> | null => {
  * The server prints one element per widget with its data in `data-ucw-props`, so
  * any number of widgets, of the same type or different ones, can share a page.
  */
-export default function ReactRender<PropType = any>(Component: ComponentType<WidgetProps<PropType>>) {
+export default function ReactRender<PropType = Record<string, unknown>>(Component: ComponentType<WidgetProps<PropType>>) {
 	// Nothing to draw into outside a browser, e.g. when a test imports a widget.
 	if (typeof document === "undefined") {
 		return;
@@ -83,7 +83,7 @@ export default function ReactRender<PropType = any>(Component: ComponentType<Wid
 
 	// A page cached before 1.0: one widget, its data in a global, its element found by id.
 	const legacy = window.ucwpReactData;
-	const element = legacy?.react_id ? document.getElementById(legacy.react_id) : null;
+	const element = typeof legacy?.react_id === "string" ? document.getElementById(legacy.react_id) : null;
 	if (legacy && element && !roots.has(element)) {
 		const root = createRoot(element);
 		roots.set(element, root);

@@ -4,7 +4,6 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Widgets;
 
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceDataException;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
-use Cyberinfomatic\UltimateCryptoWidget\Helpers\Currency;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\Field;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\FieldFactory;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Support\Validation\Rules;
@@ -214,8 +213,8 @@ final class WidgetSchema
 	private function currencyChoices(): array
 	{
 		$choices = [];
-		foreach (Currency::CURRENCY_PAIR as $code => $label) {
-			$choices[(string) $code] = strtoupper((string) $code);
+		foreach (Currencies::CODES as $code) {
+			$choices[$code] = strtoupper($code);
 		}
 
 		return $choices;

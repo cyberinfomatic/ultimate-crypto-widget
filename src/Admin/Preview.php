@@ -80,7 +80,7 @@ final class Preview
 	{
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- verified in handle().
 		$attributes = [];
-		$given      = isset($_GET['s']) && is_array($_GET['s']) ? wp_unslash($_GET['s']) : [];
+		$given      = isset($_GET['s']) && is_array($_GET['s']) ? map_deep(wp_unslash($_GET['s']), 'sanitize_text_field') : [];
 		foreach (WidgetFields::NAMES as $name) {
 			if (!isset($given[$name])) {
 				continue;
