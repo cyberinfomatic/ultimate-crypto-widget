@@ -9,6 +9,7 @@ export { CoinIdentity } from "./components/CoinIdentity";
 export { Cell, Row, Table } from "./components/DataTable";
 export { Delta } from "./components/Delta";
 export { Disclosure } from "./components/Disclosure";
+export { NumberField, SelectField, toAmount } from "./components/Fields";
 export { IconButton } from "./components/IconButton";
 export { LineChart } from "./components/LineChart";
 export type { ChartPoint } from "./components/LineChart";

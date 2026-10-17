@@ -451,7 +451,9 @@
 // ---------------------------------------------------------------- SearchField
 
 .ucw-widget .ucw-search,
-.ucw-widget .ucw-search:focus {
+.ucw-widget .ucw-search:focus,
+.ucw-widget .ucw-input,
+.ucw-widget .ucw-input:focus {
 	inline-size: 100%;
 	min-block-size: 0;
 	margin: 0;
@@ -466,14 +468,20 @@
 	line-height: var(--ucw-leading);
 }
 
-.ucw-widget .ucw-search::placeholder {
+.ucw-widget .ucw-search::placeholder,
+.ucw-widget .ucw-input::placeholder {
 	color: var(--ucw-fg-muted);
 }
 
-.ucw-widget .ucw-search:focus-visible {
+.ucw-widget .ucw-search:focus-visible,
+.ucw-widget .ucw-input:focus-visible {
 	border-color: var(--ucw-accent);
 	outline: 2px solid var(--ucw-accent-soft);
 	outline-offset: 0;
+}
+
+.ucw-widget .ucw-select {
+	cursor: pointer;
 }
 
 // ---------------------------------------------------------------- IconButton, Pager
