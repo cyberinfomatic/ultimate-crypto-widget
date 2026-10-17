@@ -1,0 +1,37 @@
+{
+	"coins": [
+		{
+			"item": {
+				"id": "pepe",
+				"coin_id": 29850,
+				"name": "Pepe",
+				"symbol": "PEPE",
+				"market_cap_rank": 38,
+				"thumb": "https://coin-images.coingecko.com/coins/images/29850/standard/pepe-token.jpeg",
+				"small": "https://coin-images.coingecko.com/coins/images/29850/small/pepe-token.jpeg",
+				"data": {
+					"price": 0.0000089,
+					"price_change_percentage_24h": { "usd": 12.4, "eur": 12.1 }
+				}
+			}
+		},
+		{
+			"item": {
+				"id": "solana",
+				"name": "Solana",
+				"symbol": "SOL",
+				"market_cap_rank": 6,
+				"thumb": "https://coin-images.coingecko.com/coins/images/4128/standard/solana.png",
+				"data": {
+					"price": 102.25,
+					"price_change_percentage_24h": { "usd": -1.99 }
+				}
+			}
+		},
+		{
+			"note": "A row without an item is ignored."
+		}
+	],
+	"nfts": [],
+	"categories": []
+}

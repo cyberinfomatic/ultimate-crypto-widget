@@ -42,6 +42,21 @@ interface PriceProvider
 	public function fiatRates(string $base, array $currencies): array;
 
 	/**
+	 * The whole market in a few numbers.
+	 *
+	 * @param string $currency Lowercase currency code. When the source does not quote it, "usd" is used.
+	 * @return array{currency: string, market_cap: float, volume: float, market_cap_change_24h: float, btc_dominance: float, eth_dominance: float, active_coins: int} Empty when the source has no figures.
+	 */
+	public function globalMarket(string $currency = 'usd'): array;
+
+	/**
+	 * Coins people are looking at most right now, most searched first.
+	 *
+	 * @return array<int, array{id: string, name: string, symbol: string, image: string, rank: int, price: float, change_24h: float}> Prices are in US dollars.
+	 */
+	public function trending(): array;
+
+	/**
 	 * Forget everything cached.
 	 */
 	public function clearCache(): void;

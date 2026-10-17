@@ -34,6 +34,8 @@ final class HttpStub {
 	 */
 	private const ROUTES = array(
 		'api.coingecko.com/api/v3/exchange_rates'     => 'coingecko-exchange-rates.json',
+		'api.coingecko.com/api/v3/global'             => 'coingecko-global.json',
+		'api.coingecko.com/api/v3/search/trending'    => 'coingecko-trending.json',
 		'api.coingecko.com/api/v3/coins/markets'      => 'coingecko-markets.json',
 		'api.coingecko.com/api/v3/coins/list'         => 'coingecko-list.json',
 		'/market_chart'                               => 'coingecko-market-chart.json',

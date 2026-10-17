@@ -50,6 +50,43 @@ final class PriceProviderTest extends TestCase {
 		$this->assertSame( array( 'USD', 'EUR', 'GBP', 'NGN', 'JPY' ), array_keys( $rates ) );
 	}
 
+	public function test_the_whole_market_is_summed_up_in_the_chosen_currency(): void {
+		$market = Services::prices()->globalMarket( 'EUR' );
+
+		$this->assertSame( 'eur', $market['currency'] );
+		$this->assertEqualsWithDelta( 2539200000000, $market['market_cap'], 1 );
+		$this->assertEqualsWithDelta( 90528000000, $market['volume'], 1 );
+		$this->assertEqualsWithDelta( 58.8, $market['btc_dominance'], 0.0001 );
+		$this->assertEqualsWithDelta( 10.6, $market['eth_dominance'], 0.0001 );
+		$this->assertEqualsWithDelta( -0.74, $market['market_cap_change_24h'], 0.0001 );
+		$this->assertSame( 17342, $market['active_coins'] );
+	}
+
+	public function test_a_currency_the_market_figures_do_not_quote_falls_back_to_dollars(): void {
+		$this->assertSame( 'usd', Services::prices()->globalMarket( 'ngn' )['currency'] );
+	}
+
+	public function test_trending_coins_are_read_in_order_and_unusable_rows_are_left_out(): void {
+		$coins = Services::prices()->trending();
+
+		$this->assertSame( array( 'pepe', 'solana' ), array_column( $coins, 'id' ) );
+		$this->assertSame( 'PEPE', $coins[0]['symbol'] );
+		$this->assertSame( 38, $coins[0]['rank'] );
+		$this->assertEqualsWithDelta( 12.4, $coins[0]['change_24h'], 0.0001 );
+		$this->assertStringEndsWith( 'small/pepe-token.jpeg', $coins[0]['image'] );
+		// No "small" picture: the thumbnail is used.
+		$this->assertStringContainsString( 'standard/solana.png', $coins[1]['image'] );
+	}
+
+	public function test_the_new_figures_are_cached_like_everything_else(): void {
+		Services::prices()->globalMarket();
+		Services::prices()->globalMarket( 'eur' );
+		Services::prices()->trending();
+		Services::prices()->trending();
+
+		$this->assertCount( 2, HttpStub::$requests );
+	}
+
 	public function test_an_unknown_currency_is_left_out(): void {
 		$this->assertSame( array(), Services::prices()->fiatRates( 'usd', array( 'zzz' ) ) );
 	}

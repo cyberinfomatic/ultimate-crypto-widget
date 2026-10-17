@@ -12,6 +12,10 @@ final class WidgetDefinition
 	public const DATA_COINS            = 'coins';
 	public const DATA_CURRENCY_RATES   = 'default_currencies_rate';
 	public const DATA_CURRENCY_SYMBOLS = 'default_currencies_symbol';
+	/** The whole market: total value, volume, dominance (PriceProvider::globalMarket()). */
+	public const DATA_GLOBAL = 'global_market';
+	/** Coins people look at most right now (PriceProvider::trending()). */
+	public const DATA_TRENDING = 'trending_coins';
 
 	/**
 	 * @param string      $type      Stored in the widget's "type" setting, e.g. "coin-marquee-1". Never change one.

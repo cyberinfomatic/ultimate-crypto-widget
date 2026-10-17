@@ -97,6 +97,55 @@ final class CoinGeckoProvider implements PriceProvider
 		return $rates;
 	}
 
+	public function globalMarket(string $currency = 'usd'): array
+	{
+		$data = $this->fetch('/global', [], $this->marketTtl)['data'] ?? [];
+		if (!is_array($data) || [] === $data) {
+			return [];
+		}
+
+		$code   = strtolower($currency);
+		$caps   = (array) ($data['total_market_cap'] ?? []);
+		$code   = isset($caps[$code]) ? $code : 'usd';
+		$shares = (array) ($data['market_cap_percentage'] ?? []);
+
+		return [
+			'currency'              => $code,
+			'market_cap'            => (float) ($caps[$code] ?? 0),
+			'volume'                => (float) (((array) ($data['total_volume'] ?? []))[$code] ?? 0),
+			'market_cap_change_24h' => (float) ($data['market_cap_change_percentage_24h_usd'] ?? 0),
+			'btc_dominance'         => (float) ($shares['btc'] ?? 0),
+			'eth_dominance'         => (float) ($shares['eth'] ?? 0),
+			'active_coins'          => (int) ($data['active_cryptocurrencies'] ?? 0),
+		];
+	}
+
+	public function trending(): array
+	{
+		$rows = $this->fetch('/search/trending', [], 900)['coins'] ?? [];
+
+		$coins = [];
+		foreach ((array) $rows as $row) {
+			$item = is_array($row) ? ($row['item'] ?? null) : null;
+			if (!is_array($item) || !isset($item['id'], $item['name'], $item['symbol'])) {
+				continue;
+			}
+			$data    = (array) ($item['data'] ?? []);
+			$changes = (array) ($data['price_change_percentage_24h'] ?? []);
+			$coins[] = [
+				'id'         => (string) $item['id'],
+				'name'       => (string) $item['name'],
+				'symbol'     => (string) $item['symbol'],
+				'image'      => (string) ($item['small'] ?? $item['thumb'] ?? ''),
+				'rank'       => (int) ($item['market_cap_rank'] ?? 0),
+				'price'      => (float) ($data['price'] ?? 0),
+				'change_24h' => (float) ($changes['usd'] ?? 0),
+			];
+		}
+
+		return $coins;
+	}
+
 	public function clearCache(): void
 	{
 		$this->cache->clear();

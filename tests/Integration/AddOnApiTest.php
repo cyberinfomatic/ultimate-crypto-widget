@@ -104,6 +104,17 @@ final class AddOnApiTest extends TestCase {
 		}
 	}
 
+	public function test_an_add_on_can_ask_for_the_whole_market_and_for_trending_coins(): void {
+		$catalog = new WidgetCatalog();
+		$catalog->register( new WidgetDefinition( 'market-sample', 'Market', 'sample-pro-widget', '', array( 'default_currency' ), array( WidgetDefinition::DATA_GLOBAL, WidgetDefinition::DATA_TRENDING ), true, true, $this->bundle() ) );
+
+		$props = self::widget_props( $this->renderer( $catalog )->render( 'market-sample', array( 'default_currency' => 'EUR' ) ) )[0];
+
+		$this->assertSame( 'eur', $props['global_market']['currency'] );
+		$this->assertEqualsWithDelta( 2539200000000, $props['global_market']['market_cap'], 1 );
+		$this->assertSame( array( 'pepe', 'solana' ), array_column( $props['trending_coins'], 'id' ) );
+	}
+
 	public function test_a_widget_whose_script_is_missing_renders_nothing_rather_than_a_broken_box(): void {
 		$catalog = new WidgetCatalog();
 		$catalog->register( new WidgetDefinition( 'not-built', 'Not built', 'no-such-view', '', array( 'default_currency' ), array(), true, true, $this->bundle() ) );

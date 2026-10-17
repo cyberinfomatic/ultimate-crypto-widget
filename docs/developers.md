@@ -110,6 +110,19 @@ add_action('plugins_loaded', function () {
 });
 ```
 
+The data a widget asks for is delivered in its `data-ucw-props`, under the name of the constant:
+
+| Constant | Prop | What it is |
+| --- | --- | --- |
+| `DATA_COINS` | `coins` | Market data for the chosen coins, or the top 100. |
+| `DATA_CURRENCY_RATES` | `default_currencies_rate` | One unit of the widget's currency in each chosen currency. |
+| `DATA_CURRENCY_SYMBOLS` | `default_currencies_symbol` | The symbol of each chosen currency. |
+| `DATA_GLOBAL` | `global_market` | The whole market: value, 24h volume, change, Bitcoin and Ether share, active coins. |
+| `DATA_TRENDING` | `trending_coins` | The coins people look at most now: id, name, symbol, image, rank, price in US dollars, 24h change. |
+
+A price provider (`ucwp_price_provider`) must answer all of these; `globalMarket()` and `trending()` return an empty
+array when it has no figures, and the widget shows its empty state.
+
 The build folder must hold `vendors/index.js` (shared code), `widgets/{view}/index.js` and, if the
 widget has its own layout, `widgets/{view}.css`. The Pro add-on's `webpack.config.js` is a working
 example; it imports this plugin's shared code as `@core/…`.

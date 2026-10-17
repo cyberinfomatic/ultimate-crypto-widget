@@ -98,6 +98,20 @@ final class WidgetRenderer
 			case WidgetDefinition::DATA_CURRENCY_RATES:
 				return $this->rates($currency, $currencies);
 
+			case WidgetDefinition::DATA_GLOBAL:
+				try {
+					return $this->prices->globalMarket($currency);
+				} catch (PriceDataException $e) {
+					return [];
+				}
+
+			case WidgetDefinition::DATA_TRENDING:
+				try {
+					return $this->prices->trending();
+				} catch (PriceDataException $e) {
+					return [];
+				}
+
 			case WidgetDefinition::DATA_CURRENCY_SYMBOLS:
 				$symbols = [];
 				foreach ($currencies as $code) {
