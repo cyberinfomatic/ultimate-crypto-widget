@@ -108,6 +108,10 @@ const pairs: Array<[string, string, number]> = [
 	["--ucw-up", "--ucw-up-soft", TEXT],
 	["--ucw-down", "--ucw-surface", TEXT],
 	["--ucw-down", "--ucw-down-soft", TEXT],
+	// Cells the compare widget tints as "best in row".
+	["--ucw-fg", "--ucw-accent-soft", TEXT],
+	["--ucw-up", "--ucw-accent-soft", TEXT],
+	["--ucw-down", "--ucw-accent-soft", TEXT],
 ];
 
 describe.each([
