@@ -209,6 +209,13 @@
 	font-variant-numeric: tabular-nums;
 }
 
+// On a phone the cells give some of their padding back, or a coin's name is left with room for one letter.
+@media (max-width: 30rem) {
+	.ucw-table__cell {
+		padding-inline: var(--ucw-space-2);
+	}
+}
+
 // ---------------------------------------------------------------- Tabs
 
 .ucw-tabs {
