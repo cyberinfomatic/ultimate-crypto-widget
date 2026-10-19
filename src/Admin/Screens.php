@@ -80,7 +80,7 @@ final class Screens
 	 */
 	public static function upgradeUrl(): string
 	{
-		$url = 'https://ultimatecryptowidget.com/go-pro?utm_source=plugin&utm_medium=upgrade&utm_campaign=pro';
+		$url = 'https://ultimatecryptowidget.com/get-pro?utm_source=plugin&utm_medium=upgrade&utm_campaign=pro';
 
 		/**
 		 * Where "upgrade to Pro" links lead.

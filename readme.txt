@@ -35,7 +35,7 @@ Ultimate Crypto Widget shows live cryptocurrency prices on your WordPress site. 
 
 **More with Pro**
 
-The [Pro add-on](https://ultimatecryptowidget.com/) adds price history charts, searchable tables with pages, coin detail cards, sliders, an accordion and more card designs, plus extra style controls (typeface, rise and fall colours, corner radius, spacing).
+The [Pro add-on](https://ultimatecryptowidget.com/get-pro) adds price history charts, searchable tables with pages, coin detail cards, sliders, an accordion and more card designs, plus extra style controls (typeface, rise and fall colours, corner radius, spacing).
 
 **Source code**
 
