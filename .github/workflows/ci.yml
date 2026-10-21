@@ -57,9 +57,11 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --no-progress
 
+      # WordPress and its test library must be the same version: a newer test library loads
+      # files an older WordPress does not have (6.8 added class-wp-phpmailer.php).
       - name: Use WordPress ${{ matrix.wordpress }}
         if: matrix.wordpress != 'locked'
-        run: composer require --dev --no-interaction --no-progress -W "roots/wordpress-no-content:${{ matrix.wordpress }}"
+        run: composer require --dev --no-interaction --no-progress -W "roots/wordpress-no-content:${{ matrix.wordpress }}" "wp-phpunit/wp-phpunit:${{ matrix.wordpress }}"
 
       - uses: actions/setup-node@v4
         with:
