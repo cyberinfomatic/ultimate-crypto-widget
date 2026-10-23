@@ -1,12 +1,15 @@
 # Ultimate Crypto Widget
 
-Live cryptocurrency prices for WordPress: price tables, a scrolling ticker, price cards and a
-multi-currency list. Place a widget with the block editor, a shortcode or Elementor.
+Live cryptocurrency prices for WordPress: 24 widgets (tickers, price tables, charts, a market heatmap and
+overview, compare, converter and holdings tools, and more). Place a widget with the block editor, a shortcode
+or Elementor.
 
-This is the free plugin, published on WordPress.org. The Pro add-on is a separate plugin that hooks
-into this one.
+This is the free plugin, published on WordPress.org. Every widget is free: it is released in its
+**all-free edition** ([edition.json](edition.json)). A Pro add-on exists for a later, tiered edition; it is not
+needed now. How to switch: [docs/editions.md](docs/editions.md).
 
 - **Using the plugin:** [docs/user-guide.md](docs/user-guide.md)
+- **Free and Pro editions:** [docs/editions.md](docs/editions.md)
 - **Extending it or working on it:** [docs/developers.md](docs/developers.md)
 - **Translating it:** [docs/translating.md](docs/translating.md)
 - **Frontend rules:** [docs/standards/frontend.md](docs/standards/frontend.md)
