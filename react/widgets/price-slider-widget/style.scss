@@ -1,0 +1,24 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-slider {
+	flex-direction: row;
+	align-items: center;
+	gap: var(--ucw-space-2);
+	padding: var(--ucw-space-2);
+}
+
+// The ticker takes the room the buttons leave.
+.ucw-slider .ucw-ticker {
+	flex: 1;
+	min-inline-size: 0;
+}
+
+.ucw-slider__item {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: var(--ucw-space-4);
+	padding: var(--ucw-space-2) var(--ucw-space-4);
+	background: var(--ucw-surface-sunken);
+	border-radius: var(--ucw-radius-sm);
+}

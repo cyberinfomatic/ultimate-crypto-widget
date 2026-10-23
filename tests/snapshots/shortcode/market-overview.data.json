@@ -1,0 +1,22 @@
+[
+    {
+        "settings": {
+            "card": "",
+            "pro": false,
+            "default_currency": "usd",
+            "parent_width": "400",
+            "dark_mode": "false",
+            "currency_symbol": "$",
+            "usd_conversion_rate": 1
+        },
+        "global_market": {
+            "currency": "usd",
+            "market_cap": 2760000000000,
+            "volume": 98400000000,
+            "market_cap_change_24h": -0.74,
+            "btc_dominance": 58.8,
+            "eth_dominance": 10.6,
+            "active_coins": 17342
+        }
+    }
+]

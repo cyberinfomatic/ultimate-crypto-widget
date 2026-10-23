@@ -1,0 +1,15 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-compare__scroll {
+	overflow-x: auto;
+}
+
+// The coin with the best figure in a row: bold and tinted, so it is not marked by colour alone.
+.ucw-compare .ucw-table__cell[data-best="true"],
+.ucw-compare .ucw-table__cell[data-best="true"] * {
+	font-weight: var(--ucw-weight-bold);
+}
+
+.ucw-compare .ucw-table__cell[data-best="true"] {
+	background: var(--ucw-accent-soft);
+}

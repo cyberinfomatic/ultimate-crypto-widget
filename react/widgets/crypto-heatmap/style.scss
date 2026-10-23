@@ -1,0 +1,45 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-heat {
+	padding: var(--ucw-space-3);
+}
+
+.ucw-heat__tiles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ucw-space-2);
+}
+
+.ucw-heat__tile {
+	display: flex;
+	flex: 1 1 7rem;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: var(--ucw-space-2);
+	min-inline-size: 0;
+	min-block-size: 5.5rem;
+	padding: var(--ucw-space-3);
+	color: var(--ucw-fg);
+	background: var(--ucw-surface-sunken);
+	border-radius: var(--ucw-radius-sm);
+	font-variant-numeric: tabular-nums;
+}
+
+// The tint is a share of the gain or loss colour in the surface, capped by heatOf(). Mixed in oklab:
+// a polar space would turn red towards the surface's blue-grey through purple.
+.ucw-heat__tile[data-direction="up"] {
+	background: color-mix(in oklab, var(--ucw-up) var(--ucw-heat), var(--ucw-surface));
+}
+
+.ucw-heat__tile[data-direction="down"] {
+	background: color-mix(in oklab, var(--ucw-down) var(--ucw-heat), var(--ucw-surface));
+}
+
+.ucw-heat__symbol {
+	font-weight: var(--ucw-weight-bold);
+	text-transform: uppercase;
+}
+
+.ucw-heat__change {
+	font-size: var(--ucw-text-sm);
+}

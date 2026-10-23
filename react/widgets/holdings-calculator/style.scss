@@ -1,0 +1,40 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-holdings__total {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-4);
+	border-block-start: 1px solid var(--ucw-border);
+}
+
+.ucw-widget .ucw-holdings__clear,
+.ucw-widget .ucw-holdings__clear:hover,
+.ucw-widget .ucw-holdings__clear:focus {
+	min-block-size: 0;
+	margin: 0;
+	padding: var(--ucw-space-2) var(--ucw-space-3);
+	color: var(--ucw-fg);
+	background: var(--ucw-surface);
+	border: 1px solid var(--ucw-border);
+	border-radius: var(--ucw-radius-sm);
+	box-shadow: none;
+	cursor: pointer;
+	font: inherit;
+	font-size: var(--ucw-text-sm);
+}
+
+.ucw-widget .ucw-holdings__clear:focus-visible {
+	outline: 2px solid var(--ucw-accent);
+	outline-offset: 2px;
+}
+
+// Two classes: themes give paragraphs margins.
+.ucw-widget .ucw-holdings__note {
+	margin: 0;
+	padding: 0 var(--ucw-space-4) var(--ucw-space-4);
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-xs);
+}

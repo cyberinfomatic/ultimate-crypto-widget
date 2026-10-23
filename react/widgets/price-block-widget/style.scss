@@ -1,0 +1,19 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+@use "../../parts/coin-chart-card";
+
+.ucw-block {
+	gap: var(--ucw-space-4);
+	padding: var(--ucw-space-5);
+}
+
+.ucw-block__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+}
+
+// The switcher is as wide as its tabs, not the card.
+.ucw-block .ucw-tabs {
+	align-self: flex-start;
+}

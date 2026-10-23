@@ -1,0 +1,28 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-converter {
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-5);
+}
+
+.ucw-converter__fields {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	gap: var(--ucw-space-3);
+}
+
+// Two classes: themes give paragraphs margins.
+.ucw-widget .ucw-converter__result {
+	margin: 0;
+	font-size: var(--ucw-text-xl);
+	font-variant-numeric: tabular-nums;
+	font-weight: var(--ucw-weight-bold);
+	overflow-wrap: anywhere;
+}
+
+.ucw-widget .ucw-converter__rate {
+	margin: 0;
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-sm);
+	font-variant-numeric: tabular-nums;
+}

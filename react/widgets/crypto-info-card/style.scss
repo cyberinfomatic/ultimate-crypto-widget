@@ -1,0 +1,34 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+@use "../../parts/coin-chart-card";
+
+.ucw-info {
+	gap: var(--ucw-space-4);
+	padding: var(--ucw-space-5);
+}
+
+.ucw-info__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-4);
+}
+
+.ucw-info__stats {
+	display: flex;
+	gap: var(--ucw-space-6);
+}
+
+.ucw-info__loading {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ucw-space-2);
+}
+
+// Two classes: themes give paragraphs margins.
+.ucw-widget .ucw-info__text {
+	margin: 0;
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-sm);
+	line-height: 1.6;
+}

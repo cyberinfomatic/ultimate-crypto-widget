@@ -1,0 +1,41 @@
+{
+    "ucwp_widget_card_width": [
+        "157"
+    ],
+    "ucwp_widget_coins": [
+        "a:2:{i:0;s:7:\"bitcoin\";i:1;s:8:\"ethereum\";}"
+    ],
+    "ucwp_widget_count": [
+        "10"
+    ],
+    "ucwp_widget_currencies": [
+        "a:2:{i:0;s:3:\"usd\";i:1;s:3:\"eur\";}"
+    ],
+    "ucwp_widget_dark_mode": [
+        "false"
+    ],
+    "ucwp_widget_data_interval": [
+        "daily"
+    ],
+    "ucwp_widget_default_currency": [
+        "usd"
+    ],
+    "ucwp_widget_no_of_days": [
+        "7"
+    ],
+    "ucwp_widget_orientation": [
+        "horizontal"
+    ],
+    "ucwp_widget_parent_width": [
+        "400"
+    ],
+    "ucwp_widget_search_placeholder": [
+        "Search Coin"
+    ],
+    "ucwp_widget_speed": [
+        "3000"
+    ],
+    "ucwp_widget_type": [
+        "crypto-converter"
+    ]
+}

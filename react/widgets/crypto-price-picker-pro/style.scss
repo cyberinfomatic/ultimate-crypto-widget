@@ -1,0 +1,39 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-picker-pro {
+	display: grid;
+	gap: var(--ucw-space-3);
+	grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
+}
+
+.ucw-picker-pro[data-orientation="vertical"] {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.ucw-picker-pro__card {
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-4);
+}
+
+.ucw-picker-pro__main {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+}
+
+.ucw-picker-pro__figures {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: var(--ucw-space-1);
+}
+
+.ucw-picker-pro__stats {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--ucw-space-4);
+	// The line above the figures is part of the design, hence padding on one side only.
+	padding-block-start: var(--ucw-space-3);
+	border-block-start: 1px solid var(--ucw-border);
+}
