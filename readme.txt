@@ -4,12 +4,12 @@ Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.0.0-beta.1
+Stable tag: 1.0.0
 License: GPL-2.0-or-later
-Donate link: http://ultimatecryptowidget.com
+Donate link: https://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Live cryptocurrency prices: tables, a ticker, price cards and a multi-currency list. Use it as a block, a shortcode or in Elementor.
+24 free live crypto price widgets: tickers, tables, charts, a heatmap, a converter and more. Block, shortcode or Elementor.
 
 == Description ==
 
