@@ -4,7 +4,7 @@ Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.0.0-beta.1
+Stable tag: 1.0.0
 License: GPL-2.0-or-later
 Donate link: http://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
