@@ -15,12 +15,13 @@ Live cryptocurrency prices: tables, a ticker, price cards and a multi-currency l
 
 Ultimate Crypto Widget shows live cryptocurrency prices on your WordPress site. Pick a widget, choose its coins and currency, and place it with the block editor, a shortcode or Elementor. Prices update on the page as the market moves.
 
-**Widgets in the free plugin**
+**24 widgets, all free**
 
-* **Price table** – ranked coins with price and 24-hour change.
-* **Coin marquee** – a scrolling ticker strip.
-* **Price cards** – one card per coin, side by side or stacked.
-* **Multi-currency list** – a price list your visitors can switch between currencies.
+* **Tickers** – coin marquees in three designs, price labels in three designs, and price sliders.
+* **Tables** – a ranked price table, a searchable and paged table with market cap, volume and supply, a table of change over a day, a week and a month, and a multi-currency list.
+* **Charts** – a coin's price history over the days you choose, a market heatmap, and an overview of the whole market.
+* **Cards** – price cards, price cards with charts, coin information cards, and an accordion that opens to show a chart.
+* **Tools** – compare two to four coins side by side, a crypto converter, the top gainers and losers, trending coins, and a holdings calculator.
 
 **What you get**
 
@@ -32,10 +33,6 @@ Ultimate Crypto Widget shows live cryptocurrency prices on your WordPress site. 
 * **A live preview** while you set a widget up.
 * **Nothing loaded where it is not used**: a page without a widget loads no script or style from this plugin.
 * **Accessible and translatable**: keyboard and screen-reader friendly, right-to-left ready, prices and numbers formatted for the page's language.
-
-**More with Pro**
-
-The [Pro add-on](https://ultimatecryptowidget.com/get-pro) adds price history charts, searchable tables with pages, coin detail cards, sliders, an accordion and more card designs, plus extra style controls (typeface, rise and fall colours, corner radius, spacing).
 
 **Source code**
 
@@ -62,8 +59,6 @@ Coin logos are loaded by the visitor's browser from the addresses CoinGecko prov
 1. In your dashboard go to **Plugins → Add New**, search for **Ultimate Crypto Widget**, then **Install** and **Activate**.
 2. Open **Crypto Widgets** in the dashboard menu.
 3. Create a widget, or add the **Crypto Widget** block straight to a page.
-
-The Pro add-on is a separate plugin. It needs this one installed and active. Install its zip under **Plugins → Add New → Upload Plugin**, then enter your key under **Crypto Widgets → Pro License**.
 
 == Frequently Asked Questions ==
 
@@ -101,7 +96,7 @@ In the [support forum](https://wordpress.org/support/plugin/ultimate-crypto-widg
 
 == Screenshots ==
 
-1. The four free widgets: price table, coin marquee, price cards and multi-currency list.
+1. Some of the widgets: price table, coin marquee, price cards and multi-currency list.
 2. The same widgets in the dark theme.
 3. Setting a widget up, with the live preview.
 4. The Crypto Widget block in the editor.
@@ -126,7 +121,8 @@ A rebuild of the plugin.
 * Fix: prices in a currency other than US dollars were converted with a rounded rate.
 * Fix: a coin's 24-hour volume could be replaced by a wrong figure once live prices arrived.
 * Change: the widgets' HTML and class names are new (`ucw-…`). Custom CSS written for the old ones needs updating.
-* Change: the Pro version is now a separate add-on for this plugin.
+* New: **every widget is free**, including the ones that were Pro: price history charts, searchable tables, sliders, coin cards, the accordion and more card designs. Widgets saved with the old Pro plugin keep working with this plugin alone.
+* New: seven widgets: compare coins, a crypto converter, top gainers and losers, a market overview, a heatmap, trending coins and a holdings calculator.
 * Requires WordPress 6.5.5 and PHP 8.2.
 
 = 0.1.5 =
