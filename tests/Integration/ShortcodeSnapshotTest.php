@@ -70,7 +70,7 @@ final class ShortcodeSnapshotTest extends TestCase {
 	}
 
 	public function test_a_pro_widget_type_renders_nothing(): void {
-		$this->assertSame( '', (string) do_shortcode( '[ucwp_widget type="historical-price-chart" default_currency="usd"]' ) );
+		$this->assertSame( '', (string) do_shortcode( '[ucwp_widget type="' . self::LOCKED_TYPE . '" default_currency="usd"]' ) );
 	}
 
 	public function widget_type_provider(): array {

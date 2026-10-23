@@ -69,7 +69,7 @@ final class WidgetDataTest extends TestCase {
 	}
 
 	public function test_a_pro_widget_type_is_not_saved(): void {
-		$id = WidgetFactory::create( 'historical-price-chart' );
+		$id = WidgetFactory::create( self::LOCKED_TYPE );
 
 		$this->assertArrayNotHasKey( 'ucwp_widget_type', WidgetFactory::rows( $id ), 'A Pro type must not be stored by the free plugin.' );
 		// The rest of the form is kept, so nothing has to be typed again once a usable type is chosen.
@@ -78,7 +78,7 @@ final class WidgetDataTest extends TestCase {
 
 	public function test_a_refused_field_is_reported_to_whoever_saved(): void {
 		wp_set_current_user( WidgetFactory::editor() );
-		WidgetFactory::create( 'historical-price-chart' );
+		WidgetFactory::create( self::LOCKED_TYPE );
 
 		ob_start();
 		Services::container()->get( WidgetEditor::class )->box()->printErrors();

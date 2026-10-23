@@ -74,7 +74,7 @@ final class AdminTest extends TestCase {
 		Services::container()->get( WidgetEditor::class )->box()->render( get_post( WidgetFactory::create( 'coin-marquee-1' ) ) );
 		$form = (string) ob_get_clean();
 
-		$this->assertMatchesRegularExpression( '/<option value="historical-price-chart"[^>]*disabled[^>]*>[^<]*\(Pro\)/', $form );
+		$this->assertMatchesRegularExpression( '/<option value="' . self::LOCKED_TYPE . '"[^>]*disabled[^>]*>[^<]*\(Pro\)/', $form );
 		$this->assertDoesNotMatchRegularExpression( '/<option value="coin-marquee-1"[^>]*disabled/', $form );
 	}
 
@@ -178,7 +178,8 @@ final class AdminTest extends TestCase {
 	}
 
 	public function test_the_upgrade_link_and_prompt_can_be_changed_by_an_add_on(): void {
-		$this->assertTrue( Screens::suggestsUpgrade() );
+		// Suggested only when the edition sells Pro: never in the all-free edition.
+		$this->assertSame( \Cyberinfomatic\UltimateCryptoWidget\Widgets\Edition::sellsPro(), Screens::suggestsUpgrade() );
 		$this->assertStringStartsWith( 'https://ultimatecryptowidget.com/', Screens::upgradeUrl() );
 
 		add_filter( 'ucwp_upgrade_url', static fn (): string => 'https://example.org/buy' );

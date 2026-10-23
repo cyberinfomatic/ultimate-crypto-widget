@@ -35,13 +35,16 @@ abstract class TestCase extends WP_UnitTestCase {
 		unset( $GLOBALS['wp_scripts'], $GLOBALS['wp_styles'] );
 	}
 
+	/** A Pro type this site cannot use, registered by tests/bootstrap.php in every edition. */
+	protected const LOCKED_TYPE = 'test-locked-widget';
+
 	/**
-	 * Every widget type the plugin registers.
+	 * Every widget type the plugin registers (not the test's locked type).
 	 *
 	 * @return string[]
 	 */
 	protected static function widget_types(): array {
-		return array_keys( Services::container()->get( WidgetCatalog::class )->all() );
+		return array_values( array_diff( array_keys( Services::container()->get( WidgetCatalog::class )->all() ), array( self::LOCKED_TYPE ) ) );
 	}
 
 	/**

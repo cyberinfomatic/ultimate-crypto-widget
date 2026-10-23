@@ -90,7 +90,7 @@ final class BlockTest extends TestCase {
 		wp_set_current_user( 0 );
 
 		$this->assertSame( '', trim( do_blocks( '<!-- wp:ucwp/widget /-->' ) ) );
-		$this->assertSame( '', trim( do_blocks( '<!-- wp:ucwp/widget {"settings":{"type":"historical-price-chart"}} /-->' ) ), 'A Pro type without the add-on.' );
+		$this->assertSame( '', trim( do_blocks( '<!-- wp:ucwp/widget {"settings":{"type":"' . self::LOCKED_TYPE . '"}} /-->' ) ), 'A locked type without the add-on.' );
 	}
 
 	public function test_a_block_cannot_show_visitors_a_draft_widget(): void {
@@ -109,7 +109,7 @@ final class BlockTest extends TestCase {
 		$this->assertSame( 'type', $fields['type']['control'] );
 		$locked = array_column( $fields['type']['options'], 'locked', 'value' );
 		$this->assertFalse( $locked['coin-marquee-1'] );
-		$this->assertTrue( $locked['historical-price-chart'] );
+		$this->assertTrue( $locked[ self::LOCKED_TYPE ] );
 
 		$this->assertSame( 'number', $fields['speed']['control'] );
 		$this->assertSame( array( 100.0, 5000.0, '3000' ), array( $fields['speed']['min'], $fields['speed']['max'], $fields['speed']['default'] ) );
