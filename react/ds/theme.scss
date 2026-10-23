@@ -1,0 +1,631 @@
+// The look shared by every widget, built into assets/react-build/theme.css.
+//
+// Rules: role tokens only (never a primitive or a raw colour), gap for spacing
+// (no margins), logical properties so right-to-left works, and one class of
+// specificity so a site's theme can still override anything.
+
+@use "tokens";
+
+// ---------------------------------------------------------------- base
+
+.ucw-widget {
+	font-family: var(--ucw-font);
+	font-size: var(--ucw-text-md);
+	line-height: var(--ucw-leading);
+	text-align: start;
+	max-inline-size: 100%;
+}
+
+.ucw-widget *,
+.ucw-widget *::before,
+.ucw-widget *::after {
+	box-sizing: border-box;
+}
+
+// ---------------------------------------------------------------- Surface
+
+.ucw-surface {
+	display: flex;
+	flex-direction: column;
+	max-inline-size: 100%;
+	overflow: hidden;
+	color: var(--ucw-fg);
+	background: var(--ucw-surface);
+	border: 1px solid var(--ucw-border);
+	border-radius: var(--ucw-radius);
+	box-shadow: var(--ucw-shadow);
+}
+
+.ucw-surface--flat {
+	border-color: transparent;
+	box-shadow: none;
+}
+
+// ---------------------------------------------------------------- CoinIdentity
+
+.ucw-coin {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ucw-space-3);
+	min-inline-size: 0;
+}
+
+// Two classes: themes size and space images inside post content.
+.ucw-widget .ucw-coin__logo {
+	flex: none;
+	inline-size: var(--ucw-logo-size);
+	block-size: var(--ucw-logo-size);
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: var(--ucw-radius-pill);
+	background: var(--ucw-surface-sunken);
+	box-shadow: none;
+	object-fit: cover;
+}
+
+.ucw-coin__text {
+	display: flex;
+	flex-direction: column;
+	min-inline-size: 0;
+}
+
+.ucw-coin__name {
+	overflow: hidden;
+	font-weight: var(--ucw-weight-medium);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ucw-coin__symbol {
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-xs);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ucw-coin--compact {
+	gap: var(--ucw-space-2);
+	--ucw-logo-size: 1.25rem;
+}
+
+.ucw-coin--compact .ucw-coin__symbol {
+	color: var(--ucw-fg);
+	font-size: var(--ucw-text-sm);
+	font-weight: var(--ucw-weight-bold);
+}
+
+// ---------------------------------------------------------------- Price
+
+.ucw-price {
+	font-variant-numeric: tabular-nums;
+	font-weight: var(--ucw-weight-medium);
+	white-space: nowrap;
+	transition: color var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-price--lg {
+	font-size: var(--ucw-text-xl);
+	font-weight: var(--ucw-weight-bold);
+	letter-spacing: -0.01em;
+}
+
+.ucw-price[data-moved="up"] {
+	color: var(--ucw-up);
+}
+
+.ucw-price[data-moved="down"] {
+	color: var(--ucw-down);
+}
+
+// ---------------------------------------------------------------- Delta
+
+.ucw-delta {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ucw-space-1);
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-sm);
+	font-variant-numeric: tabular-nums;
+	font-weight: var(--ucw-weight-medium);
+	white-space: nowrap;
+}
+
+.ucw-delta[data-direction="up"] {
+	color: var(--ucw-up);
+	--ucw-delta-soft: var(--ucw-up-soft);
+}
+
+.ucw-delta[data-direction="down"] {
+	color: var(--ucw-down);
+	--ucw-delta-soft: var(--ucw-down-soft);
+}
+
+.ucw-delta--pill {
+	padding: var(--ucw-space-1) var(--ucw-space-2);
+	background: var(--ucw-delta-soft, var(--ucw-surface-sunken));
+	border-radius: var(--ucw-radius-pill);
+}
+
+.ucw-trend-icon {
+	flex: none;
+	inline-size: 0.75em;
+	block-size: 0.75em;
+}
+
+// ---------------------------------------------------------------- Table
+
+.ucw-table {
+	display: grid;
+	inline-size: 100%;
+	overflow-x: auto;
+}
+
+.ucw-table__row {
+	display: grid;
+	grid-column: 1 / -1;
+	grid-template-columns: subgrid;
+	align-items: center;
+	border-block-start: 1px solid var(--ucw-border);
+	transition: background-color var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-table__row:first-child {
+	border-block-start: 0;
+}
+
+.ucw-table__row:not(.ucw-table__row--header):hover {
+	background: var(--ucw-surface-hover);
+}
+
+.ucw-table__row--header {
+	color: var(--ucw-fg-muted);
+	background: var(--ucw-surface-sunken);
+	font-size: var(--ucw-text-xs);
+	font-weight: var(--ucw-weight-medium);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ucw-table__cell {
+	display: flex;
+	align-items: center;
+	min-inline-size: 0;
+	padding: var(--ucw-space-3) var(--ucw-space-4);
+}
+
+.ucw-table__row--header .ucw-table__cell {
+	padding-block: var(--ucw-space-2);
+}
+
+.ucw-table__cell--numeric {
+	justify-content: flex-end;
+	font-variant-numeric: tabular-nums;
+}
+
+.ucw-table__cell--muted {
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-sm);
+	font-variant-numeric: tabular-nums;
+}
+
+// On a phone the cells give some of their padding back, or a coin's name is left with room for one letter.
+@media (max-width: 30rem) {
+	.ucw-table__cell {
+		padding-inline: var(--ucw-space-2);
+	}
+}
+
+// ---------------------------------------------------------------- Tabs
+
+.ucw-tabs {
+	display: flex;
+	gap: var(--ucw-space-1);
+	padding: var(--ucw-space-1);
+	overflow-x: auto;
+	background: var(--ucw-surface-sunken);
+	border-radius: var(--ucw-radius-sm);
+	scrollbar-width: none;
+}
+
+// Two classes, and every state spelled out: themes style button, button:hover
+// and button:focus, and those must not show through.
+.ucw-widget .ucw-tabs__tab,
+.ucw-widget .ucw-tabs__tab:hover,
+.ucw-widget .ucw-tabs__tab:focus {
+	flex: none;
+	min-block-size: 0;
+	margin: 0;
+	padding: var(--ucw-space-1) var(--ucw-space-3);
+	color: var(--ucw-fg-muted);
+	background: transparent;
+	border: 0;
+	border-radius: calc(var(--ucw-radius-sm) - 2px);
+	box-shadow: none;
+	font: inherit;
+	font-size: var(--ucw-text-sm);
+	font-weight: var(--ucw-weight-medium);
+	letter-spacing: 0.02em;
+	line-height: var(--ucw-leading);
+	text-decoration: none;
+	text-transform: none;
+	cursor: pointer;
+	transition: color var(--ucw-duration) var(--ucw-ease), background-color var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-widget .ucw-tabs__tab:hover {
+	color: var(--ucw-fg);
+}
+
+.ucw-widget .ucw-tabs__tab[aria-selected="true"] {
+	color: var(--ucw-fg);
+	background: var(--ucw-surface);
+	box-shadow: var(--ucw-shadow);
+}
+
+.ucw-widget .ucw-tabs__tab:focus-visible {
+	outline: 2px solid var(--ucw-accent);
+	outline-offset: 1px;
+}
+
+// ---------------------------------------------------------------- Ticker
+
+.ucw-ticker {
+	display: flex;
+	max-inline-size: 100%;
+	overflow: hidden;
+	// Content fades out at both edges instead of being cut.
+	mask-image: linear-gradient(to right, transparent, #000 var(--ucw-space-6), #000 calc(100% - var(--ucw-space-6)), transparent);
+}
+
+.ucw-ticker__track {
+	display: flex;
+	flex: none;
+}
+
+.ucw-ticker__group {
+	display: flex;
+	flex: none;
+	gap: var(--ucw-space-3);
+	// The space between the last item and the copy that follows it; a gap cannot reach across groups.
+	padding-inline-end: var(--ucw-space-3);
+}
+
+.ucw-ticker[data-running] .ucw-ticker__track {
+	animation: ucw-ticker var(--ucw-ticker-duration) linear infinite;
+}
+
+.ucw-ticker:hover .ucw-ticker__track,
+.ucw-ticker:focus-within .ucw-ticker__track {
+	animation-play-state: paused;
+}
+
+.ucw-ticker[data-reverse] .ucw-ticker__track {
+	animation-direction: reverse;
+}
+
+// The build's right-to-left stylesheet turns this into +50%, so the loop runs the other way there.
+@keyframes ucw-ticker {
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+// ---------------------------------------------------------------- Sparkline
+
+.ucw-sparkline {
+	flex: none;
+	color: var(--ucw-fg-muted);
+}
+
+.ucw-sparkline[data-direction="up"] {
+	color: var(--ucw-up);
+}
+
+.ucw-sparkline[data-direction="down"] {
+	color: var(--ucw-down);
+}
+
+// ---------------------------------------------------------------- LineChart
+
+.ucw-chart {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ucw-space-2);
+	min-inline-size: 0;
+	color: var(--ucw-fg-muted);
+}
+
+.ucw-chart[data-direction="up"] {
+	--ucw-chart-ink: var(--ucw-up);
+}
+
+.ucw-chart[data-direction="down"] {
+	--ucw-chart-ink: var(--ucw-down);
+}
+
+.ucw-chart__readout {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+	font-size: var(--ucw-text-xs);
+	font-variant-numeric: tabular-nums;
+}
+
+.ucw-chart__value {
+	color: var(--ucw-fg);
+	font-weight: var(--ucw-weight-bold);
+}
+
+.ucw-chart__plot {
+	position: relative;
+	block-size: var(--ucw-chart-height, 9rem);
+	color: var(--ucw-chart-ink, var(--ucw-fg-muted));
+	border-radius: var(--ucw-radius-sm);
+	cursor: crosshair;
+	touch-action: pan-y;
+}
+
+.ucw-chart__plot:focus-visible {
+	outline: 2px solid var(--ucw-accent);
+	outline-offset: 2px;
+}
+
+.ucw-chart__plot svg {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	overflow: visible;
+}
+
+.ucw-chart__line {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	// The drawing is stretched to fit; the line must stay the same thickness.
+	vector-effect: non-scaling-stroke;
+}
+
+.ucw-chart__area {
+	fill: currentColor;
+	fill-opacity: 0.1;
+	stroke: none;
+}
+
+.ucw-chart__marker {
+	position: absolute;
+	inset-block: 0;
+	inline-size: 1px;
+	background: var(--ucw-border-strong);
+	pointer-events: none;
+}
+
+// ---------------------------------------------------------------- Disclosure
+
+.ucw-disclosure {
+	border-block-start: 1px solid var(--ucw-border);
+}
+
+.ucw-disclosure:first-child {
+	border-block-start: 0;
+}
+
+.ucw-widget .ucw-disclosure__summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-3) var(--ucw-space-4);
+	cursor: pointer;
+	list-style: none;
+	transition: background-color var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-disclosure__summary::-webkit-details-marker {
+	display: none;
+}
+
+.ucw-disclosure__summary:hover {
+	background: var(--ucw-surface-hover);
+}
+
+.ucw-disclosure__summary:focus-visible {
+	outline: 2px solid var(--ucw-accent);
+	outline-offset: -2px;
+}
+
+.ucw-disclosure__chevron {
+	flex: none;
+	inline-size: 0.875rem;
+	block-size: 0.875rem;
+	color: var(--ucw-fg-muted);
+	transition: transform var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-disclosure[open] .ucw-disclosure__chevron {
+	transform: rotate(180deg);
+}
+
+.ucw-disclosure__panel {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-3) var(--ucw-space-4) var(--ucw-space-4);
+}
+
+// ---------------------------------------------------------------- SearchField
+
+.ucw-widget .ucw-search,
+.ucw-widget .ucw-search:focus,
+.ucw-widget .ucw-input,
+.ucw-widget .ucw-input:focus {
+	inline-size: 100%;
+	min-block-size: 0;
+	margin: 0;
+	padding: var(--ucw-space-2) var(--ucw-space-3);
+	color: var(--ucw-fg);
+	background: var(--ucw-surface-sunken);
+	border: 1px solid var(--ucw-border);
+	border-radius: var(--ucw-radius-sm);
+	box-shadow: none;
+	font: inherit;
+	font-size: var(--ucw-text-sm);
+	line-height: var(--ucw-leading);
+}
+
+.ucw-widget .ucw-search::placeholder,
+.ucw-widget .ucw-input::placeholder {
+	color: var(--ucw-fg-muted);
+}
+
+.ucw-widget .ucw-search:focus-visible,
+.ucw-widget .ucw-input:focus-visible {
+	border-color: var(--ucw-accent);
+	outline: 2px solid var(--ucw-accent-soft);
+	outline-offset: 0;
+}
+
+.ucw-widget .ucw-select {
+	cursor: pointer;
+}
+
+// ---------------------------------------------------------------- IconButton, Pager
+
+.ucw-widget .ucw-icon-button,
+.ucw-widget .ucw-icon-button:hover,
+.ucw-widget .ucw-icon-button:focus {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	inline-size: 2rem;
+	block-size: 2rem;
+	min-block-size: 0;
+	margin: 0;
+	padding: 0;
+	color: var(--ucw-fg);
+	background: var(--ucw-surface);
+	border: 1px solid var(--ucw-border);
+	border-radius: var(--ucw-radius-sm);
+	box-shadow: none;
+	cursor: pointer;
+	transition: background-color var(--ucw-duration) var(--ucw-ease);
+}
+
+.ucw-widget .ucw-icon-button:hover:not(:disabled) {
+	background: var(--ucw-surface-hover);
+}
+
+.ucw-widget .ucw-icon-button[aria-pressed="true"] {
+	color: var(--ucw-accent);
+	border-color: var(--ucw-accent);
+}
+
+.ucw-widget .ucw-icon-button:disabled {
+	color: var(--ucw-fg-muted);
+	cursor: default;
+	opacity: 0.5;
+}
+
+.ucw-widget .ucw-icon-button:focus-visible {
+	outline: 2px solid var(--ucw-accent);
+	outline-offset: 1px;
+}
+
+.ucw-icon-button svg {
+	inline-size: 0.75rem;
+	block-size: 0.75rem;
+}
+
+[dir="rtl"] .ucw-icon-button svg {
+	transform: scaleX(-1);
+}
+
+.ucw-pager {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--ucw-space-2);
+	padding: var(--ucw-space-3) var(--ucw-space-4);
+	border-block-start: 1px solid var(--ucw-border);
+}
+
+.ucw-pager__status {
+	flex: 1;
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-xs);
+}
+
+// ---------------------------------------------------------------- Stat
+
+.ucw-stat {
+	display: inline-flex;
+	flex-direction: column;
+	min-inline-size: 0;
+}
+
+.ucw-stat__label {
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-xs);
+}
+
+.ucw-stat__value {
+	font-size: var(--ucw-text-sm);
+	font-variant-numeric: tabular-nums;
+	font-weight: var(--ucw-weight-medium);
+	white-space: nowrap;
+}
+
+// ---------------------------------------------------------------- Skeleton
+
+.ucw-skeleton {
+	display: block;
+	inline-size: 100%;
+	block-size: 1em;
+	background: var(--ucw-border);
+	border-radius: var(--ucw-radius-sm);
+	animation: ucw-pulse 1.2s var(--ucw-ease) infinite alternate;
+}
+
+.ucw-skeleton--round {
+	border-radius: var(--ucw-radius-pill);
+}
+
+@keyframes ucw-pulse {
+	to {
+		opacity: 0.5;
+	}
+}
+
+// ---------------------------------------------------------------- Notice
+
+.ucw-widget .ucw-notice {
+	margin: 0;
+	padding: var(--ucw-space-5);
+	color: var(--ucw-fg-muted);
+	font-size: var(--ucw-text-sm);
+	text-align: center;
+}
+
+// ---------------------------------------------------------------- motion
+
+@media (prefers-reduced-motion: reduce) {
+	.ucw-widget *,
+	.ucw-widget *::before,
+	.ucw-widget *::after {
+		transition: none;
+		animation: none;
+	}
+
+	// The ticker stands still: one copy, scrolled by hand.
+	.ucw-ticker {
+		overflow-x: auto;
+		mask-image: none;
+	}
+
+	.ucw-ticker__group[aria-hidden="true"] {
+		display: none;
+	}
+}

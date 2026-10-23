@@ -1,0 +1,35 @@
+// Puts every token on the widget's own element, so nothing leaks into the page
+// and two widgets on one page can look different.
+//
+//   <div class="ucw-widget">                          light
+//   <div class="ucw-widget" data-ucw-theme="dark">    dark
+//   <div class="ucw-widget" data-ucw-theme="auto">    follows the visitor's system
+
+@use "primitives";
+@use "brand";
+@use "scale";
+@use "themes/light";
+@use "themes/dark";
+
+.ucw-widget {
+	@include primitives.primitives;
+	@include brand.brand;
+	@include scale.scale;
+	@include light.roles;
+}
+
+// Also on a part inside a widget, for a design that is dark whatever the widget's theme.
+.ucw-widget[data-ucw-theme="dark"],
+.ucw-widget [data-ucw-theme="dark"] {
+	@include dark.roles;
+}
+
+@media (prefers-color-scheme: dark) {
+	.ucw-widget[data-ucw-theme="auto"] {
+		@include dark.roles;
+	}
+}
+
+.ucw-widget[data-ucw-density="compact"] {
+	--ucw-density: 0.75;
+}

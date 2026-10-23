@@ -1,0 +1,31 @@
+// Layer 1: raw colour ramps in OKLCH. Components never use these; the themes do.
+// A step number is its lightness, so the same step looks equally light in every ramp.
+
+@mixin primitives {
+	// Neutral, very slightly cool.
+	--ucw-p-neutral-99: oklch(99% 0.002 255);
+	--ucw-p-neutral-97: oklch(97% 0.004 255);
+	--ucw-p-neutral-93: oklch(93% 0.006 255);
+	--ucw-p-neutral-87: oklch(87% 0.008 255);
+	--ucw-p-neutral-70: oklch(70% 0.012 255);
+	--ucw-p-neutral-53: oklch(53% 0.014 255);
+	--ucw-p-neutral-40: oklch(40% 0.014 255);
+	--ucw-p-neutral-30: oklch(30% 0.014 255);
+	--ucw-p-neutral-24: oklch(24% 0.012 255);
+	--ucw-p-neutral-20: oklch(20% 0.01 255);
+	--ucw-p-neutral-16: oklch(16% 0.008 255);
+
+	// Gains.
+	--ucw-p-green-45: oklch(45% 0.13 155);
+	--ucw-p-green-52: oklch(52% 0.15 155);
+	--ucw-p-green-78: oklch(78% 0.17 155);
+	--ucw-p-green-95: oklch(95% 0.04 155);
+	--ucw-p-green-28: oklch(28% 0.06 155);
+
+	// Losses.
+	--ucw-p-red-48: oklch(48% 0.18 25);
+	--ucw-p-red-55: oklch(55% 0.2 25);
+	--ucw-p-red-74: oklch(74% 0.16 25);
+	--ucw-p-red-95: oklch(95% 0.03 25);
+	--ucw-p-red-28: oklch(28% 0.07 25);
+}

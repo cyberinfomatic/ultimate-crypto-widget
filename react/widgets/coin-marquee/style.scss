@@ -1,0 +1,15 @@
+// Layout that belongs to this widget only. Colours and sizes come from the theme's tokens.
+
+.ucw-marquee {
+	padding: var(--ucw-space-2) 0;
+}
+
+.ucw-marquee__item {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-2) var(--ucw-space-3);
+	border-inline-end: 1px solid var(--ucw-border);
+}

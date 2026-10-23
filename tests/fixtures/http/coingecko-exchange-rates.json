@@ -1,0 +1,12 @@
+{
+    "rates": {
+        "btc": { "name": "Bitcoin", "unit": "BTC", "value": 1, "type": "crypto" },
+        "eth": { "name": "Ether", "unit": "ETH", "value": 20.59, "type": "crypto" },
+        "usd": { "name": "US Dollar", "unit": "$", "value": 100000, "type": "fiat" },
+        "eur": { "name": "Euro", "unit": "€", "value": 92000, "type": "fiat" },
+        "gbp": { "name": "British Pound Sterling", "unit": "£", "value": 78000, "type": "fiat" },
+        "ngn": { "name": "Nigerian Naira", "unit": "₦", "value": 155050000, "type": "fiat" },
+        "jpy": { "name": "Japanese Yen", "unit": "¥", "value": 14930000, "type": "fiat" },
+        "xau": { "name": "Gold - Troy Ounce", "unit": "XAU", "value": 38.5, "type": "commodity" }
+    }
+}

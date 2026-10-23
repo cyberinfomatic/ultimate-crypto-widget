@@ -1,0 +1,62 @@
+[
+    {
+        "id": "bitcoin",
+        "symbol": "btc",
+        "name": "Bitcoin"
+    },
+    {
+        "id": "ethereum",
+        "symbol": "eth",
+        "name": "Ethereum"
+    },
+    {
+        "id": "tether",
+        "symbol": "usdt",
+        "name": "Tether"
+    },
+    {
+        "id": "binancecoin",
+        "symbol": "bnb",
+        "name": "BNB"
+    },
+    {
+        "id": "solana",
+        "symbol": "sol",
+        "name": "Solana"
+    },
+    {
+        "id": "ripple",
+        "symbol": "xrp",
+        "name": "XRP"
+    },
+    {
+        "id": "usd-coin",
+        "symbol": "usdc",
+        "name": "USDC"
+    },
+    {
+        "id": "cardano",
+        "symbol": "ada",
+        "name": "Cardano"
+    },
+    {
+        "id": "dogecoin",
+        "symbol": "doge",
+        "name": "Dogecoin"
+    },
+    {
+        "id": "tron",
+        "symbol": "trx",
+        "name": "TRON"
+    },
+    {
+        "id": "avalanche-2",
+        "symbol": "avax",
+        "name": "Avalanche"
+    },
+    {
+        "id": "shiba-inu",
+        "symbol": "shib",
+        "name": "Shiba Inu"
+    }
+]

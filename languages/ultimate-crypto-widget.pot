@@ -1,0 +1,555 @@
+# Copyright (C) 2026 Cyberinfomatic
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ultimate Crypto Widget 1.0.0-beta.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ultimate-crypto-widget\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-17T21:30:40+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: ultimate-crypto-widget\n"
+
+#. Plugin Name of the plugin
+#: C:/workspace/work/cyberinfomatic/ultimate-crypto-widget/ultimate-crypto-widget.php
+#: src/Admin/Screens.php:44
+#: views/admin/overview.php:23
+msgid "Ultimate Crypto Widget"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: C:/workspace/work/cyberinfomatic/ultimate-crypto-widget/ultimate-crypto-widget.php
+msgid "https://ultimatecryptowidget.com"
+msgstr ""
+
+#. Description of the plugin
+#: C:/workspace/work/cyberinfomatic/ultimate-crypto-widget/ultimate-crypto-widget.php
+msgid "Crypto Currency Widget on the go!"
+msgstr ""
+
+#. Author of the plugin
+#: C:/workspace/work/cyberinfomatic/ultimate-crypto-widget/ultimate-crypto-widget.php
+msgid "Cyberinfomatic"
+msgstr ""
+
+#. Author URI of the plugin
+#: C:/workspace/work/cyberinfomatic/ultimate-crypto-widget/ultimate-crypto-widget.php
+msgid "https://cyberinfomatic.com"
+msgstr ""
+
+#: src/Admin/CacheTools.php:27
+msgid "You do not have permission to do this."
+msgstr ""
+
+#: src/Admin/CacheTools.php:32
+msgid "This link has expired. Go back and try again."
+msgstr ""
+
+#: src/Admin/CacheTools.php:36
+msgid "Cached prices cleared."
+msgstr ""
+
+#: src/Admin/Preview.php:57
+#: src/Admin/Preview.php:130
+#: src/Integrations/Elementor/CryptoWidget.php:203
+#: assets/react-build/block/index.js:1
+msgid "Widget preview"
+msgstr ""
+
+#: src/Admin/Preview.php:69
+msgid "You are not allowed to preview widgets."
+msgstr ""
+
+#: src/Admin/Preview.php:113
+msgid "Choose a widget type to see it here."
+msgstr ""
+
+#: src/Admin/Screens.php:45
+#: src/Providers/IntegrationsProvider.php:26
+msgid "Crypto Widgets"
+msgstr ""
+
+#: src/Admin/Screens.php:50
+#: src/Admin/WidgetEditor.php:191
+msgid "Widgets"
+msgstr ""
+
+#: src/Admin/Screens.php:52
+#: views/admin/quick-widget.php:16
+msgid "Quick widget"
+msgstr ""
+
+#: src/Admin/Screens.php:56
+#: views/admin/settings.php:18
+msgid "Settings"
+msgstr ""
+
+#. translators: 1: setting name, 2: most that may be chosen, 3: number chosen.
+#: src/Admin/WidgetEditor.php:136
+msgid "%1$s: choose up to %2$d (you chose %3$d). It was left as it was; your other changes were saved."
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:152
+msgid "Widget settings"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:160
+msgid "Type"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:182
+msgid "Crypto widgets"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:183
+msgid "Crypto widget"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:184
+msgid "Add widget"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:185
+msgid "Add a widget"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:186
+msgid "Edit widget"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:187
+msgid "New widget"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:188
+msgid "Search widgets"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:189
+msgid "No widgets yet."
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:190
+msgid "No widgets in the bin."
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:193
+msgid "Cryptocurrency widgets you can place with a shortcode or a block."
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:217
+#: views/admin/quick-widget.php:40
+msgid "Preview"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:229
+#: src/Admin/WidgetEditor.php:255
+#: src/Admin/WidgetEditor.php:260
+#: views/admin/quick-widget.php:45
+msgid "Shortcode"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:232
+msgid "Save the widget to get its shortcode."
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:235
+msgid "Paste this where the widget should appear:"
+msgstr ""
+
+#: src/Admin/WidgetEditor.php:238
+#: views/admin/quick-widget.php:47
+msgid "Copy"
+msgstr ""
+
+#: src/Blocks/WidgetBlock.php:46
+#: src/Integrations/Elementor/CryptoWidget.php:121
+#: assets/react-build/block/index.js:1
+msgid "Crypto Widget"
+msgstr ""
+
+#: src/Blocks/WidgetBlock.php:47
+msgid "Live cryptocurrency prices: a table, a ticker, price cards and more."
+msgstr ""
+
+#: src/Http/MarketsController.php:71
+msgid "Price data is temporarily unavailable."
+msgstr ""
+
+#: src/Http/QuickWidgetController.php:49
+msgid "The widget settings are not valid."
+msgstr ""
+
+#: src/Integrations/Elementor/CryptoWidget.php:175
+#: assets/react-build/block/index.js:1
+msgid "Widget"
+msgstr ""
+
+#: src/Integrations/Elementor/CryptoWidget.php:192
+msgid "Choose a widget type in the panel."
+msgstr ""
+
+#: src/Integrations/Elementor/CryptoWidget.php:247
+#: src/Widgets/Fields/WidgetTypeFieldType.php:38
+#: assets/react-build/block/index.js:1
+msgid "Choose a widget type…"
+msgstr ""
+
+#: src/Providers/AdminProvider.php:64
+#: views/admin/overview.php:55
+msgid "Price data"
+msgstr ""
+
+#: src/Providers/AdminProvider.php:65
+msgid "Appearance"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:38
+msgid "CoinGecko API Key (optional)"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:39
+msgid "The widgets work without a key. A free CoinGecko key raises the request limit for busy sites."
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:43
+msgid "Open Exchange Rates App ID (no longer needed)"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:46
+msgid "Cache Interval"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:47
+msgid "How long prices are kept before they are fetched again, in minutes."
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:51
+#: src/Widgets/WidgetSchema.php:89
+msgid "Light"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:52
+#: src/Widgets/WidgetSchema.php:90
+msgid "Dark"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:53
+msgid "Match the visitor's device"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:55
+#: src/Widgets/WidgetSchema.php:91
+msgid "Colours"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:56
+msgid "A widget with its own \"Dark\" setting stays dark."
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:60
+msgid "Accent colour"
+msgstr ""
+
+#: src/Providers/SettingsProvider.php:61
+msgid "Used for highlights such as the selected tab. A colour code like #4f46e5; leave empty for the default."
+msgstr ""
+
+#. translators: %s: widget type name. Shown for a type that needs the Pro add-on.
+#: src/Widgets/Fields/WidgetTypeFieldType.php:48
+msgid "%s (Pro)"
+msgstr ""
+
+#: src/Widgets/ReactMount.php:47
+msgid "Loading..."
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:72
+msgid "Crypto Price Label"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:73
+msgid "Crypto Price Label (2)"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:74
+msgid "Crypto Price Label (3)"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:75
+msgid "Coin Marquee"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:76
+msgid "Coin Marquee (2)"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:77
+msgid "Coin Marquee (3)"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:78
+msgid "Crypto Price Table"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:79
+msgid "Crypto Price Table (2)"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:80
+msgid "Crypto Date Change Table"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:81
+msgid "Price Slider Widget"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:82
+msgid "Price Slider Widget (2)"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:83
+msgid "Historical Price Chart"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:84
+msgid "Multi Currencies Tab"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:47
+msgid "Number of coins"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:49
+msgid "Side by side"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:50
+msgid "Stacked"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:51
+msgid "Layout"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:53
+msgid "Speed"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:54
+msgid "Higher is faster. 100 to 5000."
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:58
+msgid "Card width (px)"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:62
+msgid "Widget width"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:63
+msgid "In pixels (400) or as a share of the space it sits in (100%)."
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:66
+#: assets/react-build/widgets/multi-currencies-tab/index.js:1
+msgid "Currency"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:68
+msgid "Days of price history"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:71
+msgid "Daily"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:72
+msgid "Price history interval"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:74
+msgid "Search box hint"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:80
+msgid "Coins"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:81
+msgid "Leave empty to show the top coins by market value."
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:84
+msgid "Other currencies"
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:85
+msgid "Up to three, offered as tabs beside the widget's own currency."
+msgstr ""
+
+#: src/Widgets/WidgetSchema.php:172
+#: assets/react-build/block/index.js:1
+msgid "Widget type"
+msgstr ""
+
+#. translators: %d: number of coins.
+#: src/Widgets/WidgetSchema.php:210
+msgid "Top %d"
+msgstr ""
+
+#: src/Widgets/WidgetShortcode.php:64
+msgid "Choose a widget type and save to see the widget."
+msgstr ""
+
+#: src/Widgets/WidgetShortcode.php:75
+msgid "Save the post to preview the widget"
+msgstr ""
+
+#: views/admin/overview.php:30
+msgid "Show your first prices in three steps"
+msgstr ""
+
+#: views/admin/overview.php:30
+msgid "Your widgets"
+msgstr ""
+
+#: views/admin/overview.php:33
+msgid "Create a widget and pick a type: a price table, a scrolling ticker, price cards or a multi-currency list."
+msgstr ""
+
+#: views/admin/overview.php:34
+msgid "Choose its coins, currency and colours. The preview shows the result as you go."
+msgstr ""
+
+#: views/admin/overview.php:35
+msgid "Copy its shortcode into any page, post or widget area."
+msgstr ""
+
+#. translators: %d: number of published widgets.
+#: views/admin/overview.php:41
+msgid "You have %d published widget."
+msgid_plural "You have %d published widgets."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin/overview.php:46
+msgid "Create a widget"
+msgstr ""
+
+#: views/admin/overview.php:48
+msgid "See all widgets"
+msgstr ""
+
+#: views/admin/overview.php:50
+msgid "Try a quick widget"
+msgstr ""
+
+#: views/admin/overview.php:56
+msgid "Prices come from CoinGecko and work without an account. A free API key raises the limit for busy sites."
+msgstr ""
+
+#: views/admin/overview.php:57
+msgid "Open settings"
+msgstr ""
+
+#: views/admin/overview.php:62
+msgid "More with Pro"
+msgstr ""
+
+#: views/admin/overview.php:63
+msgid "Price charts, searchable tables, coin details, sliders and more widget designs."
+msgstr ""
+
+#: views/admin/overview.php:64
+msgid "See Pro"
+msgstr ""
+
+#: views/admin/overview.php:69
+msgid "Help"
+msgstr ""
+
+#: views/admin/overview.php:71
+msgid "Ask in the support forum"
+msgstr ""
+
+#: views/admin/overview.php:72
+msgid "Leave a review"
+msgstr ""
+
+#: views/admin/quick-widget.php:19
+msgid "Set a widget up here and copy its shortcode. Nothing is saved: the shortcode itself carries the settings."
+msgstr ""
+
+#: views/admin/settings.php:30
+msgid "Cached prices"
+msgstr ""
+
+#. translators: %d: number of requests.
+#: views/admin/settings.php:34
+msgid "%d request to CoinGecko in the last 30 days."
+msgid_plural "%d requests to CoinGecko in the last 30 days."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin/settings.php:37
+msgid "Prices are kept for the time set here, then fetched again. Clear them to fetch fresh prices now."
+msgstr ""
+
+#: views/admin/settings.php:40
+msgid "Clear cached prices"
+msgstr ""
+
+#: assets/react-build/admin/index.js:1
+msgid "Choose a widget type first."
+msgstr ""
+
+#: assets/react-build/admin/index.js:1
+msgid "Copied"
+msgstr ""
+
+#: assets/react-build/block/index.js:1
+msgid "The Crypto Widget block could not load its settings."
+msgstr ""
+
+#: assets/react-build/block/index.js:1
+msgid "Set up in this block"
+msgstr ""
+
+#: assets/react-build/block/index.js:1
+msgid "Use a widget you have saved, or set one up here."
+msgstr ""
+
+#: assets/react-build/block/index.js:1
+msgid "Choose what to show. You can change its settings in the block sidebar."
+msgstr ""
+
+#: assets/react-build/widgets/coin-marquee/index.js:1
+#: assets/react-build/widgets/crypto-price-picker/index.js:1
+#: assets/react-build/widgets/crypto-price-table/index.js:1
+#: assets/react-build/widgets/multi-currencies-tab/index.js:1
+msgid "Prices are not available right now."
+msgstr ""
+
+#: assets/react-build/widgets/coin-marquee/index.js:1
+#: assets/react-build/widgets/crypto-price-table/index.js:1
+#: assets/react-build/widgets/multi-currencies-tab/index.js:1
+msgid "Cryptocurrency prices"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-price-table/index.js:1
+msgid "Name"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-price-table/index.js:1
+msgid "Price"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-price-table/index.js:1
+msgid "24h"
+msgstr ""

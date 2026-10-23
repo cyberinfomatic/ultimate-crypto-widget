@@ -1,0 +1,14 @@
+// Layer 3: the accent. One hue and one strength produce every accent step, so a
+// site owner changes the brand colour by setting --ucw-brand-hue (and, rarely,
+// --ucw-brand-chroma) on the widget; nothing else has to be recalculated.
+
+@mixin brand {
+	--ucw-brand-hue: 265;
+	--ucw-brand-chroma: 0.19;
+
+	--ucw-p-accent-50: oklch(50% var(--ucw-brand-chroma) var(--ucw-brand-hue));
+	--ucw-p-accent-58: oklch(58% var(--ucw-brand-chroma) var(--ucw-brand-hue));
+	--ucw-p-accent-76: oklch(76% calc(var(--ucw-brand-chroma) * 0.75) var(--ucw-brand-hue));
+	--ucw-p-accent-95: oklch(95% calc(var(--ucw-brand-chroma) * 0.2) var(--ucw-brand-hue));
+	--ucw-p-accent-28: oklch(28% calc(var(--ucw-brand-chroma) * 0.4) var(--ucw-brand-hue));
+}

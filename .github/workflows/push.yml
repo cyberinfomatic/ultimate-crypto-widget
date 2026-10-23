@@ -1,65 +1,39 @@
-name: Build and Package on Push
+name: Build the zip on main
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  build-and-package:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           tools: composer
+          coverage: none
 
       - name: Install Composer dependencies
-        run: composer install
+        run: composer install --no-interaction --no-progress
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
 
-      - name: Install Npm dependencies
-        run: npm install
+      - name: Install npm dependencies
+        run: npm ci
 
-      - name: Make Pot file
-        run: |
-          composer run make-pot
+      # Builds the assets, stages a clean copy, verifies it and writes the zip.
+      - name: Build and verify the zip
+        run: composer build
 
-      - name: Build the plugin
-        run: npm run build
-
-      - name: Prepare zip files for both versions
-        run: |
-          composer run prepare-zip
-
-      - name: Set artifact name with date
-        run: echo "ARTIFACT_NAME=Ultimate-crypto-widget-$(date +'%Y%m%d')" >> $GITHUB_ENV
-
-      - name: Archive files as artifacts (Free)
-        uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ARTIFACT_NAME }}-free
-          path: |
-            dist/free
-      - name: Archive files as artifacts (Pro)
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.ARTIFACT_NAME }}-pro
-          path: |
-            dist/pro
-
-      - name: Archive files as artifacts (Packed)
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.ARTIFACT_NAME }}-packed
-          path: |
-            dist/*.zip
+          name: ultimate-crypto-widget-${{ github.sha }}
+          path: dist/ultimate-crypto-widget-*.zip

@@ -1,121 +1,85 @@
-import React, { useEffect, useState } from "react";
+import React, { useId, useState } from "react";
+import { __ } from "@wordpress/i18n";
+import { Cell, CoinIdentity, Delta, Notice, Price, Row, Surface, Table, Tabs } from "../../ds";
 import ReactRender from "../../helper-components/react-wrapper";
-import '@/styles/sass/multi-currencies-tab.scss'
-import { CoinData, currenciesSymbol, DefaultCurrencyRateByCurrency, UCWPWidgetSetting } from "react/types";
-import PricePercentage from "react/helper-components/PricePercentage";
-import { useBinanceStreamTickerWebSocket } from "react/helper-components/WebHooks";
-import { abbreviateNumber } from "react/helper/helper";
+import { useLiveCoins } from "../../live/useLiveCoins";
+import { CoinData, DefaultCurrencyRateByCurrency, UCWPWidgetSetting } from "../../types";
+import "./style.scss";
 
-ReactRender(
-  ({
-    coins,
-    settings,
-    default_currencies_rate,
-    default_currencies_symbol,
-  }: {
-    coins: CoinData[];
-    settings: UCWPWidgetSetting;
-    default_currencies_rate: DefaultCurrencyRateByCurrency;
-    default_currencies_symbol: currenciesSymbol;
-  }) => {
-    const [coinList, setCoinList] = useState<CoinData[]>(coins ?? []);
-    // State for current selected currency and its rate
-    const [currentCurrency, setCurrentCurrency] = useState<string>(
-      settings?.default_currency || "USD"
-    );
-    const [currentRate, setCurrentRate] = useState<number>(
-      default_currencies_rate?.[settings?.default_currency ?? "usd"] ?? 1
-    );
+type Props = {
+	coins: CoinData[];
+	settings: UCWPWidgetSetting;
+	/** How much one unit of the widget's own currency is in each other currency. */
+	default_currencies_rate: DefaultCurrencyRateByCurrency;
+};
 
-    // symbol 
-    const [symbol, setSymbol] = useState<string>(
-      settings?.currency_symbol ??
-        "$" ??
-        default_currencies_symbol[currentCurrency.toLowerCase()]
-    );
+/** From this amount up, a price is shortened (1.25M) so the column stays narrow. */
+const COMPACT_FROM = 1_000_000;
 
-    const { connected, data, error } = useBinanceStreamTickerWebSocket(
-      coinList?.map((coin) => coin.symbol).slice(0, settings.count),
-      settings?.usd_conversion_rate ?? 1
-    );
+/**
+ * The currencies to offer, as uppercase codes with their rates: the widget's own
+ * first (rate 1), then the others once each.
+ */
+export function currencyRates(own: string | undefined, rates: unknown): Record<string, number> {
+	const out: Record<string, number> = {};
+	if (own) {
+		out[own.toUpperCase()] = 1;
+	}
+	if (rates && typeof rates === "object" && !Array.isArray(rates)) {
+		for (const [code, rate] of Object.entries(rates)) {
+			const key = code.toUpperCase();
+			if (key !== "" && !(key in out) && typeof rate === "number" && rate > 0) {
+				out[key] = rate;
+			}
+		}
+	}
+	return out;
+}
 
-    // Update currentRate when currentCurrency changes
-    useEffect(() => {
-      const newRate =
-        default_currencies_rate[currentCurrency.toLowerCase()] ??
-        default_currencies_rate[currentCurrency.toUpperCase()] ?? 1;
-      setCurrentRate(newRate);
-      setSymbol(default_currencies_symbol[currentCurrency.toLowerCase()] ?? default_currencies_symbol[currentCurrency.toUpperCase()] ?? "$");
-    }, [currentCurrency, default_currencies_rate]);
-    // currencies array and remove duplicates, null, and undefined values
-    const currencies: string[] = [
-      settings.default_currency,
-      ...Object.keys(default_currencies_rate),
-    ].filter(
-      (value, index, self): value is string =>
-        value !== undefined && self.indexOf(value) === index
-    );
+/** A price list the visitor can switch between currencies. */
+export const MultiCurrenciesTab = ({ coins, settings, default_currencies_rate }: Props) => {
+	const list = useLiveCoins(coins, settings);
+	const rates = currencyRates(settings.default_currency, default_currencies_rate);
+	const codes = Object.keys(rates);
+	const [chosen, setChosen] = useState(codes[0] ?? "USD");
+	const tableId = useId();
 
-    return (
-      <div className="ucwp-multi-currencies-tab">
-        <div className="ucwp-multi-currencies-flat-holder">
-          {currencies.map((currency) => {
-            return (
-              <button
-                className={`ucwp-mc-fh-button ${currency === currentCurrency ? "ucwp-mc-fh-button-active" : ""}`}
-                key={currency}
-                onClick={() => setCurrentCurrency(currency)}
-              >
-                {currency?.toUpperCase()} {/* Add safe access operator */}
-              </button>
-            );
-          })}
-        </div>
-        <div className="ucwp-mct-table-main">
-          <table className="ucwp-mct-main-table">
-            <tbody>
-              {coinList.slice(0, settings.count ?? 10).map((_coin, index) => {
-                const coin = { ..._coin, ...data[_coin.symbol.toUpperCase()] };
-                return (
-                  <tr
-                    key={index}
-                    data-table-row-coin={`${coin.name}---${coin.symbol}`}
-                  >
-                    <td className="ucwp-mct-rank">{index + 1}</td>
-                    <td className="ucwp-mct-name">
-                      <div className="ucwp-mct-name-info">
-                        <div className="ucwp-mct-name-info-image">
-                          <img src={coin.image} alt={coin.name} />
-                        </div>
-                        <div className="ucwp-mct-name-info-name">
-                          <span>{coin.name}</span>
-                          <div className="ucwp-mct-name-sybmol">
-                            <span>{coin.symbol}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="ucwp-mct-price">
-                      {symbol}
-                      {abbreviateNumber(
-                        coin.current_price * currentRate,
-                        10e5,
-                        true
-                      )}
-                    </td>
-                    <td className="ucwp-mct-change">
-                      <PricePercentage
-                        percentage={coin.price_change_percentage_24h}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
-);
+	// The chosen currency can disappear if the page's data changes under us.
+	const currency = chosen in rates ? chosen : (codes[0] ?? "USD");
+	const rate = rates[currency] ?? 1;
 
+	return (
+		<Surface width={settings.parent_width}>
+			{codes.length > 1 && (
+				<div className="ucw-mct__bar">
+					<Tabs label={__("Currency", "ultimate-crypto-widget")} tabs={codes.map((code) => ({ id: code, label: code }))} value={currency} onChange={setChosen} controls={tableId} />
+				</div>
+			)}
+			{list.length === 0 ? (
+				<Notice>{__("Prices are not available right now.", "ultimate-crypto-widget")}</Notice>
+			) : (
+				<Table id={tableId} label={__("Cryptocurrency prices", "ultimate-crypto-widget")} columns="auto minmax(0, 1fr) auto auto">
+					{list.map((coin, index) => {
+						const price = typeof coin.current_price === "number" ? coin.current_price * rate : null;
+						return (
+							<Row key={coin.id}>
+								<Cell muted>{index + 1}</Cell>
+								<Cell>
+									<CoinIdentity name={coin.name} symbol={coin.symbol} image={coin.image} />
+								</Cell>
+								<Cell numeric>
+									<Price value={price} currency={currency} compact={price !== null && price >= COMPACT_FROM} />
+								</Cell>
+								<Cell numeric>
+									<Delta value={coin.price_change_percentage_24h} />
+								</Cell>
+							</Row>
+						);
+					})}
+				</Table>
+			)}
+		</Surface>
+	);
+};
+
+ReactRender<Props>(MultiCurrenciesTab);

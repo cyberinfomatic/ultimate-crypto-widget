@@ -1,81 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { __ } from "@wordpress/i18n";
+import { Cell, CoinIdentity, Delta, Notice, Price, Row, Surface, Table } from "../../ds";
 import ReactRender from "../../helper-components/react-wrapper";
-import '@/styles/sass/crypto-price-table.scss'
-import { roundToDecimalPlaces, searchCoin } from "../../helper/helper";
-import { CoinData } from "../../types";
-import PricePercentage from "../../helper-components/PricePercentage";
-import useBinanceStreamTickerWebSocket from "../../helper-components/WebHooks/BinanceStreamTicker";
+import { useLiveCoins } from "../../live/useLiveCoins";
+import { CoinData, UCWPWidgetSetting } from "../../types";
 
-ReactRender(({ coins, settings }) => {
-  settings.count = parseInt(settings.count ?? "10");
-  const [coinList, setCoinList] = useState<CoinData[]>(coins ?? []); // Initialize with props
-  const [startCount, setStartCount] = useState<number>(0);
-  const { data } = useBinanceStreamTickerWebSocket(
-    coinList?.map((coin) => coin.symbol).slice(0, settings.count),
-    settings?.usd_conversion_rate ?? 1
-  );
+type Props = { coins: CoinData[]; settings: UCWPWidgetSetting };
 
+/** A ranked list of coins: name, price and the last day's change. */
+export const CryptoPriceTable = ({ coins, settings }: Props) => {
+	const list = useLiveCoins(coins, settings);
 
-  useEffect(() => {
-    setCoinList(coins.slice(startCount, startCount + (settings.count ?? 10)));
-  }, [startCount]);
-  
+	return (
+		<Surface width={settings.parent_width}>
+			{list.length === 0 ? (
+				<Notice>{__("Prices are not available right now.", "ultimate-crypto-widget")}</Notice>
+			) : (
+				<Table label={__("Cryptocurrency prices", "ultimate-crypto-widget")} columns="auto minmax(0, 1fr) auto auto">
+					<Row header>
+						<Cell header>#</Cell>
+						<Cell header>{__("Name", "ultimate-crypto-widget")}</Cell>
+						<Cell header numeric>
+							{__("Price", "ultimate-crypto-widget")}
+						</Cell>
+						<Cell header numeric>
+							{__("24h", "ultimate-crypto-widget")}
+						</Cell>
+					</Row>
+					{list.map((coin, index) => (
+						<Row key={coin.id}>
+							<Cell muted>{index + 1}</Cell>
+							<Cell>
+								<CoinIdentity name={coin.name} symbol={coin.symbol} image={coin.image} />
+							</Cell>
+							<Cell numeric>
+								<Price value={coin.current_price} currency={settings.default_currency} symbol={settings.currency_symbol} />
+							</Cell>
+							<Cell numeric>
+								<Delta value={coin.price_change_percentage_24h} />
+							</Cell>
+						</Row>
+					))}
+				</Table>
+			)}
+		</Surface>
+	);
+};
 
-
-  let width = settings.parent_width;
-  // if width does not end with % or px then add px
-  if (!width.endsWith('%') &&!width.endsWith('px')) {
-    width += 'px';
-  }
-  return (
-    <div className="ucwp-crypto-price-table" style={{ width: width }}>
-      <div className="ucwp-crypto-price-table-main">
-        <table className={`ucwp-crypto-price-table-main-table`}>
-          <thead>
-            <tr>
-              <th></th>
-              <th>#Name</th>
-              <th>Price </th>
-              <th>24H Change</th>
-            </tr>
-          </thead>
-          <tbody>
-            {coinList
-              .slice(0, (settings.count ?? 10))
-              .map((_coin, index) => {
-                const coin = { ..._coin, ...data[_coin.symbol.toUpperCase()] };
-                return (
-                  <tr
-                    key={index}
-                    data-table-row-coin={`${coin.name}---${coin.symbol}`}
-                  >
-                    <td>{index + 1 + startCount}</td>
-                    <td>
-                      <div className="crypto-price-table-name-info">
-                        <div className="crypto-price-table-name-info-image">
-                          <img src={coin.image} alt={coin.name} />
-                        </div>
-                        <div className="crypto-price-table-name-info-name">
-                          <span>{coin.name}</span>
-                          <span>{coin.symbol}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      {settings.currency_symbol}
-                      {roundToDecimalPlaces(coin.current_price, 2)}
-                    </td>
-                    <td>
-                      <PricePercentage
-                        percentage={coin.price_change_percentage_24h}
-                        arrowSize={12}
-                      />
-                    </td>
-                  </tr>
-                );})}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-})
+ReactRender<Props>(CryptoPriceTable);

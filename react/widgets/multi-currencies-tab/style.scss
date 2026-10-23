@@ -1,0 +1,7 @@
+// Layout that belongs to this widget only. Colours and sizes come from the theme's tokens.
+
+.ucw-mct__bar {
+	display: flex;
+	padding: var(--ucw-space-3) var(--ucw-space-4);
+	border-block-end: 1px solid var(--ucw-border);
+}

@@ -2,62 +2,57 @@
     "name": "cyberinfomatic/ultimatecryptowidget",
     "description": "The Number one Crypto Plugin for WP",
     "type": "wordpress-plugin",
-    "authors"  : [
+    "authors": [
         {
             "name": "Cyberinfomatic",
             "email": "cyberinfomatic247@gmail.com"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Cyberinfomatic\\UltimateCryptoWidget\\": "src/"
-        }
-    },
     "scripts": {
-      "prepare-zip": [
-        "@prepare-zip:free",
-        "@prepare-zip:pro"
-      ],
-      "prepare-zip:free" : "php prepare.php free",
-      "prepare-zip:pro" : "php prepare.php pro",
-      "makepot-audit": [
-        "wp --allow-root i18n make-pot . languages/ultimate-crypto-widget.pot --slug=ultimate-crypto-widget --exclude=\".github,.wordpress-org,node_modules,vendor,build,deploy,dist\""
-      ],
-      "make-pot": [
-        "@makepot-audit --skip-audit"
-      ],
-      "test": [
-        "@setup-phpcs",
-        "@phpcs",
-        "@phpunit"
-      ],
-      "setup-test" : "bash bin/install-wp-tests.sh",
-      "setup-phpcs":  "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie",
-      "phpcs": "vendor/bin/phpcs",
-      "phpunit": "vendor/bin/phpunit",
-      "post-install-cmd" : [
-        "@setup-phpcs"
-      ],
-      "post-update-cmd" : [
-        "@setup-phpcs"
-      ]
+        "make-pot": "wp i18n make-pot . languages/ultimate-crypto-widget.pot --slug=ultimate-crypto-widget --domain=ultimate-crypto-widget --exclude=.github,node_modules,vendor,dist,tests,lib,react --skip-audit",
+        "test": [
+            "@phpcs",
+            "@phpunit"
+        ],
+        "setup-phpcs": "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/phpcsstandards/phpcsutils,vendor/phpcsstandards/phpcsextra",
+        "phpcs": [
+            "@setup-phpcs",
+            "vendor/bin/phpcs"
+        ],
+        "phpunit": "vendor/bin/phpunit",
+        "post-install-cmd": [
+            "@setup-phpcs"
+        ],
+        "post-update-cmd": [
+            "@setup-phpcs"
+        ],
+        "build": "@php build.php"
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "^3.1",
-        "phpunit/phpunit": "10.0",
+        "phpunit/phpunit": "^9.6",
         "phpcompatibility/phpcompatibility-wp": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
         "phpcompatibility/phpcompatibility-paragonie": "*",
         "wp-cli/i18n-command": "^2.6",
-        "yoast/phpunit-polyfills": "^2.0"
+        "yoast/phpunit-polyfills": "^2.0",
+        "wp-phpunit/wp-phpunit": "^6.6",
+        "roots/wordpress-no-content": "^6.6",
+        "codad5/wptoolkit": "^1.0@RC"
     },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
-  "require": {
-    "php": ">=8.2",
-    "ext-zip": "*"
-  }
+    "require": {
+        "php": ">=8.2",
+        "ext-zip": "*"
+    },
+    "repositories": {
+        "wptoolkit": {
+            "type": "vcs",
+            "url": "https://github.com/codad5/wptoolkit"
+        }
+    }
 }

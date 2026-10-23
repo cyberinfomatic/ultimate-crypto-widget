@@ -59,30 +59,7 @@ export type UCWPWidgetSetting = {
   usd_conversion_rate?: number;
 };
 
-// GraphDataSetSettings type for additional graph settings
-export type GraphDataSetSettings = {
-  [key: string]: any;
-};
-
-// GraphData type, which extends GraphDataSetSettings
-export type GraphData = {
-  id: number | string;
-  label?: string;
-  data: any[];
-} & GraphDataSetSettings;
-
-// WP_API_PATHS type for defining API paths
-export type WP_API_PATHS = {
-  method: 'GET' | 'POST';
-  endpoint: string;
-  required_params?: string[];
-  required_body_params?: string[];
-  headers?: Headers;
-};
-
+/** How much one unit of a widget's own currency is in each other currency, by code. */
 export type DefaultCurrencyRateByCurrency = {
   [key : string]: number;
-};
-export type currenciesSymbol = {
-  [key : string]: string;
 };

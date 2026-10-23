@@ -1,0 +1,11 @@
+{
+    "code": "validation_failed",
+    "message": "Some fields are not valid.",
+    "details": {
+        "fields": {
+            "coin_id": [
+                "coin_id is required."
+            ]
+        }
+    }
+}

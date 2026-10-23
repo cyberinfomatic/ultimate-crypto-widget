@@ -25,12 +25,19 @@ function getEntries(dir = 'react/widgets') {
 	return entries;
 }
 
-const entries = { ...getEntries(), ...getEntries('react') };
-console.log("entries gotten, script about to start")
+// Each widget is its own bundle; so are the admin script, the block and the shared stylesheet.
+const entries = {
+	...getEntries(),
+	admin: path.resolve(__dirname, 'react/admin/index.ts'),
+	theme: path.resolve(__dirname, 'react/theme/index.ts'),
+	block: path.resolve(__dirname, 'react/block/index.tsx'),
+};
+const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
 	...defaults,
-	mode : 'development',
-	devtool: 'source-map',
+	mode: isProduction ? 'production' : 'development',
+	// Source maps help while developing; they are not shipped.
+	devtool: isProduction ? false : 'source-map',
 	externals: {
 		'@wordpress/element': ['wp', 'element'],
 		react: ['React'],
@@ -65,8 +72,6 @@ module.exports = {
 	resolve: {
 		extensions: ['.*', '.js', '.jsx', '.ts', '.tsx'],
 		alias: {
-			'@/styles': path.resolve(__dirname, 'assets/styles'),
-			'@/components': path.resolve(__dirname, 'react/components'),
 		},
 		plugins: [
 			new TsconfigPathsPlugin(),
@@ -79,7 +84,9 @@ module.exports = {
 		splitChunks: {
 			cacheGroups: {
 				vendors: {
-					test: /[\\/]node_modules[\\/]|[\\/]react[\\/]helper[\\/]/, // target node
+					// Libraries and the plugin's own shared code go in one bundle the widgets share.
+					// Scripts only: the design system's stylesheet is its own file, theme.css.
+					test: /[\\/]node_modules[\\/]|[\\/]react[\\/](helper|live|ds|data)[\\/].*\.(js|jsx|ts|tsx)$/,
 					name: 'vendors',
 					chunks: 'all',
 					enforce: true,

@@ -41,3 +41,5 @@ node_modules
 *.sql
 *.tar.gz
 *.zip
+docs
+AGENTS.md
