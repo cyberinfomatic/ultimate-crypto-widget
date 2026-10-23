@@ -1,0 +1,7 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-paged__bar {
+	display: flex;
+	padding: var(--ucw-space-3) var(--ucw-space-4);
+	border-block-end: 1px solid var(--ucw-border);
+}

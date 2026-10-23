@@ -8,6 +8,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\Pages;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Admin\Settings\SettingsForm;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Data\Field\FieldTypes;
 use Cyberinfomatic\UltimateCryptoWidget\Plugin;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\Edition;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetFields;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetRepository;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetSchema;
@@ -91,7 +92,8 @@ final class Screens
 	}
 
 	/**
-	 * Whether to suggest the Pro add-on. The add-on turns this off once licensed.
+	 * Whether to suggest the Pro add-on: only in the tiered edition, where there is a Pro to
+	 * get (Edition). The add-on turns this off once licensed.
 	 */
 	public static function suggestsUpgrade(): bool
 	{
@@ -100,7 +102,7 @@ final class Screens
 		 *
 		 * @param bool $show
 		 */
-		return (bool) apply_filters('ucwp_show_upgrade_notice', true);
+		return (bool) apply_filters('ucwp_show_upgrade_notice', Edition::sellsPro());
 	}
 
 	/**

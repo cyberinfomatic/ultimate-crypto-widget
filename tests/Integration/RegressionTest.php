@@ -134,7 +134,7 @@ final class RegressionTest extends TestCase {
 	}
 
 	public function test_a_widget_saved_without_a_type_does_not_crash_the_page(): void {
-		$id = WidgetFactory::create( 'historical-price-chart' ); // Pro: refused, so no type is stored.
+		$id = WidgetFactory::create( self::LOCKED_TYPE ); // Locked: refused, so no type is stored.
 
 		wp_set_current_user( 0 );
 		$this->assertSame( '', do_shortcode( '[ucwp_widget id="' . $id . '"]' ) );

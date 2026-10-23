@@ -1,0 +1,43 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-overview {
+	gap: var(--ucw-space-4);
+	padding: var(--ucw-space-5);
+}
+
+.ucw-overview__figures,
+.ucw-overview__key {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ucw-space-3) var(--ucw-space-6);
+}
+
+.ucw-overview__big {
+	font-size: var(--ucw-text-xl);
+	font-weight: var(--ucw-weight-bold);
+}
+
+.ucw-overview__share {
+	display: flex;
+	overflow: hidden;
+	block-size: 0.5rem;
+	border-radius: var(--ucw-radius-pill);
+	background: var(--ucw-border);
+}
+
+.ucw-overview__part {
+	min-inline-size: 0;
+	flex-basis: 0;
+}
+
+.ucw-overview__part--btc {
+	background: var(--ucw-accent);
+}
+
+.ucw-overview__part--eth {
+	background: var(--ucw-fg-muted);
+}
+
+.ucw-overview__part--rest {
+	background: var(--ucw-border-strong);
+}

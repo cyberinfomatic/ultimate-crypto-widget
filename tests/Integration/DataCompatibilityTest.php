@@ -99,12 +99,25 @@ final class DataCompatibilityTest extends TestCase {
 	}
 
 	public function test_a_widget_of_a_type_this_site_cannot_show_renders_nothing_and_loses_nothing(): void {
-		// A Pro widget on a site where the add-on is not active.
-		$rows = $this->legacy_rows( 'historical-price-chart' );
+		// A Pro widget saved by 0.x, of a type this site cannot use (as in the tiered edition without the add-on).
+		$rows                     = $this->legacy_rows( 'historical-price-chart' );
+		$rows['ucwp_widget_type'] = array( self::LOCKED_TYPE );
 		$id   = $this->insert_legacy_widget( $rows );
 
 		$this->assertSame( '', (string) do_shortcode( '[ucwp_widget id="' . $id . '"]' ) );
 		$this->assertSame( $rows, WidgetFactory::rows( $id ) );
+	}
+
+	public function test_a_pro_widget_saved_by_0x_shows_in_the_all_free_edition(): void {
+		if ( ! self::has_react_build() || \Cyberinfomatic\UltimateCryptoWidget\Widgets\Edition::sellsPro() ) {
+			$this->markTestSkipped( 'Only in the all-free edition, with the widgets built.' );
+		}
+		// Exactly the rows Pro 0.0.5 wrote: the widget now shows with the free plugin alone.
+		$rows = $this->legacy_rows( 'historical-price-chart' );
+		$id   = $this->insert_legacy_widget( $rows );
+
+		$this->assertStringContainsString( 'data-ucw-view="historical-price-chart"', (string) do_shortcode( '[ucwp_widget id="' . $id . '"]' ) );
+		$this->assertSame( $rows, WidgetFactory::rows( $id ), 'Rendering must not touch the stored rows.' );
 	}
 
 	public function legacy_type_provider(): array {

@@ -14,6 +14,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Tests\Support\TestCase;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Assets\AssetManager;
 use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Assets\JsNamespace;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\ReactMount;
+use Cyberinfomatic\UltimateCryptoWidget\Widgets\Edition;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetBundle;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetCatalog;
 use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetDefinition;
@@ -50,12 +51,37 @@ final class AddOnApiTest extends TestCase {
 		Plugin::autoload( 'UcwSampleAddon\\', __DIR__ . '/no-such-folder' );
 	}
 
+	public function test_in_the_all_free_edition_every_type_is_free_and_drawn_here(): void {
+		$catalog = WidgetCatalog::withEdition( Edition::ALL_FREE );
+
+		foreach ( Edition::proTierViews() as $view ) {
+			$this->assertNotEmpty( array_filter( $catalog->all(), static fn ( $definition ): bool => $definition->view === $view ), "No type is drawn by {$view}." );
+		}
+		foreach ( $catalog->all() as $type => $definition ) {
+			if ( self::LOCKED_TYPE === $type ) {
+				continue;
+			}
+			$this->assertTrue( $definition->available, "{$type} must be usable." );
+			$this->assertFalse( $definition->pro, "{$type} must not be marked Pro." );
+			$this->assertNull( $definition->bundle, "{$type} must be drawn by this plugin." );
+		}
+		$this->assertNotSame( '', $this->renderer( $catalog )->render( 'compare-coins', array( 'coins' => 'bitcoin,ethereum' ) ) );
+	}
+
+	public function test_the_edition_file_lists_every_view_the_pro_tier_uses(): void {
+		$tiered = array_filter( WidgetCatalog::withEdition( Edition::TIERED )->all(), static fn ( $definition ): bool => $definition->pro );
+		$views  = array_unique( array_map( static fn ( $definition ): string => $definition->view, $tiered ) );
+
+		// The release build leaves exactly these views out of a tiered zip, and Pro builds exactly these.
+		$this->assertEqualsCanonicalizing( Edition::proTierViews(), array_values( $views ) );
+	}
+
 	public function test_pro_widget_types_are_listed_but_cannot_be_used_without_the_add_on(): void {
-		$chart = ( new WidgetCatalog() )->get( 'historical-price-chart' );
+		$chart = WidgetCatalog::withEdition( Edition::TIERED )->get( 'historical-price-chart' );
 
 		$this->assertTrue( $chart->pro );
 		$this->assertFalse( $chart->available );
-		$this->assertSame( '', $this->renderer( new WidgetCatalog() )->render( 'historical-price-chart', array() ) );
+		$this->assertSame( '', $this->renderer( WidgetCatalog::withEdition( Edition::TIERED ) )->render( 'historical-price-chart', array() ) );
 	}
 
 	public function test_an_add_on_can_unlock_a_listed_type_and_add_new_ones(): void {

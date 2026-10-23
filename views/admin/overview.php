@@ -9,7 +9,7 @@
  * @var string $listUrl
  * @var string $quickUrl
  * @var string $settingsUrl
- * @var string $upgradeUrl  Empty when the Pro add-on is licensed.
+ * @var string $upgradeUrl  Empty when there is no Pro to get (the all-free edition) or it is licensed.
  * @var string $supportUrl
  * @var string $reviewUrl
  *

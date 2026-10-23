@@ -15,7 +15,10 @@ gaps this plugin works around.
   URLs under `ultimate-crypto-widget/v1`, or admin menu slugs.
 - Every REST route needs an explicit access rule. Public routes are read-only and rate limited.
 - API keys are secrets: not in JavaScript data, responses or logs.
-- No locked or Pro-only code in this repository. Pro features are added by the add-on through hooks.
+- No locked code in the WordPress.org zip. Every widget's source lives here, including the Pro tier; which
+  ones are free is decided by `edition.json` (currently `all-free`: everything is free). In the `tiered`
+  edition the Pro-tier views are left out of the zip and the Pro add-on ships them. See
+  [docs/editions.md](docs/editions.md).
 - Frontend code follows [docs/standards/frontend.md](docs/standards/frontend.md).
 - Commits follow Conventional Commits (`feat:`, `fix:`, `test:`, `docs:`, `ci:`, `refactor:`, `chore:`).
 - Work on a branch and open a pull request; never commit to `main`.

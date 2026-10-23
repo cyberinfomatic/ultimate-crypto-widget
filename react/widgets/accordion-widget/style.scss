@@ -1,0 +1,16 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-accordion__summary {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+	min-inline-size: 0;
+}
+
+.ucw-accordion__stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ucw-space-6);
+}

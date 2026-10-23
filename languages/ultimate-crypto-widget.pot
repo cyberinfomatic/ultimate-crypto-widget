@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-17T21:30:40+00:00\n"
+"POT-Creation-Date: 2026-10-23T18:31:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: ultimate-crypto-widget\n"
 
 #. Plugin Name of the plugin
 #: C:/workspace/work/cyberinfomatic/ultimate-crypto-widget/ultimate-crypto-widget.php
-#: src/Admin/Screens.php:44
+#: src/Admin/Screens.php:45
 #: views/admin/overview.php:23
 msgid "Ultimate Crypto Widget"
 msgstr ""
@@ -68,22 +68,22 @@ msgstr ""
 msgid "Choose a widget type to see it here."
 msgstr ""
 
-#: src/Admin/Screens.php:45
+#: src/Admin/Screens.php:46
 #: src/Providers/IntegrationsProvider.php:26
 msgid "Crypto Widgets"
 msgstr ""
 
-#: src/Admin/Screens.php:50
+#: src/Admin/Screens.php:51
 #: src/Admin/WidgetEditor.php:191
 msgid "Widgets"
 msgstr ""
 
-#: src/Admin/Screens.php:52
+#: src/Admin/Screens.php:53
 #: views/admin/quick-widget.php:16
 msgid "Quick widget"
 msgstr ""
 
-#: src/Admin/Screens.php:56
+#: src/Admin/Screens.php:57
 #: views/admin/settings.php:18
 msgid "Settings"
 msgstr ""
@@ -268,56 +268,100 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:72
+#: src/Widgets/WidgetCatalog.php:99
 msgid "Crypto Price Label"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:73
+#: src/Widgets/WidgetCatalog.php:100
 msgid "Crypto Price Label (2)"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:74
+#: src/Widgets/WidgetCatalog.php:101
 msgid "Crypto Price Label (3)"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:75
+#: src/Widgets/WidgetCatalog.php:102
 msgid "Coin Marquee"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:76
+#: src/Widgets/WidgetCatalog.php:103
 msgid "Coin Marquee (2)"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:77
+#: src/Widgets/WidgetCatalog.php:104
 msgid "Coin Marquee (3)"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:78
+#: src/Widgets/WidgetCatalog.php:105
 msgid "Crypto Price Table"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:79
+#: src/Widgets/WidgetCatalog.php:106
 msgid "Crypto Price Table (2)"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:80
+#: src/Widgets/WidgetCatalog.php:107
 msgid "Crypto Date Change Table"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:81
+#: src/Widgets/WidgetCatalog.php:108
 msgid "Price Slider Widget"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:82
+#: src/Widgets/WidgetCatalog.php:109
 msgid "Price Slider Widget (2)"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:83
+#: src/Widgets/WidgetCatalog.php:110
 msgid "Historical Price Chart"
 msgstr ""
 
-#: src/Widgets/WidgetCatalog.php:84
+#: src/Widgets/WidgetCatalog.php:111
 msgid "Multi Currencies Tab"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:112
+msgid "Price Block Widget"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:113
+msgid "Price Block Widget (2)"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:114
+msgid "Coin Info Card"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:115
+msgid "Accordion Widget"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:116
+msgid "Compare Coins"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:117
+msgid "Crypto Converter"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:118
+msgid "Top Gainers and Losers"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:119
+msgid "Market Overview"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:120
+msgid "Crypto Heatmap"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:121
+msgid "Trending Coins"
+msgstr ""
+
+#: src/Widgets/WidgetCatalog.php:122
+msgid "Holdings Calculator"
 msgstr ""
 
 #: src/Widgets/WidgetSchema.php:47
@@ -358,6 +402,7 @@ msgstr ""
 
 #: src/Widgets/WidgetSchema.php:66
 #: assets/react-build/widgets/multi-currencies-tab/index.js:1
+#: assets/react-build/widgets/price-block-widget/index.js:1
 msgid "Currency"
 msgstr ""
 
@@ -378,6 +423,7 @@ msgid "Search box hint"
 msgstr ""
 
 #: src/Widgets/WidgetSchema.php:80
+#: assets/react-build/widgets/crypto-converter/index.js:1
 msgid "Coins"
 msgstr ""
 
@@ -529,27 +575,275 @@ msgstr ""
 msgid "Choose what to show. You can change its settings in the block sidebar."
 msgstr ""
 
+#: assets/react-build/widgets/accordion-widget/index.js:1
+#: assets/react-build/widgets/coin-marquee-pro/index.js:1
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/historical-price-chart/index.js:1
+#: assets/react-build/widgets/price-block-widget-2/index.js:1
+msgid "%1$s price, last %2$d days"
+msgstr ""
+
+#: assets/react-build/widgets/accordion-widget/index.js:1
+#: assets/react-build/widgets/coin-marquee-pro/index.js:1
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/historical-price-chart/index.js:1
+#: assets/react-build/widgets/price-block-widget-2/index.js:1
+msgid "The price history is not available right now."
+msgstr ""
+
+#: assets/react-build/widgets/accordion-widget/index.js:1
+msgid "24h change"
+msgstr ""
+
+#: assets/react-build/widgets/accordion-widget/index.js:1
+#: assets/react-build/widgets/coin-marquee-pro/index.js:1
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/crypto-price-picker-pro/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+#: assets/react-build/widgets/historical-price-chart/index.js:1
+msgid "Market cap"
+msgstr ""
+
+#: assets/react-build/widgets/accordion-widget/index.js:1
+#: assets/react-build/widgets/coin-marquee-pro/index.js:1
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/crypto-price-picker-pro/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+#: assets/react-build/widgets/historical-price-chart/index.js:1
+#: assets/react-build/widgets/market-overview/index.js:1
+#: assets/react-build/widgets/price-block-widget-2/index.js:1
+msgid "Volume (24h)"
+msgstr ""
+
+#: assets/react-build/widgets/accordion-widget/index.js:1
+#: assets/react-build/widgets/coin-marquee-pro/index.js:1
 #: assets/react-build/widgets/coin-marquee/index.js:1
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/crypto-converter/index.js:1
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-heatmap/index.js:1
+#: assets/react-build/widgets/crypto-info-card/index.js:1
+#: assets/react-build/widgets/crypto-price-picker-pro/index.js:1
 #: assets/react-build/widgets/crypto-price-picker/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
 #: assets/react-build/widgets/crypto-price-table/index.js:1
+#: assets/react-build/widgets/historical-price-chart/index.js:1
+#: assets/react-build/widgets/holdings-calculator/index.js:1
 #: assets/react-build/widgets/multi-currencies-tab/index.js:1
+#: assets/react-build/widgets/price-block-widget-2/index.js:1
+#: assets/react-build/widgets/price-block-widget/index.js:1
+#: assets/react-build/widgets/price-slider-widget/index.js:1
+#: assets/react-build/widgets/top-movers/index.js:1
 msgid "Prices are not available right now."
 msgstr ""
 
+#: assets/react-build/widgets/coin-marquee-pro/index.js:1
 #: assets/react-build/widgets/coin-marquee/index.js:1
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
 #: assets/react-build/widgets/crypto-price-table/index.js:1
 #: assets/react-build/widgets/multi-currencies-tab/index.js:1
+#: assets/react-build/widgets/price-slider-widget/index.js:1
 msgid "Cryptocurrency prices"
 msgstr ""
 
-#: assets/react-build/widgets/crypto-price-table/index.js:1
-msgid "Name"
-msgstr ""
-
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-info-card/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
 #: assets/react-build/widgets/crypto-price-table/index.js:1
 msgid "Price"
 msgstr ""
 
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
 #: assets/react-build/widgets/crypto-price-table/index.js:1
+#: assets/react-build/widgets/top-movers/index.js:1
 msgid "24h"
+msgstr ""
+
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "7 days"
+msgstr ""
+
+#: assets/react-build/widgets/compare-coins/index.js:1
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "30 days"
+msgstr ""
+
+#: assets/react-build/widgets/compare-coins/index.js:1
+msgid "Circulating supply"
+msgstr ""
+
+#: assets/react-build/widgets/compare-coins/index.js:1
+msgid "Compare coins"
+msgstr ""
+
+#: assets/react-build/widgets/compare-coins/index.js:1
+msgid "Trend"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-converter/index.js:1
+msgid "Currencies"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-converter/index.js:1
+msgid "Amount"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-converter/index.js:1
+msgid "From"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-converter/index.js:1
+msgid "To"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+msgid "Search coins"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+msgid "No coin matches your search."
+msgstr ""
+
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+#: assets/react-build/widgets/crypto-price-table/index.js:1
+msgid "Name"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+msgid "Previous page"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+msgid "Next page"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+msgid "7d"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-date-change-table/index.js:1
+msgid "30d"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-heatmap/index.js:1
+msgid "Market heatmap"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-info-card/index.js:1
+msgid "Rank"
+msgstr ""
+
+#: assets/react-build/widgets/crypto-price-table-2/index.js:1
+msgid "Supply"
+msgstr ""
+
+#: assets/react-build/widgets/historical-price-chart/index.js:1
+msgid "24h high"
+msgstr ""
+
+#: assets/react-build/widgets/historical-price-chart/index.js:1
+msgid "24h low"
+msgstr ""
+
+#: assets/react-build/widgets/holdings-calculator/index.js:1
+msgid "Your holdings"
+msgstr ""
+
+#: assets/react-build/widgets/holdings-calculator/index.js:1
+msgid "Amount of %s"
+msgstr ""
+
+#: assets/react-build/widgets/holdings-calculator/index.js:1
+msgid "Total value"
+msgstr ""
+
+#: assets/react-build/widgets/holdings-calculator/index.js:1
+msgid "Clear"
+msgstr ""
+
+#: assets/react-build/widgets/holdings-calculator/index.js:1
+msgid "Saved only in this browser."
+msgstr ""
+
+#: assets/react-build/widgets/market-overview/index.js:1
+msgid "Market figures are not available right now."
+msgstr ""
+
+#: assets/react-build/widgets/market-overview/index.js:1
+msgid "Share of the market: Bitcoin %1$s, Ether %2$s"
+msgstr ""
+
+#: assets/react-build/widgets/market-overview/index.js:1
+msgid "Total market cap"
+msgstr ""
+
+#: assets/react-build/widgets/market-overview/index.js:1
+msgid "Cryptocurrencies"
+msgstr ""
+
+#: assets/react-build/widgets/market-overview/index.js:1
+msgid "Bitcoin share"
+msgstr ""
+
+#: assets/react-build/widgets/market-overview/index.js:1
+msgid "Ether share"
+msgstr ""
+
+#: assets/react-build/widgets/price-slider-widget/index.js:1
+msgid "Slide towards the start"
+msgstr ""
+
+#: assets/react-build/widgets/price-slider-widget/index.js:1
+msgid "Slide towards the end"
+msgstr ""
+
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "Show"
+msgstr ""
+
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "Gainers"
+msgstr ""
+
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "Losers"
+msgstr ""
+
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "Period"
+msgstr ""
+
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "No coins in this list for this period."
+msgstr ""
+
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "Top gainers"
+msgstr ""
+
+#: assets/react-build/widgets/top-movers/index.js:1
+msgid "Top losers"
+msgstr ""
+
+#: assets/react-build/widgets/trending-coins/index.js:1
+msgid "Trending coins are not available right now."
+msgstr ""
+
+#: assets/react-build/widgets/trending-coins/index.js:1
+msgid "Trending coins"
 msgstr ""

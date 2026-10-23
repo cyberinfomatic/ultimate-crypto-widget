@@ -67,7 +67,7 @@ final class ElementorTest extends TestCase {
 		foreach ( self::free_widget_types() as $type ) {
 			$this->assertContains( 'ucwp-' . $type, $names );
 		}
-		$this->assertNotContains( 'ucwp-historical-price-chart', $names, 'A Pro type must wait for the add-on.' );
+		$this->assertNotContains( 'ucwp-' . self::LOCKED_TYPE, $names, 'A locked type must wait for the add-on.' );
 
 		$table = $manager->registered['ucwp-crypto-price-table-1'];
 		$this->assertSame( 'Crypto Price Table', $table->get_title() );
@@ -151,7 +151,7 @@ final class ElementorTest extends TestCase {
 
 		$this->assertSame( 'ucw_type', array_key_first( $element->controls ) );
 		$this->assertCount( 13, $element->controls );
-		$this->assertArrayNotHasKey( 'historical-price-chart', $element->controls['ucw_type']['options'], 'A type the site cannot use must not be offered.' );
+		$this->assertArrayNotHasKey( self::LOCKED_TYPE, $element->controls['ucw_type']['options'], 'A type the site cannot use must not be offered.' );
 		$this->assertContains( 'coin-marquee-1', $element->controls['ucw_speed']['condition']['ucw_type'] );
 		$this->assertNotContains( 'crypto-price-table-1', $element->controls['ucw_speed']['condition']['ucw_type'] );
 	}

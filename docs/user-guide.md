@@ -33,7 +33,7 @@ Drag the **Crypto Widget** element onto the page and choose its type and setting
 | Crypto Price Label | One card per coin, side by side or stacked. |
 | Multi Currencies Tab | A price list visitors can switch between currencies. |
 
-Types marked **(Pro)** need the Pro add-on.
+Every type is free. (A type marked **(Pro)** would need the Pro add-on; none is, in this release.)
 
 ## Settings a widget can have
 
@@ -84,6 +84,6 @@ service receives.
 | What you see | What to do |
 | --- | --- |
 | "Prices are not available right now." | CoinGecko could not be reached or its limit was hit. Wait a minute, or add an API key. |
-| A widget shows nothing for visitors | The widget is a draft, or its type needs the Pro add-on. Editors see a note explaining which. |
+| A widget shows nothing for visitors | The widget is a draft. Editors see a note explaining it. |
 | My own CSS no longer applies | Version 1.0 has new class names (`ucw-…`). Update your CSS, or use the appearance settings. |
 | Prices do not move | The visitor's network blocks the price streams. The widget then refreshes from your site about once a minute. |

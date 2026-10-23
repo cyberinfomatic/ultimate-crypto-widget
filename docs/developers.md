@@ -66,10 +66,17 @@ These are in users' databases and content:
 | `ucwp_widget_style` | filter | Set theme variables on every widget: `['--ucw-radius' => '4px']`. Only `--ucw-*` names with plain values are printed. |
 | `ucwp_widget_count_choices` | filter | Change how many coins a widget may be set to show (default `[5, 10]`). |
 | `ucwp_upgrade_url` | filter | Change where "See Pro" links lead. |
-| `ucwp_show_upgrade_notice` | filter | Return `false` to hide the suggestions to get Pro. |
+| `ucwp_show_upgrade_notice` | filter | Return `false` to hide the suggestions to get Pro. They are off in the all-free edition. |
 
 Add your callbacks no later than `plugins_loaded`: the catalogue is filled the first time it is asked
 for, which is on `init`.
+
+## Editions
+
+Which widgets are free is one value in `edition.json`: `all-free` (every widget, the current release) or
+`tiered` (the Pro-tier types locked until the Pro add-on unlocks them). `Edition` reads it; the release build
+and the Pro add-on's build read it too. `WidgetCatalog::withEdition()` builds a catalogue for either, for tests and
+add-ons. See [editions.md](editions.md).
 
 ## Adding widget types from another plugin
 

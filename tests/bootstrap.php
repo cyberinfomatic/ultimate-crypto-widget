@@ -38,6 +38,15 @@ tests_add_filter(
 		// No request in these tests may reach a real API.
 		\Cyberinfomatic\UltimateCryptoWidget\Tests\Support\HttpStub::install();
 
+		// One type this site cannot use, whatever the edition, so the handling of a locked type (listed but
+		// not chosen, not saved, not offered to page builders) is tested in both editions. See TestCase::LOCKED_TYPE.
+		add_action(
+			'ucwp_register_widgets',
+			static function ( $catalog ): void {
+				$catalog->register( \Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetDefinition::teaser( 'test-locked-widget', 'Locked Sample', 'crypto-price-picker-pro', '', array( 'count', 'default_currency' ) ) );
+			}
+		);
+
 		// UCWP_TEST_PLUGIN_DIR points the suite at an unpacked release zip, to test what ships.
 		$plugin_dir = getenv( 'UCWP_TEST_PLUGIN_DIR' ) ?: $ucwp_root;
 

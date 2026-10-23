@@ -1,0 +1,10 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-movers__bar {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+	padding: var(--ucw-space-3) var(--ucw-space-4);
+	border-block-end: 1px solid var(--ucw-border);
+}

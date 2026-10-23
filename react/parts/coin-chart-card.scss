@@ -1,0 +1,41 @@
+// Layout only. Colours and sizes come from the core theme's tokens.
+
+.ucw-chart-card {
+	gap: var(--ucw-space-4);
+	padding: var(--ucw-space-5);
+}
+
+.ucw-chart-card__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ucw-space-3);
+}
+
+.ucw-chart-card__figures {
+	display: flex;
+	align-items: center;
+	gap: var(--ucw-space-3);
+}
+
+.ucw-chart-card__stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ucw-space-6);
+}
+
+// Several cards in one widget.
+.ucw-card-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ucw-space-3);
+	max-inline-size: 100%;
+}
+
+.ucw-card-grid {
+	display: grid;
+	gap: var(--ucw-space-3);
+	grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+	max-inline-size: 100%;
+}
