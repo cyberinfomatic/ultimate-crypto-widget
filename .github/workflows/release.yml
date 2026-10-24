@@ -77,6 +77,10 @@ jobs:
           asset_name: ultimate-crypto-widget-${{ github.ref_name }}.zip
           asset_content_type: application/zip
 
+      # GitHub's runners no longer include Subversion.
+      - name: Install Subversion
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq subversion
+
       # WordPress.org. Trunk becomes exactly what is in the zip: a file removed from the
       # plugin is removed there too, so nothing from an older version keeps shipping.
       - name: Deploy to WordPress.org

@@ -156,4 +156,4 @@ A rebuild of the plugin.
 == Upgrade Notice ==
 
 = 1.0.0 =
-A rebuild with a new design, a block and Elementor element, and an important security fix. Your saved widgets and shortcodes keep working. Custom CSS for the old widgets will need updating.
+A rebuild with a new design, a block and Elementor element, and an important security fix. All 24 widgets are now free, including the former Pro ones. Your saved widgets and shortcodes keep working. Custom CSS for the old widgets will need updating.
