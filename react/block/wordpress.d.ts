@@ -14,6 +14,15 @@ declare module "@wordpress/blocks" {
 			// The attributes' shape is the block's own; the editor passes them through.
 			edit: ComponentType<any>; // eslint-disable-line @typescript-eslint/no-explicit-any -- see above
 			save: () => null;
+			variations?: Array<{
+				name: string;
+				title: string;
+				icon?: string;
+				keywords?: string[];
+				attributes?: Record<string, unknown>;
+				scope?: Array<"inserter" | "block" | "transform">;
+				isActive?: (blockAttributes: any, variationAttributes: any) => boolean; // eslint-disable-line @typescript-eslint/no-explicit-any -- the block's own attributes
+			}>;
 		}
 	): unknown;
 }
@@ -43,6 +52,19 @@ declare module "@wordpress/components" {
 		| (Common & { multiple?: false; value: string; options: Option[]; onChange: (value: string) => void })
 		| (Common & { multiple: true; value: string[]; options: Option[]; onChange: (value: string[]) => void });
 	export const SelectControl: ComponentType<SelectProps>;
+
+	export const FormTokenField: ComponentType<{
+		label?: string;
+		value: string[];
+		suggestions?: string[];
+		maxLength?: number;
+		onChange: (tokens: Array<string | { value: string }>) => void;
+		__nextHasNoMarginBottom?: boolean;
+		__next40pxDefaultSize?: boolean;
+		__experimentalExpandOnFocus?: boolean;
+		__experimentalShowHowTo?: boolean;
+		__experimentalValidateInput?: (token: string) => boolean;
+	}>;
 
 	export const TextControl: ComponentType<
 		Common & {

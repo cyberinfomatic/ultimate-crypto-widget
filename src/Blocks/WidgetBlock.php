@@ -23,6 +23,9 @@ final class WidgetBlock
 {
 	public const NAME = 'ucwp/widget';
 
+	/** The block inserter section that holds the block and one entry per widget type. */
+	public const CATEGORY = 'ucwp-crypto-widgets';
+
 	private bool $declared = false;
 
 	public function __construct(
@@ -45,7 +48,7 @@ final class WidgetBlock
 				'api_version'     => 3,
 				'title'           => __('Crypto Widget', 'ultimate-crypto-widget'),
 				'description'     => __('Live cryptocurrency prices: a table, a ticker, price cards and more.', 'ultimate-crypto-widget'),
-				'category'        => 'widgets',
+				'category'        => self::CATEGORY,
 				'icon'            => 'chart-line',
 				'keywords'        => ['crypto', 'bitcoin', 'price', 'ticker', 'coin'],
 				'textdomain'      => 'ultimate-crypto-widget',
@@ -58,6 +61,8 @@ final class WidgetBlock
 			]
 		);
 
+		$this->hooks->addFilter('block_categories_all', fn (array $categories): array => $this->withCategory($categories));
+
 		// Declared only when the block editor opens: its data includes the coin list.
 		$this->hooks->addAction('enqueue_block_editor_assets', function (): void {
 			if ($this->declared) {
@@ -68,6 +73,26 @@ final class WidgetBlock
 			$this->assets->style('block-style', AssetsProvider::BUILD . 'block.css')->onDemand();
 			$this->assets->load('block', 'block-style');
 		});
+	}
+
+	/**
+	 * Adds the "Crypto Widgets" section to the block inserter, once.
+	 *
+	 * @param array<int, array<string, mixed>> $categories
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function withCategory(array $categories): array
+	{
+		if (in_array(self::CATEGORY, array_column($categories, 'slug'), true)) {
+			return $categories;
+		}
+		$categories[] = [
+			'slug'  => self::CATEGORY,
+			'title' => __('Crypto Widgets', 'ultimate-crypto-widget'),
+			'icon'  => 'chart-line',
+		];
+
+		return $categories;
 	}
 
 	/**

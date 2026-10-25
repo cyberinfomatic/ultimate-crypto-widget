@@ -52,6 +52,79 @@ export function listValue(chosen: string[], limit: number): string {
 	).join(",");
 }
 
+/** A list setting's stored value ("bitcoin,ethereum") as the names its picker shows. */
+export function tokensFor(field: SchemaField, value: string): string[] {
+	return value
+		.split(",")
+		.map((chosen) => field.options.find((option) => option.value === chosen)?.label)
+		.filter((label): label is string => label !== undefined);
+}
+
+/**
+ * The names picked in a list setting's picker, back to the value it stores. A name
+ * that is not one of the setting's choices is dropped.
+ */
+export function listFromTokens(field: SchemaField, tokens: Array<string | { value: string }>): string {
+	const values = tokens.map((token) => {
+		const name = typeof token === "string" ? token : token.value;
+		return field.options.find((option) => option.label === name && !option.locked)?.value ?? "";
+	});
+	return listValue(values, field.limit);
+}
+
+/** One entry in the block inserter: the block with a widget type already chosen. */
+export type BlockVariation = {
+	name: string;
+	title: string;
+	icon: string;
+	keywords: string[];
+	attributes: BlockAttributes;
+	scope: Array<"inserter">;
+};
+
+/** A dashicon for a widget type, by a word in its name. The first match wins. */
+const ICONS: Array<[string, string]> = [
+	["heatmap", "grid-view"],
+	["converter", "randomize"],
+	["calculator", "calculator"],
+	["compare", "columns"],
+	["movers", "sort"],
+	["trending", "star-filled"],
+	["overview", "chart-pie"],
+	["chart", "chart-line"],
+	["table", "editor-table"],
+	["marquee", "leftright"],
+	["slider", "slides"],
+	["tab", "index-card"],
+	["accordion", "list-view"],
+	["info", "id"],
+	["picker", "tag"],
+	["block", "money-alt"],
+];
+
+/**
+ * One inserter entry per widget type that can be used, like the Elementor panel.
+ * Each starts at its type's defaults. A locked type gets none.
+ */
+export function variationsFor(fields: SchemaField[]): BlockVariation[] {
+	const types = fields.find((field) => field.name === "type")?.options ?? [];
+	return types
+		.filter((option) => !option.locked)
+		.map((option) => ({
+			name: option.value,
+			title: option.label,
+			icon: ICONS.find(([word]) => option.value.includes(word))?.[1] ?? "chart-line",
+			keywords: ["crypto", "coin", "price"],
+			attributes: { widgetId: 0, settings: settingsForType(fields, option.value) },
+			scope: ["inserter"],
+		}));
+}
+
+/** Whether a block is a variation: it carries its own settings, of that variation's type. */
+export function isVariationActive(block: Partial<BlockAttributes>, variation: Partial<BlockAttributes>): boolean {
+	return !block.widgetId && block.settings?.type !== undefined && block.settings.type === variation.settings?.type;
+}
+
 /** Where the block's preview comes from, or null when there is nothing to show yet. */
 export function blockPreviewUrl(base: string, attributes: BlockAttributes): string | null {
 	if (attributes.widgetId > 0) {
