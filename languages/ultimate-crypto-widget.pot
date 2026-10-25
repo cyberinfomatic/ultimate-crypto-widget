@@ -2,14 +2,14 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ultimate Crypto Widget 1.0.0-beta.1\n"
+"Project-Id-Version: Ultimate Crypto Widget 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ultimate-crypto-widget\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-23T18:31:57+00:00\n"
+"POT-Creation-Date: 2026-10-25T10:26:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: ultimate-crypto-widget\n"
@@ -69,6 +69,7 @@ msgid "Choose a widget type to see it here."
 msgstr ""
 
 #: src/Admin/Screens.php:46
+#: src/Blocks/WidgetBlock.php:91
 #: src/Providers/IntegrationsProvider.php:26
 msgid "Crypto Widgets"
 msgstr ""
@@ -166,13 +167,13 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: src/Blocks/WidgetBlock.php:46
+#: src/Blocks/WidgetBlock.php:49
 #: src/Integrations/Elementor/CryptoWidget.php:121
 #: assets/react-build/block/index.js:1
 msgid "Crypto Widget"
 msgstr ""
 
-#: src/Blocks/WidgetBlock.php:47
+#: src/Blocks/WidgetBlock.php:50
 msgid "Live cryptocurrency prices: a table, a ticker, price cards and more."
 msgstr ""
 

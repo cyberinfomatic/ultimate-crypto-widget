@@ -19,7 +19,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Widgets\Fields\WidgetTypeFieldType;
 final class WidgetSchema
 {
 	/** How many coins a widget may show unless an add-on offers more. */
-	private const COUNTS = [5, 10];
+	private const COUNTS = [5, 10, 25, 50, 100];
 
 	/** The field setting that says how many choices a multiple-choice field may hold. */
 	public const MAX_CHOICES = 'max_choices';

@@ -5,10 +5,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { registerBlockType } from "@wordpress/blocks";
-import { PanelBody, Placeholder, SelectControl, TextControl } from "@wordpress/components";
+import { FormTokenField, PanelBody, Placeholder, SelectControl, TextControl } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { WidgetValues } from "../admin/editor";
-import { BlockAttributes, blockPreviewUrl, fieldsFor, listValue, SchemaField, settingsForType } from "./values";
+import { BlockAttributes, blockPreviewUrl, fieldsFor, isVariationActive, listFromTokens, SchemaField, settingsForType, tokensFor, variationsFor } from "./values";
 import "./block.scss";
 
 type BlockData = {
@@ -82,18 +82,27 @@ const Control = ({ field, value, onChange }: { field: SchemaField; value: string
 	switch (field.control) {
 		case "select":
 			return <SelectControl __nextHasNoMarginBottom label={field.label} help={field.help} value={value} options={options} onChange={onChange} />;
-		case "list":
+		case "list": {
+			// Type to search, pick from the suggestions; each choice shows as a removable chip.
+			const names = field.options.filter((option) => !option.locked).map((option) => option.label);
 			return (
-				<SelectControl
-					__nextHasNoMarginBottom
-					multiple
-					label={field.label}
-					help={field.help}
-					value={value === "" ? [] : value.split(",")}
-					options={options}
-					onChange={(chosen: string[]) => onChange(listValue(chosen, field.limit))}
-				/>
+				<div>
+					<FormTokenField
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+						__experimentalExpandOnFocus
+						__experimentalShowHowTo={false}
+						label={field.label}
+						value={tokensFor(field, value)}
+						suggestions={names}
+						maxLength={field.limit > 0 ? field.limit : undefined}
+						__experimentalValidateInput={(name: string) => names.includes(name)}
+						onChange={(tokens) => onChange(listFromTokens(field, tokens))}
+					/>
+					{field.help && <p className="components-base-control__help">{field.help}</p>}
+				</div>
 			);
+		}
 		case "number":
 			return <TextControl __nextHasNoMarginBottom type="number" label={field.label} help={field.help} value={value} min={field.min ?? undefined} max={field.max ?? undefined} step={field.step ?? undefined} onChange={onChange} />;
 		default:
@@ -151,5 +160,7 @@ const Edit = ({ attributes, setAttributes }: EditProps) => {
 
 if (data) {
 	// Title, attributes and the rest come from the server's registration.
-	registerBlockType(data.name, { edit: Edit, save: () => null });
+	// One inserter entry per widget type, in the "Crypto Widgets" section.
+	const variations = variationsFor(data.fields).map((variation) => ({ ...variation, isActive: isVariationActive }));
+	registerBlockType(data.name, { edit: Edit, save: () => null, variations });
 }

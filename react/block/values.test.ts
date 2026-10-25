@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { blockPreviewUrl, fieldsFor, listValue, SchemaField, settingsForType } from "./values";
+import { blockPreviewUrl, fieldsFor, isVariationActive, listFromTokens, listValue, SchemaField, settingsForType, tokensFor, variationsFor } from "./values";
 
 const field = (name: string, usedBy: string[], fallback = ""): SchemaField => ({
 	name,
@@ -45,6 +45,78 @@ describe("listValue", () => {
 
 	it("drops repeats and blanks and keeps to the limit", () => {
 		expect(listValue(["usd", "", "eur", "usd", "gbp", "ngn"], 3)).toBe("usd,eur,gbp");
+	});
+});
+
+const coins: SchemaField = {
+	...field("coins", ["table"]),
+	control: "list",
+	limit: 2,
+	options: [
+		{ value: "bitcoin", label: "Bitcoin (BTC)", locked: false },
+		{ value: "ethereum", label: "Ethereum (ETH)", locked: false },
+		{ value: "solana", label: "Solana (SOL)", locked: false },
+	],
+};
+
+describe("tokensFor", () => {
+	it("shows the stored coins by name, in order", () => {
+		expect(tokensFor(coins, "ethereum,bitcoin")).toEqual(["Ethereum (ETH)", "Bitcoin (BTC)"]);
+	});
+
+	it("shows nothing for nothing chosen, and skips a coin no longer offered", () => {
+		expect(tokensFor(coins, "")).toEqual([]);
+		expect(tokensFor(coins, "bitcoin,gone")).toEqual(["Bitcoin (BTC)"]);
+	});
+});
+
+describe("listFromTokens", () => {
+	it("stores the picked names as their values", () => {
+		expect(listFromTokens(coins, ["Bitcoin (BTC)", { value: "Solana (SOL)" }])).toBe("bitcoin,solana");
+	});
+
+	it("drops a typed name that is not a choice, and keeps to the limit", () => {
+		expect(listFromTokens(coins, ["Dogecoin", "Bitcoin (BTC)", "Ethereum (ETH)", "Solana (SOL)"])).toBe("bitcoin,ethereum");
+	});
+});
+
+describe("variationsFor", () => {
+	const typeField: SchemaField = {
+		...field("type", []),
+		control: "type",
+		options: [
+			{ value: "table", label: "Price Table", locked: false },
+			{ value: "crypto-heatmap", label: "Crypto Heatmap", locked: false },
+			{ value: "marquee", label: "Locked Marquee", locked: true },
+		],
+	};
+	const variations = variationsFor([typeField, ...fields.slice(1)]);
+
+	it("gives every usable type its own inserter entry, starting at its defaults", () => {
+		expect(variations.map((v) => [v.name, v.title])).toEqual([
+			["table", "Price Table"],
+			["crypto-heatmap", "Crypto Heatmap"],
+		]);
+		expect(variations[0].attributes).toEqual({ widgetId: 0, settings: { type: "table", count: "10", parent_width: "100%" } });
+		expect(variations[0].scope).toEqual(["inserter"]);
+	});
+
+	it("picks an icon by the type's name", () => {
+		expect(variations.map((v) => v.icon)).toEqual(["editor-table", "grid-view"]);
+	});
+});
+
+describe("isVariationActive", () => {
+	const heatmap = { settings: { type: "crypto-heatmap" } };
+
+	it("matches a block set up in place with that type", () => {
+		expect(isVariationActive({ widgetId: 0, settings: { type: "crypto-heatmap", count: "50" } }, heatmap)).toBe(true);
+	});
+
+	it("does not match another type, a saved widget, or a block with no type yet", () => {
+		expect(isVariationActive({ widgetId: 0, settings: { type: "table" } }, heatmap)).toBe(false);
+		expect(isVariationActive({ widgetId: 7, settings: { type: "crypto-heatmap" } }, heatmap)).toBe(false);
+		expect(isVariationActive({ widgetId: 0, settings: {} }, heatmap)).toBe(false);
 	});
 });
 

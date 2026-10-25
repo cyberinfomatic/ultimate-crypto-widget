@@ -27,6 +27,31 @@ final class BlockTest extends TestCase {
 		$this->assertTrue( $block->is_dynamic() );
 	}
 
+	public function test_the_block_has_its_own_section_in_the_inserter(): void {
+		$block = \WP_Block_Type_Registry::get_instance()->get_registered( 'ucwp/widget' );
+		$this->assertSame( WidgetBlock::CATEGORY, $block->category );
+
+		$categories = get_block_categories( new \WP_Block_Editor_Context( array( 'name' => 'core/edit-post' ) ) );
+		$ours       = array_values( array_filter( $categories, fn ( array $category ): bool => WidgetBlock::CATEGORY === $category['slug'] ) );
+
+		$this->assertCount( 1, $ours, 'Listed once, even when the filter runs again.' );
+		$this->assertSame( 'Crypto Widgets', $ours[0]['title'] );
+	}
+
+	public function test_a_block_inserted_from_a_widget_types_entry_draws_that_widget(): void {
+		$html = do_blocks( '<!-- wp:ucwp/widget {"settings":{"type":"crypto-heatmap","count":"50"}} /-->' );
+
+		$this->assertStringContainsString( 'data-ucw-view="crypto-heatmap"', $html );
+		$this->assertStringContainsString( '&quot;count&quot;:&quot;50&quot;', $html );
+	}
+
+	public function test_the_coin_count_offers_the_top_5_to_100(): void {
+		$fields = array_column( Services::container()->get( WidgetSchema::class )->toArray(), null, 'name' );
+
+		$this->assertSame( array( '5', '10', '25', '50', '100' ), array_column( $fields['count']['options'], 'value' ) );
+		$this->assertSame( 'Top 100', end( $fields['count']['options'] )['label'] );
+	}
+
 	public function test_a_block_pointing_at_a_saved_widget_draws_that_widget(): void {
 		if ( ! self::has_react_build() ) {
 			$this->markTestSkipped( 'React bundles are not built.' );
