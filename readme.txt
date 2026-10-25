@@ -4,7 +4,7 @@ Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPL-2.0-or-later
 Donate link: https://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -25,7 +25,7 @@ Ultimate Crypto Widget shows live cryptocurrency prices on your WordPress site. 
 
 **What you get**
 
-* **Three ways to place a widget**: the Crypto Widget block, the `[ucwp_widget]` shortcode, or the Crypto Widget element in Elementor.
+* **Three ways to place a widget**: the block editor (every widget has its own block, under **Crypto Widgets**), the `[ucwp_widget]` shortcode, or Elementor.
 * **Live prices** without a page reload.
 * **No account needed**: prices come from CoinGecko's public API. A free CoinGecko key is optional and only raises the request limit for busy sites.
 * **Light, dark or automatic** colours, and your own accent colour, for every widget at once.
@@ -103,6 +103,12 @@ In the [support forum](https://wordpress.org/support/plugin/ultimate-crypto-widg
 
 == Changelog ==
 
+= 1.1.0 =
+
+* New: every widget has its own entry in the block inserter, in a **Crypto Widgets** section, as in Elementor. Pick "Crypto Heatmap" and it is ready to go.
+* New: widgets can show the top 25, 50 or 100 coins, as well as 5 or 10.
+* Fix: choosing coins in the block sidebar. It is now a search box: type a coin's name and pick it; chosen coins show as removable tags.
+
 = 1.0.0 =
 
 A rebuild of the plugin.
@@ -154,6 +160,9 @@ A rebuild of the plugin.
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Every widget now has its own block, widgets can show up to the top 100 coins, and choosing coins in the block editor is easier.
 
 = 1.0.0 =
 A rebuild with a new design, a block and Elementor element, and an important security fix. All 24 widgets are now free, including the former Pro ones. Your saved widgets and shortcodes keep working. Custom CSS for the old widgets will need updating.
