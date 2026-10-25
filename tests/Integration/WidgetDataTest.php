@@ -140,6 +140,35 @@ final class WidgetDataTest extends TestCase {
 		$this->assertSame( '5', get_post_meta( $id, 'ucwp_widget_count', true ), 'The other fields are still saved.' );
 	}
 
+	/**
+	 * @dataProvider larger_count_provider
+	 */
+	public function test_a_widget_can_show_up_to_the_top_100_coins( string $count ): void {
+		$id = WidgetFactory::create( 'crypto-heatmap' );
+
+		wp_set_current_user( WidgetFactory::editor() );
+		$_POST = array( 'ucwp_widget_count' => $count ) + WidgetFactory::nonce();
+		do_action( 'save_post_ucwp_widget', $id, get_post( $id ), true );
+		$_POST = array();
+
+		$this->assertSame( $count, get_post_meta( $id, 'ucwp_widget_count', true ) );
+	}
+
+	public function larger_count_provider(): array {
+		return array( '25' => array( '25' ), '50' => array( '50' ), '100' => array( '100' ) );
+	}
+
+	public function test_a_count_that_is_not_offered_is_refused_and_the_old_one_kept(): void {
+		$id = WidgetFactory::create( 'crypto-heatmap' );
+
+		wp_set_current_user( WidgetFactory::editor() );
+		$_POST = array( 'ucwp_widget_count' => '250' ) + WidgetFactory::nonce();
+		do_action( 'save_post_ucwp_widget', $id, get_post( $id ), true );
+		$_POST = array();
+
+		$this->assertSame( '10', get_post_meta( $id, 'ucwp_widget_count', true ) );
+	}
+
 	public function test_exactly_the_currency_limit_is_accepted(): void {
 		$id = WidgetFactory::create( 'multi-currencies-tab', array( 'ucwp_widget_currencies' => array( 'usd', 'eur', 'gbp' ) ) );
 
