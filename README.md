@@ -4,16 +4,17 @@ Live cryptocurrency prices for WordPress: 24 widgets (tickers, price tables, cha
 overview, compare, converter and holdings tools, and more). Place a widget with the block editor, a shortcode
 or Elementor.
 
-This is the free plugin, published on WordPress.org. Every widget is free: it is released in its
-**all-free edition** ([edition.json](edition.json)). A Pro add-on exists for a later, tiered edition; it is not
-needed now. How to switch: [docs/editions.md](docs/editions.md).
+This is the free plugin, published on WordPress.org. **Every widget is free**: it is released in its
+**all-free edition** ([edition.json](edition.json)). A Pro add-on, in a separate private repository, is ready for the
+day some widgets should be paid; see [Editions](docs/maintainers/editions.md).
 
-- **Using the plugin:** [docs/user-guide.md](docs/user-guide.md)
-- **Free and Pro editions:** [docs/editions.md](docs/editions.md)
-- **Extending it or working on it:** [docs/developers.md](docs/developers.md)
-- **Translating it:** [docs/translating.md](docs/translating.md)
-- **Frontend rules:** [docs/standards/frontend.md](docs/standards/frontend.md)
-- **For AI coding agents:** [AGENTS.md](AGENTS.md)
+**Documentation:** [docs/README.md](docs/README.md)
+
+- **Site owners:** [getting started](docs/users/getting-started.md), [the widgets](docs/users/widgets.md),
+  [settings and shortcode attributes](docs/users/settings.md), [troubleshooting](docs/users/troubleshooting.md).
+- **Maintainers:** start with the [overview](docs/maintainers/README.md), then [architecture](docs/maintainers/architecture.md),
+  [development](docs/maintainers/development.md) and [releasing](docs/maintainers/releasing.md).
+- **For AI coding agents:** [AGENTS.md](AGENTS.md).
 
 The text shown on WordPress.org is [readme.txt](readme.txt).
 

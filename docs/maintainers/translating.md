@@ -1,4 +1,4 @@
-# Translating Ultimate Crypto Widget
+# Translating
 
 Everything a visitor or a site owner reads can be translated: the admin screens, the block, and the
 text inside the widgets themselves. Numbers, prices and dates are not translated by hand; the browser
@@ -22,9 +22,13 @@ Each one has a note for translators saying what it is.
 | Free plugin, PHP (admin screens, settings, block registration) | `ultimate-crypto-widget` | `.mo` file |
 | Free plugin, scripts (widgets, widget editor, block) | `ultimate-crypto-widget` | one `.json` file per script |
 | Pro add-on, PHP (license and style screens) | `ultimate-crypto-widget-pro` | `.mo` file |
-| Pro add-on, scripts (Pro widgets) | `ultimate-crypto-widget-pro` | one `.json` file per script |
 
-The toolkit's asset manager attaches the right `.json` file to each script by itself, for both plugins.
+The toolkit's asset manager attaches the right `.json` file to each script by itself.
+
+**Every widget's text, the Pro tier's included, is in this plugin's domain**, because every widget's code lives here. In
+the all-free edition this plugin ships and translates all of them. In the tiered edition the Pro add-on builds the Pro-tier
+widgets into its own scripts, whose text is still in the `ultimate-crypto-widget` domain: before selling Pro, make sure
+those scripts load this plugin's translations (see [Editions](editions.md#switching-to-free-and-pro), step 6).
 
 ## For developers
 
