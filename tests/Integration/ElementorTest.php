@@ -130,7 +130,7 @@ final class ElementorTest extends TestCase {
 		$marquee->build_controls();
 
 		// No type picker, no conditions: the element already is the type.
-		$this->assertSame( array( 'ucw_count', 'ucw_speed', 'ucw_card_width', 'ucw_parent_width', 'ucw_default_currency' ), array_keys( $marquee->controls ) );
+		$this->assertSame( array( 'ucw_count', 'ucw_speed', 'ucw_card_width', 'ucw_parent_width', 'ucw_default_currency', 'ucw_live_prices' ), array_keys( $marquee->controls ) );
 		$this->assertArrayNotHasKey( 'condition', $marquee->controls['ucw_speed'] );
 
 		$speed = $marquee->controls['ucw_speed'];
@@ -150,10 +150,33 @@ final class ElementorTest extends TestCase {
 		$element->build_controls();
 
 		$this->assertSame( 'ucw_type', array_key_first( $element->controls ) );
-		$this->assertCount( 13, $element->controls );
+		$this->assertCount( 14, $element->controls );
 		$this->assertArrayNotHasKey( self::LOCKED_TYPE, $element->controls['ucw_type']['options'], 'A type the site cannot use must not be offered.' );
 		$this->assertContains( 'coin-marquee-1', $element->controls['ucw_speed']['condition']['ucw_type'] );
 		$this->assertNotContains( 'crypto-price-table-1', $element->controls['ucw_speed']['condition']['ucw_type'] );
+	}
+
+	public function test_live_prices_is_a_switch_that_starts_on(): void {
+		$heatmap = $this->element( 'crypto-heatmap' );
+		$heatmap->build_controls();
+
+		$switch = $heatmap->controls['ucw_live_prices'];
+		$this->assertSame( array( 'switcher', '1', '1' ), array( $switch['type'], $switch['return_value'], $switch['default'] ) );
+
+		$overview = $this->element( 'market-overview' );
+		$overview->build_controls();
+		$this->assertArrayNotHasKey( 'ucw_live_prices', $overview->controls, 'A widget with no live prices has no switch.' );
+	}
+
+	public function test_a_switch_turned_off_reaches_the_widget_as_off(): void {
+		$fields = Services::container()->get( WidgetSchema::class )->toArray();
+
+		// Elementor stores an empty value for a switch that is off.
+		$off = CryptoWidget::shortcodeAttributes( array( 'ucw_live_prices' => '' ), $fields, 'crypto-heatmap' );
+		$on  = CryptoWidget::shortcodeAttributes( array( 'ucw_live_prices' => '1' ), $fields, 'crypto-heatmap' );
+
+		$this->assertSame( '0', $off['live_prices'] );
+		$this->assertSame( '1', $on['live_prices'] );
 	}
 
 	public function test_it_draws_the_same_widget_as_the_shortcode(): void {

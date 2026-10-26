@@ -8,6 +8,7 @@
             "no_of_days": "7",
             "parent_width": "400",
             "dark_mode": "false",
+            "live_prices": "1",
             "currency_symbol": "$",
             "usd_conversion_rate": 1
         },

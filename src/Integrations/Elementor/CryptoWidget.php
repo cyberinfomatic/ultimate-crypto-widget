@@ -252,6 +252,10 @@ final class CryptoWidget extends Widget_Base
 				case 'list':
 					$control = ['type' => Controls_Manager::SELECT2, 'multiple' => true, 'label_block' => true, 'options' => $options, 'default' => WidgetFields::listToArray($field['default'])] + $control;
 					break;
+				case 'toggle':
+					// Elementor stores an empty value when a switch is off; shortcodeAttributes() reads that as "0".
+					$control = ['type' => Controls_Manager::SWITCHER, 'return_value' => '1', 'default' => '1' === $field['default'] ? '1' : ''] + $control;
+					break;
 				case 'number':
 					$control += array_filter(['type' => Controls_Manager::NUMBER, 'min' => $field['min'], 'max' => $field['max'], 'step' => $field['step']], static fn ($value): bool => null !== $value);
 					break;
@@ -295,6 +299,10 @@ final class CryptoWidget extends Widget_Base
 				continue;
 			}
 			$given = $settings[self::PREFIX . $name];
+			if ('toggle' === $field['control']) {
+				$attributes[$name] = '1' === (string) $given ? '1' : '0';
+				continue;
+			}
 			$value = WidgetFields::isList($name) ? WidgetFields::listToString($given) : (is_scalar($given) ? sanitize_text_field((string) $given) : '');
 			if ('' !== $value) {
 				$attributes[$name] = $value;

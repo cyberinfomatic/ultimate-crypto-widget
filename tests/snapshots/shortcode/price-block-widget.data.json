@@ -6,6 +6,7 @@
             "coins": "bitcoin,ethereum",
             "count": "10",
             "default_currency": "usd",
+            "live_prices": "1",
             "currency_symbol": "$",
             "usd_conversion_rate": 1
         },

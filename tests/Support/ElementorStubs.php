@@ -19,6 +19,7 @@ if ( ! class_exists( Controls_Manager::class ) ) {
 		public const SELECT2     = 'select2';
 		public const NUMBER      = 'number';
 		public const TEXT        = 'text';
+		public const SWITCHER    = 'switcher';
 	}
 }
 

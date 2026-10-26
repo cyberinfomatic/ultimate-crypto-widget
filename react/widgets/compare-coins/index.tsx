@@ -41,7 +41,7 @@ type Metric = {
 
 /** Two to four coins side by side: price, change over three periods, size, volume, supply and a trend line. */
 export const CompareCoins = ({ coins, settings }: Props) => {
-	const list = useLiveCoins(coins, { count: comparedCount(settings.coins), usd_conversion_rate: settings.usd_conversion_rate });
+	const list = useLiveCoins(coins, { count: comparedCount(settings.coins), usd_conversion_rate: settings.usd_conversion_rate, live_prices: settings.live_prices });
 
 	if (list.length === 0) {
 		return (

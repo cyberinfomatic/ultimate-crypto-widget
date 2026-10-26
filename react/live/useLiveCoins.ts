@@ -11,6 +11,22 @@ export function visibleCoins(coins: unknown, count: unknown, fallback = 10): Coi
 	return coins.filter((coin): coin is CoinData => Boolean(coin) && typeof coin.symbol === "string").slice(0, toCount(count, fallback));
 }
 
+/**
+ * Whether a widget follows live prices. On unless its "live_prices" setting turns it off,
+ * so a widget saved before the setting existed stays live.
+ */
+export function liveOn(setting: unknown): boolean {
+	if (setting === false) {
+		return false;
+	}
+	return !["0", "false", "no", "off"].includes(String(setting ?? "").trim().toLowerCase());
+}
+
+/** The tickers to follow live for a widget's coins: none when its live prices are off, so no feed is opened. */
+export function liveSymbols(coins: CoinData[], setting: unknown): string[] {
+	return liveOn(setting) ? coins.map((coin) => coin.symbol) : [];
+}
+
 /** How far a live price may be from the one the page was built with before it is not believed. */
 const LEAST_RATIO = 0.5;
 const MOST_RATIO = 2;
@@ -41,13 +57,13 @@ export function withLive(coin: CoinData, live: Partial<TickerData> | undefined):
 
 /**
  * A widget's coins, kept current: the prices the page was rendered with, with
- * live updates laid over them as they arrive.
+ * live updates laid over them as they arrive. With live prices off, no feed is opened.
  */
-export function useLiveCoins(coins: unknown, settings: Pick<UCWPWidgetSetting, "count" | "usd_conversion_rate">): CoinData[] {
+export function useLiveCoins(coins: unknown, settings: Pick<UCWPWidgetSetting, "count" | "usd_conversion_rate" | "live_prices">): CoinData[] {
 	const shown = useMemo(() => visibleCoins(coins, settings.count), [coins, settings.count]);
 	const rate = Number(settings.usd_conversion_rate);
 	const { data } = useLivePrices(
-		shown.map((coin) => coin.symbol),
+		liveSymbols(shown, settings.live_prices),
 		Number.isFinite(rate) && rate > 0 ? rate : 1
 	);
 

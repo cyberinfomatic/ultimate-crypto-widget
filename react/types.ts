@@ -56,6 +56,8 @@ export type UCWPWidgetSetting = {
   orientation?: 'horizontal' | 'vertical';
   coins: string | string[];
   dark_mode?: 'true' | 'false' | boolean;
+  /** "0" (or "no", "false", "off") keeps the prices from when the page loaded. On otherwise. */
+  live_prices?: string | boolean;
   usd_conversion_rate?: number;
 };
 

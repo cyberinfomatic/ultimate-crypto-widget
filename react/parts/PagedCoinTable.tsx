@@ -29,7 +29,7 @@ export const PagedCoinTable = ({ coins, settings, columns }: PagedCoinTableProps
 	const pageSize = toCount(settings.count, 10);
 	const found = filterByText(all, typed, (coin) => [coin.name, coin.symbol]);
 	// Live prices are followed for the coins on screen only.
-	const shown = useLiveCoins(pageOf(found, page, pageSize), { count: pageSize, usd_conversion_rate: settings.usd_conversion_rate });
+	const shown = useLiveCoins(pageOf(found, page, pageSize), { count: pageSize, usd_conversion_rate: settings.usd_conversion_rate, live_prices: settings.live_prices });
 
 	const search = (value: string) => {
 		setTyped(value);

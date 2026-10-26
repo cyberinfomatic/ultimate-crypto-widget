@@ -11,6 +11,7 @@
             "default_currency": "usd",
             "data_interval": "daily",
             "coins": "bitcoin,ethereum",
+            "live_prices": "1",
             "currency_symbol": "$",
             "usd_conversion_rate": 1
         },

@@ -65,6 +65,10 @@ final class DataCompatibilityTest extends TestCase {
 		// 0.x also passed the component its own script name and element id; the
 		// element now carries the data itself, so those two are gone.
 		unset( $expected['ucwp_render_component'], $expected['react_id'] );
+		// 1.2 added the live prices switch. 0.x widgets were always live, so they read as on.
+		if ( isset( $data['settings']['live_prices'] ) ) {
+			$expected['settings']['live_prices'] = '1';
+		}
 
 		$this->assertEquals( $expected, $data );
 	}

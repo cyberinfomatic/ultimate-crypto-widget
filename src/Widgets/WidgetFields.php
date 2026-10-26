@@ -28,6 +28,7 @@ final class WidgetFields
 		'coins',
 		'currencies',
 		'dark_mode',
+		'live_prices',
 	];
 
 	/**
@@ -51,6 +52,8 @@ final class WidgetFields
 		'coins'              => '',
 		'currencies'         => '',
 		'dark_mode'          => 'false',
+		// On unless a widget says otherwise: widgets saved before this setting existed stay live.
+		'live_prices'        => '1',
 	];
 
 	public static function metaKey(string $name): string
