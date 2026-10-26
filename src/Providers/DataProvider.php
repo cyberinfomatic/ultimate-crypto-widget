@@ -21,6 +21,7 @@ final class DataProvider extends ServiceProvider
 {
 	private const COINGECKO_URL = 'https://api.coingecko.com/api/v3';
 
+	/** Binds the HTTP transport and the price source. The source is built on first use, from the saved settings (make()). */
 	public function register(): void
 	{
 		$container = $this->app->container();

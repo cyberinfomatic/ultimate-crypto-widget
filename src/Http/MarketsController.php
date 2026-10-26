@@ -13,6 +13,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Http\Request;
  */
 final class MarketsController
 {
+	/** Every route asks the price source, so answers come from its cache and honour the ucwp_price_provider filter. */
 	public function __construct(private readonly PriceProvider $prices)
 	{
 	}

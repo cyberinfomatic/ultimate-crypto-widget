@@ -54,6 +54,7 @@ final class Currencies
 		'twd' => 'NT$',
 	];
 
+	/** Whether a code, in any case, is one of CODES. */
 	public static function has(string $code): bool
 	{
 		return in_array(strtolower($code), self::CODES, true);

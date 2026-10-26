@@ -31,6 +31,7 @@ final class CoinGeckoProvider implements PriceProvider
 	) {
 	}
 
+	/** Cached for the "cache interval" setting, with the 24-hour, 7-day and 30-day changes the widgets show. */
 	public function markets(string $currency = 'usd', ?array $coinIds = null): array
 	{
 		$query = [
@@ -44,6 +45,7 @@ final class CoinGeckoProvider implements PriceProvider
 		return $this->fetch('/coins/markets', $query, $this->marketTtl);
 	}
 
+	/** Cached for a day. Leaves out the tickers, translations and developer figures, which no widget shows. */
 	public function coin(string $coinId): array
 	{
 		return $this->fetch(
@@ -60,6 +62,7 @@ final class CoinGeckoProvider implements PriceProvider
 		);
 	}
 
+	/** Cached for ten minutes. */
 	public function chart(string $coinId, string $currency = 'usd', int $days = 7, string $interval = 'daily'): array
 	{
 		return $this->fetch(
@@ -73,6 +76,7 @@ final class CoinGeckoProvider implements PriceProvider
 		);
 	}
 
+	/** Worked out from CoinGecko's rates against bitcoin, cached for an hour. A currency it does not quote is left out. */
 	public function fiatRates(string $base, array $currencies): array
 	{
 		// CoinGecko quotes every currency against one bitcoin; two of those give a cross rate.
@@ -97,6 +101,10 @@ final class CoinGeckoProvider implements PriceProvider
 		return $rates;
 	}
 
+	/**
+	 * CoinGecko's /global figures, cached for the "cache interval" setting. The 24-hour
+	 * change is the one CoinGecko works out in US dollars, whatever the currency.
+	 */
 	public function globalMarket(string $currency = 'usd'): array
 	{
 		$data = $this->fetch('/global', [], $this->marketTtl)['data'] ?? [];
@@ -120,6 +128,7 @@ final class CoinGeckoProvider implements PriceProvider
 		];
 	}
 
+	/** CoinGecko's trending searches, cached for 15 minutes. An entry without an id, name or symbol is skipped. */
 	public function trending(): array
 	{
 		$rows = $this->fetch('/search/trending', [], 900)['coins'] ?? [];
@@ -146,11 +155,13 @@ final class CoinGeckoProvider implements PriceProvider
 		return $coins;
 	}
 
+	/** Clears only the "prices" cache group (see DataProvider). */
 	public function clearCache(): void
 	{
 		$this->cache->clear();
 	}
 
+	/** Kept in an option; the count starts again 30 days after its window opened (countCall()). */
 	public function callCount(): int
 	{
 		return (int) get_option(self::COUNT_OPTION, 0);
@@ -187,6 +198,7 @@ final class CoinGeckoProvider implements PriceProvider
 		return $data;
 	}
 
+	/** Counts one request to CoinGecko, opening a new 30-day window when the last one has run out. */
 	private function countCall(): void
 	{
 		$since = (string) get_option(self::COUNT_SINCE, '');

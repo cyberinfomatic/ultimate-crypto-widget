@@ -13,6 +13,7 @@ final class Appearance
 {
 	public const THEMES = ['light', 'dark', 'auto'];
 
+	/** Reads the site-wide "theme" and "accent_color" settings. */
 	public function __construct(private readonly Settings $settings)
 	{
 	}

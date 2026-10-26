@@ -17,6 +17,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetShortcode;
  */
 final class QuickWidgetController
 {
+	/** The registry the [ucwp_widget] shortcode is added to (WidgetsProvider). */
 	public function __construct(private readonly Shortcodes $shortcodes)
 	{
 	}

@@ -3,6 +3,7 @@ import { MISSING } from "../format";
 import { sparklinePoints } from "./Sparkline";
 import { directionOf } from "./TrendIcon";
 
+/** One point of the line. `time` is in milliseconds since 1970. */
 export type ChartPoint = { time: number; value: number };
 
 type LineChartProps = {

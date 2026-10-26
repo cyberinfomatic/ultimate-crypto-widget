@@ -23,6 +23,7 @@ final class Preview
 	 */
 	private const HEIGHT_SCRIPT = '<script>(function(){var tell=function(){parent.postMessage({ucwPreviewHeight:document.body.offsetHeight},location.origin)};if(window.ResizeObserver){new ResizeObserver(tell).observe(document.body)}tell()})();</script>';
 
+	/** The widget is drawn through the [ucwp_widget] shortcode, as it is on the site. */
 	public function __construct(private readonly Shortcodes $shortcodes)
 	{
 	}

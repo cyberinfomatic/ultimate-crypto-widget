@@ -29,6 +29,7 @@ final class WidgetEditor
 {
 	private ?MetaBox $box = null;
 
+	/** One per request (AdminProvider). The settings form is built later, and only where it is needed: see box(). */
 	public function __construct(
 		private readonly EntityRegistrar $registrar,
 		private readonly FieldTypes $types,
@@ -173,6 +174,7 @@ final class WidgetEditor
 		return sprintf('<code class="ucw-shortcode" data-ucw-copy>[ucwp_widget id=&quot;%d&quot;]</code>', $postId);
 	}
 
+	/** The post type that holds saved widgets: edited in wp-admin, never shown as a page of its own. */
 	private function registerPostType(): void
 	{
 		register_post_type(
@@ -210,6 +212,7 @@ final class WidgetEditor
 		);
 	}
 
+	/** The preview and the shortcode boxes that sit beside the settings form. */
 	private function addBoxes(): void
 	{
 		add_meta_box(

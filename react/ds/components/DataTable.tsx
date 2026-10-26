@@ -16,12 +16,14 @@ type TableProps = {
 	children: ReactNode;
 };
 
+/** The table itself. Its rows are Row elements, its cells Cell elements. */
 export const Table = ({ label, columns, id, children }: TableProps) => (
 	<div className="ucw-table" role="table" id={id} aria-label={label} style={{ gridTemplateColumns: columns }}>
 		{children}
 	</div>
 );
 
+/** One row of a Table; `header` styles it as the row of column headings. */
 export const Row = ({ header = false, className, ...rest }: HTMLAttributes<HTMLDivElement> & { header?: boolean }) => (
 	<div {...rest} role="row" className={cx("ucw-table__row", header && "ucw-table__row--header", className)} />
 );
@@ -35,6 +37,7 @@ type CellProps = HTMLAttributes<HTMLDivElement> & {
 	muted?: boolean;
 };
 
+/** One cell of a Row, or a column heading. */
 export const Cell = ({ header = false, numeric = false, muted = false, className, ...rest }: CellProps) => (
 	<div {...rest} role={header ? "columnheader" : "cell"} className={cx("ucw-table__cell", numeric && "ucw-table__cell--numeric", muted && "ucw-table__cell--muted", className)} />
 );

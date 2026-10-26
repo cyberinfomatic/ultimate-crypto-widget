@@ -4,6 +4,7 @@
  */
 import { fieldApplies, previewUrl, WidgetValues, withinLimit } from "../admin/editor";
 
+/** One choice of a select or list setting. A locked choice needs an add-on and cannot be picked. */
 export type FieldOption = { value: string; label: string; locked: boolean };
 
 /** One widget setting, as WidgetSchema::toArray() describes it. */
@@ -21,6 +22,7 @@ export type SchemaField = {
 	limit: number;
 };
 
+/** What the block stores in the post: which widget, or its settings. Never markup. */
 export type BlockAttributes = {
 	/** A saved widget to show; 0 when the block carries its own settings. */
 	widgetId: number;

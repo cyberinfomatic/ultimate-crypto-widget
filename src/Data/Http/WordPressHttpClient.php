@@ -19,6 +19,10 @@ use Cyberinfomatic\UltimateCryptoWidget\Lib\WPToolkit\Exceptions\HttpException;
  */
 final class WordPressHttpClient implements HttpClient
 {
+	/**
+	 * Follows at most three redirects. Throws only when no answer came at all; an
+	 * error status is returned like any other response.
+	 */
 	public function send(HttpRequest $request): HttpResponse
 	{
 		$args = [

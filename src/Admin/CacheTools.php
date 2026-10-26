@@ -12,6 +12,7 @@ final class CacheTools
 {
 	public const ACTION = 'ucwp_clear_api_cache';
 
+	/** The prices whose cache the button clears, and the notices that say it was done. */
 	public function __construct(
 		private readonly PriceProvider $prices,
 		private readonly Notices $notices

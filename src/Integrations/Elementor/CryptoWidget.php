@@ -111,16 +111,19 @@ final class CryptoWidget extends Widget_Base
 		parent::__construct($data, $args);
 	}
 
+	/** NAME_PREFIX plus the widget type, or GENERIC for the element with a type picker. Saved in pages. */
 	public function get_name(): string
 	{
 		return '' === $this->type ? self::GENERIC : self::NAME_PREFIX . $this->type;
 	}
 
+	/** The widget type's label from the catalogue, as Elementor's panel shows it. */
 	public function get_title(): string
 	{
 		return self::$types[$this->type]['label'] ?? __('Crypto Widget', 'ultimate-crypto-widget');
 	}
 
+	/** One of Elementor's icons, picked by a word in the type's view name (ICONS). */
 	public function get_icon(): string
 	{
 		$view = self::$types[$this->type]['view'] ?? '';
@@ -166,6 +169,7 @@ final class CryptoWidget extends Widget_Base
 		return true;
 	}
 
+	/** The settings panel, generated from WidgetSchema. Empty until use() has been called. */
 	protected function register_controls(): void
 	{
 		if (null === self::$schema) {
@@ -181,6 +185,7 @@ final class CryptoWidget extends Widget_Base
 		$this->end_controls_section();
 	}
 
+	/** On the site, the widget as the shortcode draws it; in Elementor's editor, a preview frame. */
 	protected function render(): void
 	{
 		if (null === self::$shortcodes || null === self::$schema || null === self::$preview) {

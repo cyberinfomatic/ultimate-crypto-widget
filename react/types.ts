@@ -1,4 +1,4 @@
-// Base interface with common properties
+/** The fields every coin row has, live or not: enough for a ticker. */
 export interface BasicCoinData {
   symbol: string;
   current_price: number;
@@ -10,10 +10,10 @@ export interface BasicCoinData {
   last_updated: string;
 }
 
-// TickerData type, which is equivalent to BasicCoinData
+/** A coin as a ticker shows it. */
 export type TickerData = BasicCoinData;
 
-// CoinData interface, which extends BasicCoinData with additional properties
+/** A coin as CoinGecko's /coins/markets lists it, which is what the server gives a widget. */
 export interface CoinData extends BasicCoinData {
   id: string;
   name: string;
@@ -41,7 +41,10 @@ export interface CoinData extends BasicCoinData {
   price_change_percentage_30d_in_currency?: number;
 }
 
-// UCWPWidgetSetting type
+/**
+ * A widget's settings as the server passes them to its component. Most arrive as
+ * text, whatever the type says, so read them through toCount() and the like.
+ */
 export type UCWPWidgetSetting = {
   type: string;
   count?: number;

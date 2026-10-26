@@ -5,6 +5,7 @@ import { useLiveCoins } from "../live/useLiveCoins";
 import { CoinData, UCWPWidgetSetting } from "../types";
 import "./paged-coin-table.scss";
 
+/** One column of figures: its heading, and what it shows for a coin. */
 export type CoinColumn = {
 	header: string;
 	render: (coin: CoinData) => ReactNode;

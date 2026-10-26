@@ -27,6 +27,7 @@ final class WidgetSchema
 	/** @var array<string, string>|null The coins to choose from, fetched once per request. */
 	private ?array $coins = null;
 
+	/** The catalogue gives the widget types to choose from; the price source, the coins. */
 	public function __construct(
 		private readonly WidgetCatalog $catalog,
 		private readonly PriceProvider $prices
@@ -162,6 +163,7 @@ final class WidgetSchema
 		return $out;
 	}
 
+	/** The widget type choice: every type in the catalogue, with those this site cannot use listed as locked. */
 	private function typeField(FieldFactory $f): Field
 	{
 		$labels = [];

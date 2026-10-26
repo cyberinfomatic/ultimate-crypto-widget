@@ -1,5 +1,6 @@
 import { LiveFeed, Tick } from "./types";
 
+/** Tuning for cascade(). */
 export interface CascadeOptions {
 	/** How long a feed gets to deliver a first price for a symbol before the next feed is asked. */
 	patienceMs?: number;
