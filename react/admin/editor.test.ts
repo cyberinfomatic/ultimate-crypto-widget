@@ -1,5 +1,31 @@
 import { describe, expect, it } from "vitest";
-import { fieldApplies, joinChosen, meaningful, previewUrl, shortcodeFor, withinLimit } from "./editor";
+import { fieldApplies, joinChosen, meaningful, previewUrl, shortcodeFor, tickedValue, withinLimit } from "./editor";
+
+describe("tickedValue", () => {
+	const live = (checked: boolean) => [{ name: "ucwp_widget_live_prices", value: "1", checked }];
+
+	it("gives a single on/off box as 1 or 0, so unticking it is not dropped", () => {
+		expect(tickedValue(live(true))).toBe("1");
+		expect(tickedValue(live(false))).toBe("0");
+	});
+
+	it("keeps an unticked single box in the shortcode and the preview", () => {
+		const values = { type: "crypto-heatmap", live_prices: tickedValue(live(false)) };
+		expect(shortcodeFor(values)).toBe('[ucwp_widget type="crypto-heatmap" live_prices="0"]');
+		expect(previewUrl("https://example.org/p?x=1", values)).toContain("s%5Blive_prices%5D=0");
+	});
+
+	it("gives a group of boxes as the ticked values, or nothing", () => {
+		const coins = (ticked: string[]) =>
+			["bitcoin", "ethereum", "solana"].map((value) => ({ name: "ucwp_widget_coins[]", value, checked: ticked.includes(value) }));
+		expect(tickedValue(coins(["bitcoin", "solana"]))).toBe("bitcoin,solana");
+		expect(tickedValue(coins([]))).toBe("");
+	});
+
+	it("treats a group with one choice as a group", () => {
+		expect(tickedValue([{ name: "ucwp_widget_currencies[]", value: "eur", checked: false }])).toBe("");
+	});
+});
 
 describe("fieldApplies", () => {
 	it("shows a setting only for the widget types that use it", () => {

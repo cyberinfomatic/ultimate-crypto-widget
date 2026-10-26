@@ -4,7 +4,7 @@ Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPL-2.0-or-later
 Donate link: https://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -103,6 +103,10 @@ In the [support forum](https://wordpress.org/support/plugin/ultimate-crypto-widg
 
 == Changelog ==
 
+= 1.2.1 =
+
+* Fix: unticking **Live prices** in the widget form was not followed by the preview, and the shortcode on the **Quick widget** screen left it out, so the widget stayed live. The shortcode now says `live_prices="0"`. Saved widgets were not affected.
+
 = 1.2.0 =
 
 * New: a **Live prices** switch on every widget that updates prices live. Turn it off and the widget shows the prices from when the page loaded, with no connection from visitors' browsers to Coinbase, Kraken or Binance. It is on by default, so existing widgets keep updating. In a shortcode: `live_prices="0"`.
@@ -164,6 +168,9 @@ A rebuild of the plugin.
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Fixes turning Live prices off on the Quick widget screen and in the widget preview.
 
 = 1.2.0 =
 Adds a Live prices switch to each widget. It is on by default, so your widgets keep updating as before.

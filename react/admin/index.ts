@@ -4,7 +4,7 @@
  * shown, the preview follows the form, and shortcodes can be copied.
  */
 import { __ } from "@wordpress/i18n";
-import { FIELD_PREFIX, fieldApplies, joinChosen, previewUrl, shortcodeFor, WidgetValues } from "./editor";
+import { FIELD_PREFIX, fieldApplies, joinChosen, previewUrl, shortcodeFor, tickedValue, WidgetValues } from "./editor";
 import "./admin.scss";
 
 type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
@@ -92,7 +92,7 @@ const settingsOf = (form: HTMLElement): Map<string, Setting> => {
 const valueOf = (setting: Setting): string => {
 	const first = setting.inputs[0];
 	if (isBox(first)) {
-		return joinChosen(setting.inputs.filter((input) => (input as HTMLInputElement).checked).map((input) => input.value));
+		return tickedValue(setting.inputs as HTMLInputElement[]);
 	}
 	if (first instanceof HTMLSelectElement && first.multiple) {
 		return joinChosen(Array.from(first.selectedOptions, (option) => option.value));

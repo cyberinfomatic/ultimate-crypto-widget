@@ -43,6 +43,21 @@ export function previewUrl(base: string, values: WidgetValues): string {
 	return query === "" ? base : `${base}${base.includes("?") ? "&" : "?"}${query}`;
 }
 
+/** A tick box as the form has it: its name, the value it sends, and whether it is ticked. */
+export type TickBox = { name: string; value: string; checked: boolean };
+
+/**
+ * The value of a setting drawn as tick boxes. A group (the toolkit names its inputs "…[]") is a list of
+ * the ticked values, "" when none is. A single box is an on/off setting: "1" or "0". Unticked, it must
+ * still say "0", or the shortcode and the preview would leave it out and fall back to its default.
+ */
+export function tickedValue(boxes: TickBox[]): string {
+	if (boxes.length === 1 && !boxes[0].name.endsWith("[]")) {
+		return boxes[0].checked ? boxes[0].value || "1" : "0";
+	}
+	return joinChosen(boxes.filter((box) => box.checked).map((box) => box.value));
+}
+
 /** Ticked values as the shortcode writes a list: "a,b,c", without empty entries or repeats. */
 export function joinChosen(values: string[]): string {
 	return values.map((value) => value.trim()).filter((value, index, all) => value !== "" && all.indexOf(value) === index).join(",");
