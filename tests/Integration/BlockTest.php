@@ -53,15 +53,15 @@ final class BlockTest extends TestCase {
 		$this->assertStringContainsString( '&quot;live_prices&quot;:&quot;0&quot;', $shortcode );
 	}
 
-	public function test_live_prices_is_offered_only_for_widgets_that_follow_live_prices(): void {
+	public function test_every_widget_type_has_live_prices(): void {
 		$fields = array_column( Services::container()->get( WidgetSchema::class )->toArray(), null, 'name' );
 		$live   = $fields['live_prices'];
 
 		$this->assertSame( array( 'toggle', '1' ), array( $live['control'], $live['default'] ) );
-		$this->assertContains( 'crypto-heatmap', $live['usedBy'] );
-		$this->assertContains( 'crypto-converter', $live['usedBy'] );
-		$this->assertNotContains( 'market-overview', $live['usedBy'] );
-		$this->assertNotContains( 'trending-coins', $live['usedBy'] );
+		// Every built-in type, Market Overview included (it refreshes its figures instead of following a price stream).
+		$types = array_diff( array_column( $fields['type']['options'], 'value' ), array( self::LOCKED_TYPE ) );
+		$this->assertCount( 24, $types );
+		$this->assertSame( array(), array_values( array_diff( $types, $live['usedBy'] ) ), 'Every widget type offers Live prices.' );
 	}
 
 	public function test_the_coin_count_offers_the_top_5_to_100(): void {

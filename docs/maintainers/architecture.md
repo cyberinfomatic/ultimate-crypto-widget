@@ -101,6 +101,10 @@ widget, drawn in a frame by `Admin\Preview`.
 3. A live price is laid over the page's figure only if it is believable for that coin (`livePriceAgrees()`), because
    tickers are not unique across exchanges.
 
+Every widget has the `live_prices` setting. Market Overview shows market totals, which no price stream carries, so
+`useLiveMarket()` refreshes them from the `global-market` route once a minute instead. A new widget must respect the
+setting too.
+
 ## Price data on the server
 
 `Data\PriceProvider` is the interface; `CoinGeckoProvider` is the implementation. Every answer is cached for the cache
@@ -116,6 +120,7 @@ All under `ultimate-crypto-widget/v1`. Every route states who may call it, valid
 | `GET coins` | anyone, 60/min | Market data for the top coins, or for `coins=bitcoin,ethereum`. |
 | `GET coin-info?coin_id=` | anyone, 30/min | One coin's details. |
 | `GET coin-chart-data?coin_id=&days=&currency=` | anyone, 30/min | A coin's price history. |
+| `GET global-market?currency=` | anyone, 30/min | The whole market's figures, for Market Overview's refresh. |
 | `POST load-shortcode` | `edit_posts` | A widget's HTML, for previews. |
 
 They are public on purpose: widgets call them from visitors' browsers, often on cached pages. The limits protect the

@@ -20,7 +20,7 @@ widget form, the block sidebar and Elementor.
 | Price history interval | How often a chart has a point. | Daily. |
 | Search box hint | The grey text in a table's search box. | Up to 60 characters. Empty for the default. |
 | Colours | Light, or dark for this widget whatever the site's choice. | Light, dark. |
-| Live prices | Keep prices moving while the page is open. Off, the widget shows the prices from when the page loaded and visitors' browsers contact no exchange. | On (default), off. |
+| Live prices | Keep prices moving while the page is open (Market Overview: refresh its figures once a minute). Off, the widget shows the figures from when the page loaded and visitors' browsers contact no exchange. | On (default), off. Every widget has it. |
 
 ## Shortcode attributes
 

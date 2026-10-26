@@ -51,6 +51,14 @@ final class HttpProvider extends ServiceProvider
 				'currency' => ['rules' => $currencies, 'type' => 'key', 'default' => 'usd'],
 			]);
 
+		// The whole market's figures, for Market Overview to refresh while live prices are on.
+		$router->get('global-market', [MarketsController::class, 'globalMarket'])
+			->public()
+			->rateLimit(30, perSeconds: 60)
+			->args([
+				'currency' => ['rules' => $currencies, 'type' => 'key', 'default' => 'usd'],
+			]);
+
 		// Admin preview only.
 		$router->post('load-shortcode', [QuickWidgetController::class, 'render'])
 			->can('edit_posts')
