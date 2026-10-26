@@ -2,14 +2,14 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ultimate Crypto Widget 1.4.0\n"
+"Project-Id-Version: Ultimate Crypto Widget 1.5.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ultimate-crypto-widget\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-26T20:36:55+00:00\n"
+"POT-Creation-Date: 2026-10-26T21:43:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: ultimate-crypto-widget\n"
@@ -42,7 +42,7 @@ msgid "https://cyberinfomatic.com"
 msgstr ""
 
 #: src/Admin/CacheTools.php:28
-#: src/Admin/ReviewNotice.php:210
+#: src/Admin/ReviewNotice.php:251
 msgid "You do not have permission to do this."
 msgstr ""
 
@@ -69,37 +69,57 @@ msgstr ""
 msgid "Choose a widget type to see it here."
 msgstr ""
 
-#: src/Admin/ReviewNotice.php:179
-msgid "Ultimate Crypto Widget is ready."
+#: src/Admin/ReviewNotice.php:188
+msgid "(opens in a new tab)"
 msgstr ""
 
-#: src/Admin/ReviewNotice.php:180
-msgid "Add your first live price widget: in the block editor, look for the Crypto Widgets section, or set one up here and paste its shortcode anywhere."
+#: src/Admin/ReviewNotice.php:193
+msgid "Missing a widget you need?"
 msgstr ""
 
-#: src/Admin/ReviewNotice.php:182
+#: src/Admin/ReviewNotice.php:194
+msgid "Request it"
+msgstr ""
+
+#: src/Admin/ReviewNotice.php:200
+msgid "Ultimate Crypto Widget is ready"
+msgstr ""
+
+#: src/Admin/ReviewNotice.php:201
+msgid "Add your first live price widget in a minute: pick one from the Crypto Widgets section of the block editor, or set one up here and paste its shortcode anywhere."
+msgstr ""
+
+#: src/Admin/ReviewNotice.php:202
 #: src/Admin/WidgetEditor.php:187
 msgid "Add a widget"
 msgstr ""
 
-#: src/Admin/ReviewNotice.php:184
+#: src/Admin/ReviewNotice.php:203
 msgid "Dismiss"
 msgstr ""
 
-#: src/Admin/ReviewNotice.php:194
-msgid "Is Ultimate Crypto Widget working well for you? A short review on WordPress.org helps other site owners find it, and helps us keep it free."
+#: src/Admin/ReviewNotice.php:211
+msgid "Enjoying Ultimate Crypto Widget?"
 msgstr ""
 
-#: src/Admin/ReviewNotice.php:196
+#: src/Admin/ReviewNotice.php:212
+msgid "A short review on WordPress.org helps other site owners find it, and helps us keep it free."
+msgstr ""
+
+#: src/Admin/ReviewNotice.php:213
 #: views/admin/overview.php:72
 msgid "Leave a review"
 msgstr ""
 
-#: src/Admin/ReviewNotice.php:198
+#: src/Admin/ReviewNotice.php:214
+msgid "Star on GitHub"
+msgstr ""
+
+#: src/Admin/ReviewNotice.php:215
 msgid "Still new to it, ask me in 3 days"
 msgstr ""
 
-#: src/Admin/ReviewNotice.php:200
+#: src/Admin/ReviewNotice.php:216
 msgid "I already did, don't ask again"
 msgstr ""
 

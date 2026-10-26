@@ -173,6 +173,9 @@ final class ReviewNoticeTest extends TestCase {
 		$this->assertStringContainsString( 'post-new.php?post_type=ucwp_widget', $html );
 		$this->assertStringContainsString( 'choice=start-done', $html );
 		$this->assertStringNotContainsString( 'Leave a review', $html, 'Never two asks at once.' );
+		$this->assertStringContainsString( ReviewNotice::REQUEST_URL, $html, 'Missing a widget? Request it.' );
+		$this->assertStringContainsString( 'assets/images/ucwp-logo.svg', $html );
+		$this->assertStringNotContainsString( ReviewNotice::GITHUB_URL, $html, 'The star is asked for only with the review.' );
 	}
 
 	public function test_the_review_request_offers_its_three_choices_through_a_checked_admin_action(): void {
@@ -186,6 +189,10 @@ final class ReviewNoticeTest extends TestCase {
 		$this->assertSame( 3, substr_count( $html, '_wpnonce=' ) );
 		$this->assertStringContainsString( 'target="_blank"', $html );
 		$this->assertStringNotContainsString( 'Add a widget', $html, 'Never two asks at once.' );
+		$this->assertStringContainsString( ReviewNotice::GITHUB_URL, $html );
+		$this->assertStringContainsString( ReviewNotice::REQUEST_URL, $html );
+		$this->assertStringContainsString( 'ucw-notice__cta', $html, 'The review is the one gold button.' );
+		$this->assertSame( 1, substr_count( $html, 'ucw-notice__cta' ) );
 	}
 
 	public function test_the_script_is_told_where_to_report_a_copied_shortcode(): void {

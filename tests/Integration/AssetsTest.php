@@ -121,10 +121,16 @@ final class AssetsTest extends TestCase {
 		$this->assertFileExists( UCWP_PLUGIN_DIR . 'assets/react-build/theme-rtl.css' );
 	}
 
-	public function test_admin_styles_stay_on_the_plugins_own_screens(): void {
+	public function test_admin_styles_stay_on_the_plugins_own_screens_and_the_dashboard(): void {
+		set_current_screen( 'edit-post' );
+		do_action( 'admin_enqueue_scripts', 'edit.php' );
+		$this->assertSame( array(), $this->ours( wp_styles()->queue ), 'Not on other screens.' );
+
+		// The Dashboard gets only the stylesheet, for the plugin's notice; no script.
 		set_current_screen( 'dashboard' );
 		do_action( 'admin_enqueue_scripts', 'index.php' );
-		$this->assertSame( array(), $this->ours( wp_styles()->queue ) );
+		$this->assertSame( array( 'ultimate-crypto-widget-admin-style' ), $this->ours( wp_styles()->queue ) );
+		$this->assertSame( array(), $this->ours( wp_scripts()->queue ) );
 
 		set_current_screen( 'edit-ucwp_widget' );
 		do_action( 'admin_enqueue_scripts', 'edit.php' );

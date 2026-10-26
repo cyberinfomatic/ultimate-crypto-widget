@@ -26,6 +26,12 @@ final class ReviewNotice
 	/** WordPress.org's form for a new review of this plugin. */
 	public const REVIEW_URL = 'https://wordpress.org/support/plugin/ultimate-crypto-widget/reviews/#new-post';
 
+	/** Where to ask for a widget the plugin does not have: a new topic in its WordPress.org support forum. */
+	public const REQUEST_URL = 'https://wordpress.org/support/plugin/ultimate-crypto-widget/#new-post';
+
+	/** The plugin's public source, for a star. */
+	public const GITHUB_URL = 'https://github.com/cyberinfomatic/ultimate-crypto-widget';
+
 	/** When the plugin was first used on this site, as a Unix time; missing until then. */
 	public const USED_OPTION = 'ucwp_used_at';
 
@@ -171,33 +177,68 @@ final class ReviewNotice
 			self::ACTION
 		);
 
+		// An icon is one of WordPress's own Dashicons, drawn the same everywhere (a text star is not).
+		$icon     = static fn (string $name): string => '' === $name ? '' : sprintf('<span class="dashicons dashicons-%s" aria-hidden="true"></span>', esc_attr($name));
+		$external = static fn (string $url, string $class, string $text, string $iconName = ''): string => sprintf(
+			'<a class="%1$s" href="%2$s" target="_blank" rel="noopener">%3$s%4$s<span class="screen-reader-text"> %5$s</span></a>',
+			esc_attr($class),
+			esc_url($url),
+			$icon($iconName),
+			esc_html($text),
+			esc_html__('(opens in a new tab)', 'ultimate-crypto-widget')
+		);
+		$plain = static fn (string $url, string $class, string $text, string $iconName = ''): string => sprintf('<a class="%1$s" href="%2$s">%3$s%4$s</a>', esc_attr($class), esc_url($url), $icon($iconName), esc_html($text));
+		$request = sprintf(
+			'%1$s %2$s',
+			esc_html__('Missing a widget you need?', 'ultimate-crypto-widget'),
+			$external(self::REQUEST_URL, 'ucw-notice__request', __('Request it', 'ultimate-crypto-widget'))
+		);
+
 		if ('start' === $which) {
-			printf(
-				'<div class="notice notice-info ucw-start-notice"><p><strong>%1$s</strong> %2$s</p><p>'
-					. '<a class="button button-primary" href="%3$s">%4$s</a> '
-					. '<a href="%5$s">%6$s</a></p></div>',
-				esc_html__('Ultimate Crypto Widget is ready.', 'ultimate-crypto-widget'),
-				esc_html__('Add your first live price widget: in the block editor, look for the Crypto Widgets section, or set one up here and paste its shortcode anywhere.', 'ultimate-crypto-widget'),
-				esc_url(admin_url('post-new.php?post_type=' . WidgetRepository::POST_TYPE)),
-				esc_html__('Add a widget', 'ultimate-crypto-widget'),
-				esc_url($link('start-done')),
-				esc_html__('Dismiss', 'ultimate-crypto-widget')
+			self::card(
+				'start',
+				__('Ultimate Crypto Widget is ready', 'ultimate-crypto-widget'),
+				__('Add your first live price widget in a minute: pick one from the Crypto Widgets section of the block editor, or set one up here and paste its shortcode anywhere.', 'ultimate-crypto-widget'),
+				$plain(admin_url('post-new.php?post_type=' . WidgetRepository::POST_TYPE), 'ucw-notice__cta', __('Add a widget', 'ultimate-crypto-widget'), 'plus-alt2')
+					. $plain($link('start-done'), 'ucw-notice__link', __('Dismiss', 'ultimate-crypto-widget')),
+				$request
 			);
 			return;
 		}
 
+		self::card(
+			'review',
+			__('Enjoying Ultimate Crypto Widget?', 'ultimate-crypto-widget'),
+			__('A short review on WordPress.org helps other site owners find it, and helps us keep it free.', 'ultimate-crypto-widget'),
+			$external($link('review'), 'ucw-notice__cta', __('Leave a review', 'ultimate-crypto-widget'), 'star-filled')
+				. $external(self::GITHUB_URL, 'ucw-notice__secondary', __('Star on GitHub', 'ultimate-crypto-widget'), 'star-empty')
+				. $plain($link('later'), 'ucw-notice__link', __('Still new to it, ask me in 3 days', 'ultimate-crypto-widget'))
+				. $plain($link('never'), 'ucw-notice__link', __('I already did, don\'t ask again', 'ultimate-crypto-widget')),
+			$request
+		);
+	}
+
+	/**
+	 * Prints a notice in the plugin's colours: the logo, a bold title, a line of text, the actions, and a footer.
+	 * `$actions` and `$footer` are HTML already escaped by the caller.
+	 */
+	private static function card(string $kind, string $title, string $text, string $actions, string $footer): void
+	{
 		printf(
-			'<div class="notice notice-info ucw-review-notice"><p>%1$s</p><p>'
-				. '<a class="button button-primary" href="%2$s" target="_blank" rel="noopener">%3$s</a> '
-				. '<a class="button" href="%4$s">%5$s</a> '
-				. '<a href="%6$s">%7$s</a></p></div>',
-			esc_html__('Is Ultimate Crypto Widget working well for you? A short review on WordPress.org helps other site owners find it, and helps us keep it free.', 'ultimate-crypto-widget'),
-			esc_url($link('review')),
-			esc_html__('Leave a review', 'ultimate-crypto-widget'),
-			esc_url($link('later')),
-			esc_html__('Still new to it, ask me in 3 days', 'ultimate-crypto-widget'),
-			esc_url($link('never')),
-			esc_html__('I already did, don\'t ask again', 'ultimate-crypto-widget')
+			'<div class="notice ucw-notice ucw-notice--%1$s">'
+				. '<img class="ucw-notice__logo" src="%2$s" alt="" width="48" height="48" />'
+				. '<div class="ucw-notice__body">'
+				. '<p class="ucw-notice__title">%3$s</p>'
+				. '<p class="ucw-notice__text">%4$s</p>'
+				. '<p class="ucw-notice__actions">%5$s</p>'
+				. '<p class="ucw-notice__footer">%6$s</p>'
+				. '</div></div>',
+			esc_attr($kind),
+			esc_url(UCWP_PLUGIN_URL . 'assets/images/ucwp-logo.svg'),
+			esc_html($title),
+			esc_html($text),
+			$actions, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by print().
+			$footer // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by print().
 		);
 	}
 
