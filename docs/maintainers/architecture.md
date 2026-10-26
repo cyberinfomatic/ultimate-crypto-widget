@@ -105,19 +105,27 @@ Every widget has the `live_prices` setting. Market Overview shows market totals,
 `useLiveMarket()` refreshes them from the `global-market` route once a minute instead. A new widget must respect the
 setting too.
 
-## The review request
+## Getting started and the review request
 
-`AdminReviewNotice` asks administrators once for a review on WordPress.org, within WordPress.org's rules for admin
-notices. It shows only:
+`Admin\ReviewNotice` shows administrators (`manage_options`) one notice, on the Dashboard and the plugin's own screens
+only, never on the front end. It says one of two things, never both:
 
-- to users who can `manage_options`, on the Dashboard and the plugin's own screens;
-- from 7 days after the site first ran it (`ucwp_installed_at` option);
-- once a widget is in use: a published saved widget, or the block, the shortcode or an Elementor element in published
-  content (checked at most once a day).
+| The site | The notice | Buttons |
+| --- | --- | --- |
+| Has not used the plugin yet | **Get started**: how to add a first widget. | **Add a widget** (the Add widget screen), **Dismiss** (for good). |
+| Has used it | **A review on WordPress.org**, straight away. | **Leave a review** and **I already did** end it for good; **Still new to it** asks again in 3 days (`SNOOZE_DAYS`). |
 
-**Leave a review** and **I already did** hide it for good; **Maybe later** for 30 days. The choice is stored per user
-(`ucwp_review_notice` user meta) through an `admin-post` action with a nonce. Change the timings with the class's
-`WAIT_DAYS` and `SNOOZE_DAYS`.
+**"Used"** is recorded once, in the `ucwp_used_at` option, by an action in the admin from someone who can create
+widgets (`edit_posts`), never by a visitor:
+
+- saving a widget (not the auto-draft that opening "Add widget" creates);
+- opening a widget preview (`admin_post_ucwp_preview`, before the preview prints);
+- copying a shortcode (the editor script calls `wp_ajax_ucwp_mark_used` with a nonce; it sends nothing else);
+- or a widget already on a published page: a saved widget, the block, the shortcode or an Elementor element (checked at
+  most once a day, for sites that used the plugin before this notice existed).
+
+Choices are stored per user (`ucwp_review_notice`, `ucwp_start_notice` user meta) through a nonce-checked `admin-post`
+action.
 
 ## Price data on the server
 

@@ -43,6 +43,20 @@ export function previewUrl(base: string, values: WidgetValues): string {
 	return query === "" ? base : `${base}${base.includes("?") ? "&" : "?"}${query}`;
 }
 
+/** Where the editor script reports a copied shortcode, as the server gives it (ReviewNotice::scriptData()). */
+export type UsageEndpoint = { url: string; action: string; nonce: string };
+
+/**
+ * The request that tells the site a shortcode was copied, or null when the page did not say where to send it.
+ * It marks the plugin as in use, nothing more: no shortcode, page or visitor data is sent.
+ */
+export function usageReport(usage: Partial<UsageEndpoint> | undefined): { url: string; body: string } | null {
+	if (!usage?.url || !usage.action || !usage.nonce) {
+		return null;
+	}
+	return { url: usage.url, body: new URLSearchParams({ action: usage.action, _ajax_nonce: usage.nonce }).toString() };
+}
+
 /** A tick box as the form has it: its name, the value it sends, and whether it is ticked. */
 export type TickBox = { name: string; value: string; checked: boolean };
 
