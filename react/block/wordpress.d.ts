@@ -53,6 +53,8 @@ declare module "@wordpress/components" {
 		| (Common & { multiple: true; value: string[]; options: Option[]; onChange: (value: string[]) => void });
 	export const SelectControl: ComponentType<SelectProps>;
 
+	export const ToggleControl: ComponentType<Common & { checked: boolean; onChange: (checked: boolean) => void }>;
+
 	export const FormTokenField: ComponentType<{
 		label?: string;
 		value: string[];

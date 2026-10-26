@@ -89,6 +89,10 @@ final class WidgetSchema
 				'false' => __('Light', 'ultimate-crypto-widget'),
 				'true'  => __('Dark', 'ultimate-crypto-widget'),
 			])->label(__('Colours', 'ultimate-crypto-widget')),
+			// The toolkit's checkbox posts "0" when unticked, so turning it off is saved.
+			'live_prices'        => $f->checkbox('live_prices')
+				->label(__('Live prices', 'ultimate-crypto-widget'))
+				->description(__('Update prices on the page as the market moves. Untick to show the prices from when the page loaded, with no connection to the exchanges.', 'ultimate-crypto-widget')),
 		];
 
 		$usedBy = $this->usedBy();
@@ -118,7 +122,7 @@ final class WidgetSchema
 	 * block editor, page builders). Coin choices are fetched here, so call it only
 	 * where a form is about to be shown.
 	 *
-	 * @return list<array{name: string, label: string, help: string, control: string, default: string, usedBy: string[], options: list<array{value: string, label: string, locked: bool}>, min: ?float, max: ?float, step: ?float, limit: int}>
+	 * @return list<array{name: string, label: string, help: string, control: 'type'|'select'|'number'|'text'|'list'|'toggle', default: string, usedBy: string[], options: list<array{value: string, label: string, locked: bool}>, min: ?float, max: ?float, step: ?float, limit: int}>
 	 */
 	public function toArray(): array
 	{
@@ -142,6 +146,7 @@ final class WidgetSchema
 					WidgetTypeFieldType::NAME => 'type',
 					'select'                  => 'select',
 					'number'                  => 'number',
+					'checkbox'                => 'toggle',
 					default                   => 'text',
 				},
 				'default' => is_scalar($field->defaultValue()) ? (string) $field->defaultValue() : '',

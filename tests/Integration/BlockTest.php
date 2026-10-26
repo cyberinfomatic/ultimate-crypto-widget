@@ -45,6 +45,25 @@ final class BlockTest extends TestCase {
 		$this->assertStringContainsString( '&quot;count&quot;:&quot;50&quot;', $html );
 	}
 
+	public function test_live_prices_can_be_turned_off_from_a_block_or_a_shortcode(): void {
+		$block     = do_blocks( '<!-- wp:ucwp/widget {"settings":{"type":"crypto-heatmap","live_prices":"0"}} /-->' );
+		$shortcode = do_shortcode( '[ucwp_widget type="crypto-heatmap" live_prices="0"]' );
+
+		$this->assertStringContainsString( '&quot;live_prices&quot;:&quot;0&quot;', $block );
+		$this->assertStringContainsString( '&quot;live_prices&quot;:&quot;0&quot;', $shortcode );
+	}
+
+	public function test_live_prices_is_offered_only_for_widgets_that_follow_live_prices(): void {
+		$fields = array_column( Services::container()->get( WidgetSchema::class )->toArray(), null, 'name' );
+		$live   = $fields['live_prices'];
+
+		$this->assertSame( array( 'toggle', '1' ), array( $live['control'], $live['default'] ) );
+		$this->assertContains( 'crypto-heatmap', $live['usedBy'] );
+		$this->assertContains( 'crypto-converter', $live['usedBy'] );
+		$this->assertNotContains( 'market-overview', $live['usedBy'] );
+		$this->assertNotContains( 'trending-coins', $live['usedBy'] );
+	}
+
 	public function test_the_coin_count_offers_the_top_5_to_100(): void {
 		$fields = array_column( Services::container()->get( WidgetSchema::class )->toArray(), null, 'name' );
 
@@ -129,7 +148,7 @@ final class BlockTest extends TestCase {
 	public function test_the_settings_are_described_once_for_every_editor(): void {
 		$fields = array_column( Services::container()->get( WidgetSchema::class )->toArray(), null, 'name' );
 
-		$this->assertSame( array( 'type', 'count', 'orientation', 'speed', 'card_width', 'parent_width', 'default_currency', 'no_of_days', 'data_interval', 'search_placeholder', 'coins', 'currencies', 'dark_mode' ), array_keys( $fields ) );
+		$this->assertSame( array( 'type', 'count', 'orientation', 'speed', 'card_width', 'parent_width', 'default_currency', 'no_of_days', 'data_interval', 'search_placeholder', 'coins', 'currencies', 'dark_mode', 'live_prices' ), array_keys( $fields ) );
 
 		$this->assertSame( 'type', $fields['type']['control'] );
 		$locked = array_column( $fields['type']['options'], 'locked', 'value' );

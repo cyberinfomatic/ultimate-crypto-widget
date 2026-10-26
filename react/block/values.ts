@@ -11,7 +11,7 @@ export type SchemaField = {
 	name: string;
 	label: string;
 	help: string;
-	control: "type" | "select" | "number" | "text" | "list";
+	control: "type" | "select" | "number" | "text" | "list" | "toggle";
 	default: string;
 	usedBy: string[];
 	options: FieldOption[];

@@ -47,7 +47,7 @@ export const TopMovers = ({ coins, settings }: Props) => {
 	const limit = toCount(settings.count, 5);
 
 	const picked = useMemo(() => movers(coins, period, side, limit), [coins, period, side, limit]);
-	const list = useLiveCoins(picked, { count: limit, usd_conversion_rate: settings.usd_conversion_rate });
+	const list = useLiveCoins(picked, { count: limit, usd_conversion_rate: settings.usd_conversion_rate, live_prices: settings.live_prices });
 	// The change shown is the one the list was ranked by, so a live tick cannot turn a gainer red.
 	const ranked = new Map(picked.map((coin) => [coin.id, coin]));
 

@@ -9,6 +9,7 @@
             "no_of_days": "7",
             "data_interval": "daily",
             "dark_mode": "false",
+            "live_prices": "1",
             "currency_symbol": "$",
             "usd_conversion_rate": 1
         },

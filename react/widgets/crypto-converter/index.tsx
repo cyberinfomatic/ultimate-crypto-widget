@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { formatNumber, formatPrice, NumberField, Notice, pageLocale, SelectField, Surface, toAmount } from "../../ds";
 import ReactRender from "../../helper-components/react-wrapper";
 import { useLivePrices } from "../../live/useLivePrices";
-import { livePriceAgrees, visibleCoins } from "../../live/useLiveCoins";
+import { liveOn, livePriceAgrees, visibleCoins } from "../../live/useLiveCoins";
 import { CoinData, UCWPWidgetSetting } from "../../types";
 import "./style.scss";
 
@@ -68,10 +68,10 @@ export const CryptoConverter = ({ coins, settings, default_currencies_rate }: Pr
 	const from = units.find((unit) => unit.key === fromKey) ?? first;
 	const to = units.find((unit) => unit.key === toKey) ?? own;
 
-	// The two coins being converted are kept live; the rest keep the prices the page was built with.
+	// The two coins being converted are kept live (unless live prices are off); the rest keep the prices the page was built with.
 	const rate = Number(settings.usd_conversion_rate) > 0 ? Number(settings.usd_conversion_rate) : 1;
 	const { data } = useLivePrices(
-		[from, to].filter((unit): unit is Unit => Boolean(unit) && unit.kind === "coin").map((unit) => unit.symbol as string),
+		liveOn(settings.live_prices) ? [from, to].filter((unit): unit is Unit => Boolean(unit) && unit.kind === "coin").map((unit) => unit.symbol as string) : [],
 		rate
 	);
 	const current = (unit: Unit): Unit => {

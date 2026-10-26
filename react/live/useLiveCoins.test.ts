@@ -1,6 +1,32 @@
 import { describe, expect, it } from "vitest";
 import { CoinData, TickerData } from "../types";
-import { livePriceAgrees, visibleCoins, withLive } from "./useLiveCoins";
+import { liveOn, livePriceAgrees, liveSymbols, visibleCoins, withLive } from "./useLiveCoins";
+
+describe("liveOn", () => {
+	it("is on unless a widget turns it off, so widgets saved before the setting stay live", () => {
+		for (const value of [undefined, null, "", "1", "true", "yes", "on", true]) {
+			expect(liveOn(value)).toBe(true);
+		}
+	});
+
+	it("is off for the ways a checkbox, switch or shortcode says no", () => {
+		for (const value of ["0", "false", "no", "off", " NO ", false]) {
+			expect(liveOn(value)).toBe(false);
+		}
+	});
+});
+
+describe("liveSymbols", () => {
+	const shown = [{ symbol: "btc" }, { symbol: "eth" }] as unknown as CoinData[];
+
+	it("follows the shown coins while live prices are on", () => {
+		expect(liveSymbols(shown, "1")).toEqual(["btc", "eth"]);
+	});
+
+	it("follows nothing when they are off, so no exchange is contacted", () => {
+		expect(liveSymbols(shown, "0")).toEqual([]);
+	});
+});
 
 const coin = (price: unknown): CoinData => ({ id: "pearl-2", symbol: "prl", name: "Pearl", current_price: price, price_change_percentage_24h: 8.3 }) as unknown as CoinData;
 const tick = (price: number, change: number): Partial<TickerData> => ({ current_price: price, price_change_percentage_24h: change });

@@ -4,7 +4,7 @@ Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPL-2.0-or-later
 Donate link: https://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -26,7 +26,7 @@ Ultimate Crypto Widget shows live cryptocurrency prices on your WordPress site. 
 **What you get**
 
 * **Three ways to place a widget**: the block editor (every widget has its own block, under **Crypto Widgets**), the `[ucwp_widget]` shortcode, or Elementor.
-* **Live prices** without a page reload.
+* **Live prices** without a page reload, or turned off for any widget that should only show the prices from when the page loaded.
 * **No account needed**: prices come from CoinGecko's public API. A free CoinGecko key is optional and only raises the request limit for busy sites.
 * **Light, dark or automatic** colours, and your own accent colour, for every widget at once.
 * **30 display currencies** and the top 100 coins to choose from.
@@ -47,7 +47,7 @@ Your *server* asks CoinGecko when a widget is drawn and keeps the answer for the
 [Terms](https://www.coingecko.com/en/terms) · [Privacy policy](https://www.coingecko.com/en/privacy)
 
 **Coinbase, Kraken and Binance** – live price updates.
-A *visitor's browser* opens a connection to one of these exchanges' public price streams while a widget is on the page, so prices can move without a reload. Coinbase is tried first, then Kraken, then Binance. The connection says which coins the widget shows; as with any connection, the exchange sees the visitor's IP address. No account, cookie or personal data from your site is sent. If none can be reached, the widget asks your own site for fresh prices instead.
+A *visitor's browser* opens a connection to one of these exchanges' public price streams while a widget is on the page, so prices can move without a reload. Coinbase is tried first, then Kraken, then Binance. The connection says which coins the widget shows; as with any connection, the exchange sees the visitor's IP address. No account, cookie or personal data from your site is sent. If none can be reached, the widget asks your own site for fresh prices instead. Untick **Live prices** on a widget and its visitors' browsers contact none of these exchanges.
 Coinbase: [terms](https://www.coinbase.com/legal/user_agreement) · [privacy](https://www.coinbase.com/legal/privacy)
 Kraken: [terms](https://www.kraken.com/legal) · [privacy](https://www.kraken.com/legal/privacy)
 Binance: [terms](https://www.binance.com/en/terms) · [privacy](https://www.binance.com/en/privacy)
@@ -102,6 +102,10 @@ In the [support forum](https://wordpress.org/support/plugin/ultimate-crypto-widg
 4. The Crypto Widget block in the editor.
 
 == Changelog ==
+
+= 1.2.0 =
+
+* New: a **Live prices** switch on every widget that updates prices live. Turn it off and the widget shows the prices from when the page loaded, with no connection from visitors' browsers to Coinbase, Kraken or Binance. It is on by default, so existing widgets keep updating. In a shortcode: `live_prices="0"`.
 
 = 1.1.0 =
 
@@ -160,6 +164,9 @@ A rebuild of the plugin.
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Adds a Live prices switch to each widget. It is on by default, so your widgets keep updating as before.
 
 = 1.1.0 =
 Every widget now has its own block, widgets can show up to the top 100 coins, and choosing coins in the block editor is easier.

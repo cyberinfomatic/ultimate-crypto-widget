@@ -7,6 +7,7 @@
             "parent_width": "100%",
             "default_currency": "usd",
             "search_placeholder": "Find",
+            "live_prices": "1",
             "currency_symbol": "$",
             "usd_conversion_rate": 1
         },

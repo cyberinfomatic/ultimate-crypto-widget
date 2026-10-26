@@ -5,10 +5,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { registerBlockType } from "@wordpress/blocks";
-import { FormTokenField, PanelBody, Placeholder, SelectControl, TextControl } from "@wordpress/components";
+import { FormTokenField, PanelBody, Placeholder, SelectControl, TextControl, ToggleControl } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { WidgetValues } from "../admin/editor";
 import { BlockAttributes, blockPreviewUrl, fieldsFor, isVariationActive, listFromTokens, SchemaField, settingsForType, tokensFor, variationsFor } from "./values";
+import { liveOn } from "../live/useLiveCoins";
 import "./block.scss";
 
 type BlockData = {
@@ -103,6 +104,8 @@ const Control = ({ field, value, onChange }: { field: SchemaField; value: string
 				</div>
 			);
 		}
+		case "toggle":
+			return <ToggleControl __nextHasNoMarginBottom label={field.label} help={field.help} checked={liveOn(value)} onChange={(on: boolean) => onChange(on ? "1" : "0")} />;
 		case "number":
 			return <TextControl __nextHasNoMarginBottom type="number" label={field.label} help={field.help} value={value} min={field.min ?? undefined} max={field.max ?? undefined} step={field.step ?? undefined} onChange={onChange} />;
 		default:

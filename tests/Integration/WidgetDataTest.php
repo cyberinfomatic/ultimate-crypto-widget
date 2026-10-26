@@ -158,6 +158,28 @@ final class WidgetDataTest extends TestCase {
 		return array( '25' => array( '25' ), '50' => array( '50' ), '100' => array( '100' ) );
 	}
 
+	public function test_unticking_live_prices_saves_it_off_and_ticking_it_saves_it_on(): void {
+		$id = WidgetFactory::create( 'crypto-heatmap' );
+		wp_set_current_user( WidgetFactory::editor() );
+
+		// An unticked box posts only the toolkit's hidden "0".
+		$_POST = array( 'ucwp_widget_live_prices' => '0' ) + WidgetFactory::nonce();
+		do_action( 'save_post_ucwp_widget', $id, get_post( $id ), true );
+		$this->assertSame( '0', get_post_meta( $id, 'ucwp_widget_live_prices', true ) );
+
+		$_POST = array( 'ucwp_widget_live_prices' => '1' ) + WidgetFactory::nonce();
+		do_action( 'save_post_ucwp_widget', $id, get_post( $id ), true );
+		$_POST = array();
+		$this->assertSame( '1', get_post_meta( $id, 'ucwp_widget_live_prices', true ) );
+	}
+
+	public function test_a_widget_saved_before_the_switch_existed_stays_live(): void {
+		$id = WidgetFactory::create( 'crypto-heatmap' );
+
+		$this->assertSame( '', get_post_meta( $id, 'ucwp_widget_live_prices', true ), 'Nothing stored for it.' );
+		$this->assertStringContainsString( '&quot;live_prices&quot;:&quot;1&quot;', do_shortcode( '[ucwp_widget id="' . $id . '"]' ) );
+	}
+
 	public function test_a_count_that_is_not_offered_is_refused_and_the_old_one_kept(): void {
 		$id = WidgetFactory::create( 'crypto-heatmap' );
 
