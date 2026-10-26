@@ -182,57 +182,83 @@ $ucw-gold-hover: #ffd033;
 	gap: 0.5rem 1rem;
 }
 
-.ucw-notice__cta,
-.ucw-notice__secondary {
-	display: inline-flex;
-	align-items: center;
-	padding: 0.45rem 1rem;
-	border-radius: 6px;
-	font-weight: 600;
-	text-decoration: none;
-}
+// The buttons and links. Under .notice.ucw-notice so wp-admin's own link colours (a:hover, a:focus) never win.
+.notice.ucw-notice {
+	.ucw-notice__cta,
+	.ucw-notice__secondary {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.45rem 1rem;
+		border-radius: 6px;
+		font-weight: 600;
+		line-height: 1.4;
+		text-decoration: none;
+		transition: background-color 0.15s ease, border-color 0.15s ease;
 
-.ucw-notice__cta {
-	background: $ucw-gold;
-	border: 1px solid $ucw-gold-edge;
-	color: $ucw-navy;
+		.dashicons {
+			inline-size: 18px;
+			block-size: 18px;
+			font-size: 18px;
+		}
+	}
 
-	&:hover,
-	&:focus {
-		background: $ucw-gold-hover;
+	// The one main action: gold, navy text.
+	.ucw-notice__cta {
+		background: $ucw-gold;
+		border: 1px solid $ucw-gold-edge;
 		color: $ucw-navy;
+
+		&:hover,
+		&:focus {
+			background: $ucw-gold-hover;
+			border-color: $ucw-gold-edge;
+			color: $ucw-navy;
+		}
 	}
-}
 
-.ucw-notice__secondary {
-	background: #fff;
-	border: 1px solid $ucw-navy;
-	color: $ucw-navy;
-
-	&:hover,
-	&:focus {
-		background: $ucw-navy;
-		color: #fff;
-	}
-}
-
-.ucw-notice__link,
-.ucw-notice__request {
-	color: $ucw-blue;
-
-	&:hover,
-	&:focus {
+	// The quieter one: white, navy outline; on hover only a light blue tint, never a flip.
+	.ucw-notice__secondary {
+		background: #fff;
+		border: 1px solid rgba($ucw-navy, 0.35);
 		color: $ucw-navy;
-	}
-}
 
-.ucw-notice__cta:focus-visible,
-.ucw-notice__secondary:focus-visible,
-.ucw-notice__link:focus-visible,
-.ucw-notice__request:focus-visible {
-	outline: 2px solid $ucw-blue;
-	outline-offset: 2px;
-	box-shadow: none;
+		.dashicons {
+			color: $ucw-gold-edge;
+		}
+
+		&:hover,
+		&:focus {
+			background: #e3f1f9;
+			border-color: $ucw-blue;
+			color: $ucw-navy;
+		}
+	}
+
+	.ucw-notice__link,
+	.ucw-notice__request {
+		color: $ucw-blue;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+
+		&:hover,
+		&:focus {
+			color: $ucw-navy;
+		}
+	}
+
+	.ucw-notice__request {
+		font-weight: 600;
+	}
+
+	.ucw-notice__cta:focus-visible,
+	.ucw-notice__secondary:focus-visible,
+	.ucw-notice__link:focus-visible,
+	.ucw-notice__request:focus-visible {
+		outline: 2px solid $ucw-blue;
+		outline-offset: 2px;
+		box-shadow: none;
+	}
 }
 
 .ucw-notice__footer {
@@ -242,6 +268,3 @@ $ucw-gold-hover: #ffd033;
 	color: #1d2b4f;
 }
 
-.ucw-notice__request {
-	font-weight: 600;
-}

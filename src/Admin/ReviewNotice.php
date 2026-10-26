@@ -177,14 +177,17 @@ final class ReviewNotice
 			self::ACTION
 		);
 
-		$external = static fn (string $url, string $class, string $text): string => sprintf(
-			'<a class="%1$s" href="%2$s" target="_blank" rel="noopener">%3$s<span class="screen-reader-text"> %4$s</span></a>',
+		// An icon is one of WordPress's own Dashicons, drawn the same everywhere (a text star is not).
+		$icon     = static fn (string $name): string => '' === $name ? '' : sprintf('<span class="dashicons dashicons-%s" aria-hidden="true"></span>', esc_attr($name));
+		$external = static fn (string $url, string $class, string $text, string $iconName = ''): string => sprintf(
+			'<a class="%1$s" href="%2$s" target="_blank" rel="noopener">%3$s%4$s<span class="screen-reader-text"> %5$s</span></a>',
 			esc_attr($class),
 			esc_url($url),
+			$icon($iconName),
 			esc_html($text),
 			esc_html__('(opens in a new tab)', 'ultimate-crypto-widget')
 		);
-		$plain = static fn (string $url, string $class, string $text): string => sprintf('<a class="%1$s" href="%2$s">%3$s</a>', esc_attr($class), esc_url($url), esc_html($text));
+		$plain = static fn (string $url, string $class, string $text, string $iconName = ''): string => sprintf('<a class="%1$s" href="%2$s">%3$s%4$s</a>', esc_attr($class), esc_url($url), $icon($iconName), esc_html($text));
 		$request = sprintf(
 			'%1$s %2$s',
 			esc_html__('Missing a widget you need?', 'ultimate-crypto-widget'),
@@ -196,7 +199,7 @@ final class ReviewNotice
 				'start',
 				__('Ultimate Crypto Widget is ready', 'ultimate-crypto-widget'),
 				__('Add your first live price widget in a minute: pick one from the Crypto Widgets section of the block editor, or set one up here and paste its shortcode anywhere.', 'ultimate-crypto-widget'),
-				$plain(admin_url('post-new.php?post_type=' . WidgetRepository::POST_TYPE), 'ucw-notice__cta', __('+ Add a widget', 'ultimate-crypto-widget'))
+				$plain(admin_url('post-new.php?post_type=' . WidgetRepository::POST_TYPE), 'ucw-notice__cta', __('Add a widget', 'ultimate-crypto-widget'), 'plus-alt2')
 					. $plain($link('start-done'), 'ucw-notice__link', __('Dismiss', 'ultimate-crypto-widget')),
 				$request
 			);
@@ -207,8 +210,8 @@ final class ReviewNotice
 			'review',
 			__('Enjoying Ultimate Crypto Widget?', 'ultimate-crypto-widget'),
 			__('A short review on WordPress.org helps other site owners find it, and helps us keep it free.', 'ultimate-crypto-widget'),
-			$external($link('review'), 'ucw-notice__cta', __('★ Leave a review', 'ultimate-crypto-widget'))
-				. $external(self::GITHUB_URL, 'ucw-notice__secondary', __('☆ Star on GitHub', 'ultimate-crypto-widget'))
+			$external($link('review'), 'ucw-notice__cta', __('Leave a review', 'ultimate-crypto-widget'), 'star-filled')
+				. $external(self::GITHUB_URL, 'ucw-notice__secondary', __('Star on GitHub', 'ultimate-crypto-widget'), 'star-empty')
 				. $plain($link('later'), 'ucw-notice__link', __('Still new to it, ask me in 3 days', 'ultimate-crypto-widget'))
 				. $plain($link('never'), 'ucw-notice__link', __('I already did, don\'t ask again', 'ultimate-crypto-widget')),
 			$request
