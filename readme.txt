@@ -4,7 +4,7 @@ Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPL-2.0-or-later
 Donate link: https://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -103,6 +103,11 @@ In the [support forum](https://wordpress.org/support/plugin/ultimate-crypto-widg
 
 == Changelog ==
 
+= 1.4.0 =
+
+* New: a short **Get started** notice for administrators who have not added a widget yet, with a button to add one.
+* Change: the request for a review now appears as soon as the plugin is in use (a widget saved, a shortcode copied or a preview opened) instead of after a week. "Still new to it" asks again in 3 days. It is still shown only to administrators, on the Dashboard and this plugin's screens, and never two at once.
+
 = 1.3.0 =
 
 * New: **every widget now has the Live prices switch.** Trending Coins follows live prices like the other coin widgets. Market Overview shows market totals, which the exchanges' price streams do not carry, so with live prices on it refreshes them about once a minute.
@@ -173,6 +178,9 @@ A rebuild of the plugin.
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+A Get started notice for new sites, and a review request that no longer waits a week.
 
 = 1.3.0 =
 Live prices on every widget, including Trending Coins and Market Overview.
