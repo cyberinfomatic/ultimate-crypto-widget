@@ -30,7 +30,6 @@ Start with the overview. It says what is where, what must never change, and the 
 | [Releasing](maintainers/releasing.md) | Versioning, the release workflow, WordPress.org, and fixing a failed release. |
 | [Translating](maintainers/translating.md) | Text domains, the translation template, right-to-left. |
 | [Frontend standards](maintainers/frontend-standards.md) | The rules for widget code and styles. |
-| [WPToolkit notes](maintainers/wptoolkit-notes.md) | The toolkit gaps this plugin works around. |
 
 The Pro add-on, the license service and the website live in a separate, private repository with their own
 docs (`docs/README.md` there).
