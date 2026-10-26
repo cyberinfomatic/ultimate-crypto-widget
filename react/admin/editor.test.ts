@@ -1,5 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { fieldApplies, joinChosen, meaningful, previewUrl, shortcodeFor, tickedValue, withinLimit } from "./editor";
+import { fieldApplies, joinChosen, meaningful, previewUrl, shortcodeFor, tickedValue, usageReport, withinLimit } from "./editor";
+
+describe("usageReport", () => {
+	it("sends only the action and its nonce, nothing about the shortcode, page or visitor", () => {
+		const report = usageReport({ url: "https://example.org/wp-admin/admin-ajax.php", action: "ucwp_mark_used", nonce: "abc123" });
+		expect(report).toEqual({ url: "https://example.org/wp-admin/admin-ajax.php", body: "action=ucwp_mark_used&_ajax_nonce=abc123" });
+	});
+
+	it("sends nothing when the page did not say where", () => {
+		expect(usageReport(undefined)).toBeNull();
+		expect(usageReport({ url: "https://example.org/wp-admin/admin-ajax.php", action: "ucwp_mark_used" })).toBeNull();
+	});
+});
 
 describe("tickedValue", () => {
 	const live = (checked: boolean) => [{ name: "ucwp_widget_live_prices", value: "1", checked }];

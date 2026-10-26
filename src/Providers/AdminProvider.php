@@ -75,6 +75,7 @@ final class AdminProvider extends ServiceProvider
 
 		$onOurScreens = static fn (): bool => Screens::owns(function_exists('get_current_screen') ? get_current_screen() : null);
 		$assets->style('admin-style', 'assets/react-build/admin.css')->in(Asset::ADMIN)->when($onOurScreens);
-		$assets->script('admin', 'assets/react-build/admin/index.js')->in(Asset::ADMIN)->when($onOurScreens);
+		// The address and nonce the script uses to say a shortcode was copied (ReviewNotice).
+		$assets->script('admin', 'assets/react-build/admin/index.js')->in(Asset::ADMIN)->when($onOurScreens)->with(is_admin() ? ['usage' => ReviewNotice::scriptData()] : []);
 	}
 }

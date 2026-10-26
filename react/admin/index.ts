@@ -4,7 +4,7 @@
  * shown, the preview follows the form, and shortcodes can be copied.
  */
 import { __ } from "@wordpress/i18n";
-import { FIELD_PREFIX, fieldApplies, joinChosen, previewUrl, shortcodeFor, tickedValue, WidgetValues } from "./editor";
+import { FIELD_PREFIX, fieldApplies, joinChosen, previewUrl, shortcodeFor, tickedValue, UsageEndpoint, usageReport, WidgetValues } from "./editor";
 import "./admin.scss";
 
 type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
@@ -173,6 +173,18 @@ function setUp(form: HTMLElement): void {
 	}
 }
 
+/** Tells the site, once per page, that a shortcode was copied. Failing quietly is fine: it only feeds a notice. */
+let reported = false;
+const reportUse = (): void => {
+	const usage = (window as unknown as { wptoolkit?: Record<string, { usage?: Partial<UsageEndpoint> } | undefined> }).wptoolkit?.["ultimate-crypto-widget"]?.usage;
+	const report = usageReport(usage);
+	if (reported || !report) {
+		return;
+	}
+	reported = true;
+	fetch(report.url, { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: report.body }).catch(() => undefined);
+};
+
 function setUpCopying(): void {
 	document.addEventListener("click", (event) => {
 		const button = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-ucw-copy-from]") : null;
@@ -182,6 +194,7 @@ function setUpCopying(): void {
 			return;
 		}
 		navigator.clipboard?.writeText(text).then(() => {
+			reportUse();
 			const label = button.textContent;
 			button.textContent = __("Copied", "ultimate-crypto-widget");
 			setTimeout(() => (button.textContent = label), 1500);
