@@ -105,6 +105,20 @@ Every widget has the `live_prices` setting. Market Overview shows market totals,
 `useLiveMarket()` refreshes them from the `global-market` route once a minute instead. A new widget must respect the
 setting too.
 
+## The review request
+
+`AdminReviewNotice` asks administrators once for a review on WordPress.org, within WordPress.org's rules for admin
+notices. It shows only:
+
+- to users who can `manage_options`, on the Dashboard and the plugin's own screens;
+- from 7 days after the site first ran it (`ucwp_installed_at` option);
+- once a widget is in use: a published saved widget, or the block, the shortcode or an Elementor element in published
+  content (checked at most once a day).
+
+**Leave a review** and **I already did** hide it for good; **Maybe later** for 30 days. The choice is stored per user
+(`ucwp_review_notice` user meta) through an `admin-post` action with a nonce. Change the timings with the class's
+`WAIT_DAYS` and `SNOOZE_DAYS`.
+
 ## Price data on the server
 
 `Data\PriceProvider` is the interface; `CoinGeckoProvider` is the implementation. Every answer is cached for the cache
