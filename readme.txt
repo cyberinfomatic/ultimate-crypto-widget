@@ -4,7 +4,7 @@ Tags: crypto, cryptocurrency, finance, widget, real-time price ticker
 Requires at least: 6.5.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPL-2.0-or-later
 Donate link: https://ultimatecryptowidget.com
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -103,6 +103,11 @@ In the [support forum](https://wordpress.org/support/plugin/ultimate-crypto-widg
 
 == Changelog ==
 
+= 1.5.0 =
+
+* New: the Get started and review notices have a fresh look in the plugin's colours, with its logo.
+* New: **Missing a widget you need? Request it**, which opens a topic in the support forum, and a **Star on GitHub** button beside the review request.
+
 = 1.4.0 =
 
 * New: a short **Get started** notice for administrators who have not added a widget yet, with a button to add one.
@@ -178,6 +183,9 @@ A rebuild of the plugin.
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.5.0 =
+A fresh look for the plugin's notices, and a way to request a widget you need.
 
 = 1.4.0 =
 A Get started notice for new sites, and a review request that no longer waits a week.
