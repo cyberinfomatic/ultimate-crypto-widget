@@ -31,8 +31,8 @@ All 24 widgets are free. Each one shows only the settings it uses; [Settings](se
 | --- | --- | --- | --- |
 | Historical Price Chart | `historical-price-chart` | A coin's price over the number of days you choose. | Coins, widget width, currency, days, interval, colours, live prices |
 | Crypto Heatmap | `crypto-heatmap` | A tile per coin, tinted green or red by how much it moved in 24 hours. | Coins, number of coins, currency, widget width, colours, live prices |
-| Market Overview | `market-overview` | The whole market: its value, 24-hour volume and change, and Bitcoin's and Ether's share. | Currency, widget width, colours |
-| Trending Coins | `trending-coins` | The coins people are looking at most right now. | Number of coins, currency, widget width, colours |
+| Market Overview | `market-overview` | The whole market: its value, 24-hour volume and change, and Bitcoin's and Ether's share. | Currency, widget width, colours, live prices |
+| Trending Coins | `trending-coins` | The coins people are looking at most right now. | Number of coins, currency, widget width, colours, live prices |
 
 ## Cards
 
@@ -55,6 +55,7 @@ All 24 widgets are free. Each one shows only the settings it uses; [Settings](se
 ## Good to know
 
 - **Coins left empty** means the top coins by market value, as many as **Number of coins** says.
-- **Live prices** keep prices moving while the page is open. Market Overview and Trending Coins show figures from when
-  the page loaded and have no live prices setting.
+- **Live prices** keep prices moving while the page is open; every widget has the setting. Market Overview shows market
+  totals, which the exchanges' price streams do not carry, so with live prices on it refreshes its figures from your site
+  about once a minute instead.
 - Every widget follows the site-wide colours and accent colour unless its own **Colours** setting says otherwise.

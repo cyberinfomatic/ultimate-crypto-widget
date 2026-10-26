@@ -56,6 +56,17 @@ final class MarketsController
 	}
 
 	/**
+	 * The whole market's figures in one currency, as Market Overview shows them; an empty array when the
+	 * price source has none.
+	 *
+	 * @return array<int|string, mixed>
+	 */
+	public function globalMarket(Request $request): array
+	{
+		return $this->answer(fn (): array => $this->prices->globalMarket((string) $request->input('currency', 'usd')));
+	}
+
+	/**
 	 * Why the data is missing goes to the log (the provider writes it), not to the visitor.
 	 *
 	 * @param callable(): array<int|string, mixed> $fetch

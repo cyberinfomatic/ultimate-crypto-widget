@@ -165,7 +165,7 @@ final class ElementorTest extends TestCase {
 
 		$overview = $this->element( 'market-overview' );
 		$overview->build_controls();
-		$this->assertArrayNotHasKey( 'ucw_live_prices', $overview->controls, 'A widget with no live prices has no switch.' );
+		$this->assertSame( 'switcher', $overview->controls['ucw_live_prices']['type'], 'Every widget has the switch, Market Overview included.' );
 	}
 
 	public function test_a_switch_turned_off_reaches_the_widget_as_off(): void {

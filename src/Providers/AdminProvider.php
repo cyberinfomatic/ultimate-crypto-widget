@@ -4,6 +4,7 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Providers;
 
 use Cyberinfomatic\UltimateCryptoWidget\Admin\CacheTools;
 use Cyberinfomatic\UltimateCryptoWidget\Admin\Preview;
+use Cyberinfomatic\UltimateCryptoWidget\Admin\ReviewNotice;
 use Cyberinfomatic\UltimateCryptoWidget\Admin\Screens;
 use Cyberinfomatic\UltimateCryptoWidget\Admin\WidgetEditor;
 use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
@@ -70,6 +71,7 @@ final class AdminProvider extends ServiceProvider
 
 		$hooks->addAction('admin_post_' . Preview::ACTION, [$preview, 'handle']);
 		$hooks->addAction('admin_post_' . CacheTools::ACTION, [new CacheTools($prices, $notices), 'handle']);
+		(new ReviewNotice($hooks))->register();
 
 		$onOurScreens = static fn (): bool => Screens::owns(function_exists('get_current_screen') ? get_current_screen() : null);
 		$assets->style('admin-style', 'assets/react-build/admin.css')->in(Asset::ADMIN)->when($onOurScreens);

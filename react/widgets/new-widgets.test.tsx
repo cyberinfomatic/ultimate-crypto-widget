@@ -6,9 +6,9 @@ import { bestIndex, CompareCoins, comparedCount } from "./compare-coins";
 import { convert, CryptoConverter, showAmount, unitsOf } from "./crypto-converter";
 import { CryptoHeatmap, heatOf, weightOf } from "./crypto-heatmap";
 import { HoldingsCalculator, portfolio, readAmounts } from "./holdings-calculator";
-import { MarketOverview, plausibleVolume, readMarket, shares } from "./market-overview";
+import { MarketOverview, nextMarket, plausibleVolume, readMarket, shares } from "./market-overview";
 import { changeOf, movers, TopMovers } from "./top-movers";
-import { readTrending, TrendingCoins } from "./trending-coins";
+import { readTrending, trendingFigures, TrendingCoins } from "./trending-coins";
 
 const coin = (id: string, symbol: string, price: number, day: number, week: number, month: number, cap = 1_000_000_000): CoinData =>
 	({
@@ -110,6 +110,14 @@ describe("top gainers and losers", () => {
 describe("market overview", () => {
 	const market = { currency: "usd", market_cap: 2_760_000_000_000, volume: 98_400_000_000, market_cap_change_24h: -0.74, btc_dominance: 58.8, eth_dominance: 10.6, active_coins: 17342 };
 
+	it("takes newer figures from a refresh, and keeps the old ones when it fails or brings nothing usable", () => {
+		const newer = { ...market, market_cap: 2_800_000_000_000 };
+		expect(nextMarket(market, { ok: true, data: newer })).toEqual(newer);
+		expect(nextMarket(market, { ok: false, kind: "network" })).toEqual(market);
+		expect(nextMarket(market, { ok: true, data: [] })).toEqual(market);
+		expect(nextMarket(null, { ok: true, data: newer })).toEqual(newer);
+	});
+
 	it("reads the figures the server sends, and nothing else", () => {
 		expect(readMarket(market)).toEqual(market);
 		expect(readMarket([])).toBeNull();
@@ -177,6 +185,17 @@ describe("trending coins", () => {
 
 		expect(out).toContain("Pepe");
 		expect(out).not.toContain("Solana");
+	});
+
+	it("lays a believable live price and change over the page's figures", () => {
+		const live = { current_price: 210, price_change_percentage_24h: 3.5 };
+		expect(trendingFigures(trending[1], live, 2)).toEqual({ price: 210, change: 3.5 });
+	});
+
+	it("keeps the page's figures when there is no live price, or one that is not believable", () => {
+		expect(trendingFigures(trending[1], undefined, 2)).toEqual({ price: 204.5, change: -1.99 });
+		// A ticker shared with a different asset: far from the page's price.
+		expect(trendingFigures(trending[1], { current_price: 0.4 }, 2)).toEqual({ price: 204.5, change: -1.99 });
 	});
 
 	it("says so when nothing is trending", () => {

@@ -119,9 +119,9 @@ final class WidgetCatalog
 			$pro('compare-coins', __('Compare Coins', 'ultimate-crypto-widget'), 'compare-coins', '', ['coins', 'default_currency', 'no_of_days', 'parent_width', 'dark_mode', 'live_prices'], $coins),
 			$pro('crypto-converter', __('Crypto Converter', 'ultimate-crypto-widget'), 'crypto-converter', '', ['coins', 'currencies', 'default_currency', 'parent_width', 'dark_mode', 'live_prices'], $rates),
 			$pro('top-movers', __('Top Gainers and Losers', 'ultimate-crypto-widget'), 'top-movers', '', ['coins', 'count', 'default_currency', 'parent_width', 'dark_mode', 'live_prices'], $coins),
-			$pro('market-overview', __('Market Overview', 'ultimate-crypto-widget'), 'market-overview', '', ['default_currency', 'parent_width', 'dark_mode'], $global),
+			$pro('market-overview', __('Market Overview', 'ultimate-crypto-widget'), 'market-overview', '', ['default_currency', 'parent_width', 'dark_mode', 'live_prices'], $global),
 			$pro('crypto-heatmap', __('Crypto Heatmap', 'ultimate-crypto-widget'), 'crypto-heatmap', '', ['coins', 'count', 'default_currency', 'parent_width', 'dark_mode', 'live_prices'], $coins),
-			$pro('trending-coins', __('Trending Coins', 'ultimate-crypto-widget'), 'trending-coins', '', ['count', 'default_currency', 'parent_width', 'dark_mode'], $trending),
+			$pro('trending-coins', __('Trending Coins', 'ultimate-crypto-widget'), 'trending-coins', '', ['count', 'default_currency', 'parent_width', 'dark_mode', 'live_prices'], $trending),
 			$pro('holdings-calculator', __('Holdings Calculator', 'ultimate-crypto-widget'), 'holdings-calculator', '', ['coins', 'count', 'default_currency', 'parent_width', 'dark_mode', 'live_prices'], $coins),
 		];
 	}

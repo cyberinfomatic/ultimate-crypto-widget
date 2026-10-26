@@ -62,7 +62,7 @@ final class HttpSecurityTest extends TestCase {
 			}
 		}
 
-		$this->assertSame( 4, $checked, 'Expected exactly the four known routes.' );
+		$this->assertSame( 5, $checked, 'Expected exactly the five known routes.' );
 	}
 
 	public function test_an_anonymous_visitor_cannot_render_a_preview(): void {
@@ -150,6 +150,17 @@ final class HttpSecurityTest extends TestCase {
 
 		$this->assertSame( 422, $this->get( '/coin-chart-data', array( 'coin_id' => 'bitcoin', 'days' => 100000 ) )->get_status() );
 		$this->assertSame( 422, $this->get( '/coin-chart-data', array( 'coin_id' => 'bitcoin', 'currency' => 'not-a-currency' ) )->get_status() );
+	}
+
+	public function test_market_overview_can_refresh_its_figures_and_the_currency_is_validated(): void {
+		wp_set_current_user( 0 );
+
+		$response = $this->get( '/global-market', array( 'currency' => 'eur' ) );
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertSame( 'eur', $response->get_data()['currency'] );
+		$this->assertGreaterThan( 0, $response->get_data()['market_cap'] );
+
+		$this->assertSame( 422, $this->get( '/global-market', array( 'currency' => 'not-a-currency' ) )->get_status() );
 	}
 
 	public function test_public_routes_are_rate_limited(): void {

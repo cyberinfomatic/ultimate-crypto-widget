@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { __, sprintf } from "@wordpress/i18n";
+import { endpoint, getJson, Result } from "../../data/api";
+import { useEnv } from "../../data/env";
+import { liveOn } from "../../live/useLiveCoins";
 import { Delta, formatNumber, formatPrice, MISSING, Notice, Stat, Surface } from "../../ds";
 import ReactRender from "../../helper-components/react-wrapper";
 import { UCWPWidgetSetting } from "../../types";
@@ -48,9 +51,47 @@ export function shares(btc: number, eth: number): [number, number, number] {
 
 const percent = (value: number): string => `${formatNumber(value)}%`;
 
+/** How often the figures are refreshed while live prices are on. The site caches them, so this costs CoinGecko little. */
+export const MARKET_REFRESH_MS = 60000;
+
+/** The newer figures when an answer holds usable ones; otherwise the ones already shown. */
+export function nextMarket(current: GlobalMarket | null, answer: Result<unknown>): GlobalMarket | null {
+	return answer.ok ? (readMarket(answer.data) ?? current) : current;
+}
+
+/**
+ * The page's figures, refreshed from this site every minute while the widget's live prices are on. The exchanges'
+ * price streams carry no market totals, so this is how this widget stays current.
+ */
+export function useLiveMarket(initial: unknown, settings: UCWPWidgetSetting): GlobalMarket | null {
+	const { api } = useEnv();
+	const [market, setMarket] = useState<GlobalMarket | null>(() => readMarket(initial));
+	const live = liveOn(settings.live_prices);
+	const currency = String(settings.default_currency ?? "usd");
+
+	useEffect(() => {
+		if (!live) {
+			return undefined;
+		}
+		let stopped = false;
+		const timer = setInterval(async () => {
+			const answer = await getJson(endpoint(api, "global-market", { currency }));
+			if (!stopped) {
+				setMarket((current) => nextMarket(current, answer));
+			}
+		}, MARKET_REFRESH_MS);
+		return () => {
+			stopped = true;
+			clearInterval(timer);
+		};
+	}, [api, currency, live]);
+
+	return market;
+}
+
 /** How big the market is, how much traded, and how much of it is bitcoin and ether. */
 export const MarketOverview = ({ global_market, settings }: Props) => {
-	const market = readMarket(global_market);
+	const market = useLiveMarket(global_market, settings);
 
 	if (market === null) {
 		return (
