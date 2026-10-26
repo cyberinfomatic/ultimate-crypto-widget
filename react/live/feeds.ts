@@ -105,6 +105,9 @@ export const binanceSpec: SocketFeedSpec = {
 	},
 };
 
+/** Live prices from Coinbase (coinbaseSpec), the first feed in defaultFeeds(). */
 export const coinbase = socketFeed(coinbaseSpec);
+/** Live prices from Kraken (krakenSpec), for coins Coinbase does not price. */
 export const kraken = socketFeed(krakenSpec);
+/** Live prices from Binance (binanceSpec), for coins neither of the others prices. */
 export const binance = socketFeed(binanceSpec);

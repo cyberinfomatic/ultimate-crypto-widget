@@ -25,16 +25,19 @@ final class ConvertCommaLists extends BatchedMigration
 	/** The meta keys of the two multiple-choice fields. */
 	private const KEYS = ['ucwp_widget_coins', 'ucwp_widget_currencies'];
 
+	/** Recorded once the migration has run, so it never runs twice: do not change it. */
 	public function id(): string
 	{
 		return '2026_10_12_150000_convert_comma_lists_to_arrays';
 	}
 
+	/** Rows changed per batch; the Migrator runs batches within a time budget. */
 	public function batchSize(): int
 	{
 		return 100;
 	}
 
+	/** Converts the next $size rows. One row more is fetched than converted, to tell whether any remain. */
 	public function batch(int $size): bool
 	{
 		global $wpdb;
@@ -71,6 +74,7 @@ final class ConvertCommaLists extends BatchedMigration
 		return array_values(array_unique(array_filter($items, static fn (string $item): bool => '' !== $item)));
 	}
 
+	/** Rewrites one meta row by its id, or removes it when no coin is left, then drops the post's cached meta. */
 	private function convert(int $metaId, int $postId, string $value): void
 	{
 		global $wpdb;

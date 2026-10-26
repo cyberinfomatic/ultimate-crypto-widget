@@ -3,6 +3,7 @@
  * large amounts are written the way the visitor's language writes them.
  */
 
+/** How formatPrice() writes a price. */
 export type PriceOptions = {
 	/** ISO code such as "usd". Decides the symbol and where it goes. */
 	currency?: string;
@@ -53,6 +54,10 @@ const priceDigits = (value: number, compact: boolean): Intl.NumberFormatOptions 
 	return { minimumFractionDigits: 2, maximumFractionDigits: 2 };
 };
 
+/**
+ * A price in the visitor's language, with its currency's sign where the browser
+ * knows the currency. MISSING for anything that is not a number.
+ */
 export function formatPrice(value: unknown, { currency, symbol, compact = false, locale = pageLocale() }: PriceOptions = {}): string {
 	if (!isNumber(value)) {
 		return MISSING;

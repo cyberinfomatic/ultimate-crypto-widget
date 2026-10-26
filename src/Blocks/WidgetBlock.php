@@ -28,6 +28,7 @@ final class WidgetBlock
 
 	private bool $declared = false;
 
+	/** On the site the block is drawn by the shortcode; in the editor, in the same preview frame as the widget editor. */
 	public function __construct(
 		private readonly Shortcodes $shortcodes,
 		private readonly WidgetSchema $schema,

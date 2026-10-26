@@ -56,11 +56,13 @@ final class WidgetFields
 		'live_prices'        => '1',
 	];
 
+	/** The post meta key a setting is stored under: "count" is "ucwp_widget_count". */
 	public static function metaKey(string $name): string
 	{
 		return self::META_PREFIX . $name;
 	}
 
+	/** Whether a setting holds several values (LISTS). */
 	public static function isList(string $name): bool
 	{
 		return in_array($name, self::LISTS, true);

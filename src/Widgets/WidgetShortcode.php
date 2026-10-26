@@ -11,6 +11,7 @@ final class WidgetShortcode
 {
 	public const TAG = 'ucwp_widget';
 
+	/** Saved widgets are read from the repository; both kinds are drawn by the renderer. */
 	public function __construct(
 		private readonly WidgetRepository $widgets,
 		private readonly WidgetRenderer $renderer
@@ -69,6 +70,7 @@ final class WidgetShortcode
 		return $this->renderer->render($type, array_merge($saved, $given, ['type' => $type]));
 	}
 
+	/** Shown when there is no widget to draw: a hint in wp-admin, a short notice naming the id elsewhere. */
 	private function missing(string $id): string
 	{
 		if (is_admin() && !is_preview()) {

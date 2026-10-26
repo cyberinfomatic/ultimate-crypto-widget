@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CoinInfo, endpoint, getJson, parseChart, parseCoinInfo, PricePoint, Result } from "./api";
 import { useEnv } from "./env";
 
+/** Where a request a widget made stands. "idle" until there is something to ask for. */
 export type Remote<T> = { status: "idle" } | { status: "loading" } | { status: "ready"; data: T } | { status: "error" };
 
 // One request per address for the life of the page, however many widgets ask.

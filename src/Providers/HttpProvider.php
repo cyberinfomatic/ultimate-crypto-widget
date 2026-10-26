@@ -20,6 +20,7 @@ final class HttpProvider extends ServiceProvider
 	private const COIN_ID  = 'regex:/^[a-z0-9_-]{1,100}$/';
 	private const COIN_IDS = 'regex:/^[a-z0-9_,-]{1,2000}$/';
 
+	/** Declares the routes. The widgets' scripts call these paths: do not change them. */
 	public function boot(Router $router): void
 	{
 		$currencies = 'in:' . implode(',', Currencies::CODES);

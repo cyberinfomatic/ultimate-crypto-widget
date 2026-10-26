@@ -17,6 +17,7 @@ final class AssetsProvider extends ServiceProvider
 	/** Where the built scripts are, relative to a plugin's folder. */
 	public const BUILD = 'assets/react-build/';
 
+	/** Binds the plugin's asset manager, and the widget bundle that finds the built scripts under BUILD. */
 	public function register(): void
 	{
 		$app       = $this->app;

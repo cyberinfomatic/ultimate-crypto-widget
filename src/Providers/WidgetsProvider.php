@@ -13,6 +13,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetShortcode;
  */
 final class WidgetsProvider extends ServiceProvider
 {
+	/** Binds the catalogue and the settings schema, one instance of each. */
 	public function register(): void
 	{
 		// One catalogue for the whole request, so add-ons register into the one everything reads.
@@ -21,6 +22,7 @@ final class WidgetsProvider extends ServiceProvider
 		$this->app->container()->singleton(WidgetSchema::class);
 	}
 
+	/** Registers the [ucwp_widget] shortcode. */
 	public function boot(Shortcodes $shortcodes, WidgetShortcode $shortcode): void
 	{
 		// The tag is in users' content; it must stay "ucwp_widget".

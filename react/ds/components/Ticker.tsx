@@ -12,7 +12,9 @@ type TickerProps = {
 	children: ReactNode;
 };
 
+/** The slowest a ticker scrolls, in pixels per second; slower speeds are raised to it. */
 export const MIN_SPEED = 10;
+/** The fastest a ticker scrolls, in pixels per second; faster speeds are lowered to it. */
 export const MAX_SPEED = 400;
 
 /** Seconds one full pass takes for content this wide. */

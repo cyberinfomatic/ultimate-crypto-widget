@@ -15,6 +15,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetSchema;
  */
 final class IntegrationsProvider extends ServiceProvider
 {
+	/** Hooks into Elementor. Nothing here runs unless Elementor fires its own actions. */
 	public function boot(HookRegistrar $hooks): void
 	{
 		$container = $this->app->container();

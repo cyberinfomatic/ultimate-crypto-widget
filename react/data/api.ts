@@ -3,10 +3,16 @@
  * back as a typed result, so a widget always knows whether it has data.
  */
 
+/**
+ * An answer, or why there is none: the request never arrived ("network"), the
+ * server refused it ("http", with its status), or the body was not what was expected ("shape").
+ */
 export type Result<T> = { ok: true; data: T } | { ok: false; kind: "network" | "http" | "shape"; status?: number };
 
+/** One price in a history. `time` is in milliseconds since 1970. */
 export type PricePoint = { time: number; value: number };
 
+/** What the coin-info route gives a widget about one coin. */
 export type CoinInfo = {
 	/** Plain text; any markup in the source is removed. */
 	description: string;
@@ -32,6 +38,7 @@ export function endpoint(api: string, route: string, params: Record<string, stri
 	return query === "" ? url : url + (url.includes("?") ? "&" : "?") + query;
 }
 
+/** Fetches a URL and reads its body as JSON. Never throws: every failure is a Result. */
 export async function getJson(url: string): Promise<Result<unknown>> {
 	let response: Response;
 	try {
@@ -65,6 +72,7 @@ export function parseChart(body: unknown): Result<PricePoint[]> {
 	return { ok: true, data: points };
 }
 
+/** A coin-info answer: its English description as plain text, and its price in each currency. */
 export function parseCoinInfo(body: unknown): Result<CoinInfo> {
 	if (!isRecord(body)) {
 		return { ok: false, kind: "shape" };

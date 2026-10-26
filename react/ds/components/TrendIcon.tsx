@@ -1,7 +1,9 @@
 import React from "react";
 
+/** Which way a figure moved. */
 export type Direction = "up" | "down" | "flat";
 
+/** The direction of a change. Zero, or anything that is not a number, is "flat". */
 export const directionOf = (value: unknown): Direction => {
 	if (typeof value !== "number" || !Number.isFinite(value) || value === 0) {
 		return "flat";

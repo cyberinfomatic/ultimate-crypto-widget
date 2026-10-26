@@ -11,6 +11,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Data\PriceProvider;
  */
 final class WidgetRenderer
 {
+	/** The data a widget starts with is fetched here, on the server, from the price source. */
 	public function __construct(
 		private readonly WidgetCatalog $catalog,
 		private readonly PriceProvider $prices,

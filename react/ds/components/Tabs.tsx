@@ -1,5 +1,6 @@
 import React, { KeyboardEvent, useRef } from "react";
 
+/** One tab: the id the parent is told when it is chosen, and the text it shows. */
 export type TabItem<Id extends string> = { id: Id; label: string };
 
 type TabsProps<Id extends string> = {

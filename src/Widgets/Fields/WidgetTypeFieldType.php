@@ -17,21 +17,25 @@ final class WidgetTypeFieldType implements FieldType
 {
 	public const NAME = 'ucw_widget_type';
 
+	/** Plain text. Whether the type may be used is for rules() to say. */
 	public function sanitize(mixed $value, Field $field): mixed
 	{
 		return sanitize_text_field(is_scalar($value) ? (string) $value : '');
 	}
 
+	/** The type's name is stored as it is, so it is read back unchanged. */
 	public function read(mixed $stored, Field $field): mixed
 	{
 		return $stored;
 	}
 
+	/** Only a type this site can use; a locked type is refused when saving. */
 	public function rules(Field $field): array
 	{
 		return [Rules::in($this->usable($field))];
 	}
 
+	/** A select listing every type, with the locked ones disabled and marked "(Pro)". */
 	public function render(Field $field, string $name, string $id, mixed $value): string
 	{
 		$locked  = $this->locked($field);

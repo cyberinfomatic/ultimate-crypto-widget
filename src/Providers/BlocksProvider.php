@@ -15,6 +15,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetSchema;
  */
 final class BlocksProvider extends ServiceProvider
 {
+	/** Binds the block; boot() registers it with WordPress. */
 	public function register(): void
 	{
 		$app = $this->app;
@@ -28,6 +29,7 @@ final class BlocksProvider extends ServiceProvider
 		));
 	}
 
+	/** Runs on "init", once add-ons have registered their widget types. */
 	public function boot(WidgetBlock $block): void
 	{
 		$block->register();

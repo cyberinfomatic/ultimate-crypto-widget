@@ -27,6 +27,7 @@ use Cyberinfomatic\UltimateCryptoWidget\Widgets\WidgetSchema;
  */
 final class AdminProvider extends ServiceProvider
 {
+	/** Binds the admin services other providers use too: the preview (the block and Elementor show it), the widget editor and the settings form. */
 	public function register(): void
 	{
 		$app       = $this->app;

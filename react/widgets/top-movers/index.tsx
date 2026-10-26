@@ -8,7 +8,9 @@ import "./style.scss";
 
 type Props = { coins: CoinData[]; settings: UCWPWidgetSetting };
 
+/** Which end of the list the widget shows: the biggest rises or the biggest falls. */
 export type Side = "gainers" | "losers";
+/** The span a change is measured over. */
 export type Period = "24h" | "7d" | "30d";
 
 const num = (value: unknown): number | null => (typeof value === "number" && Number.isFinite(value) ? value : null);

@@ -63,6 +63,7 @@ final class Edition
 		return self::$file = ['edition' => $edition, 'proTierViews' => $views];
 	}
 
+	/** Where edition.json is: the plugin's root folder. */
 	public static function path(): string
 	{
 		return dirname(__DIR__, 2) . '/edition.json';

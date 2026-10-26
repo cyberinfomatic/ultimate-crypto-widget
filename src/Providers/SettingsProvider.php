@@ -22,6 +22,7 @@ final class SettingsProvider extends ServiceProvider
 {
 	public const OPTION_PREFIX = 'ultimate_crypto_widget_';
 
+	/** Binds the settings, with every field they hold: the price source's and the widgets' look. */
 	public function register(): void
 	{
 		$app = $this->app;

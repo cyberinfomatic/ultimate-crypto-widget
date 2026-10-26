@@ -30,16 +30,19 @@ final class WidgetCatalog
 		return $catalog;
 	}
 
+	/** The edition that decides which types are unlocked: the one given to withEdition(), else this plugin's. */
 	public function edition(): string
 	{
 		return $this->edition ?? Edition::current();
 	}
 
+	/** Adds a type, or replaces the one registered under the same name: that is how an add-on unlocks a listed Pro type. */
 	public function register(WidgetDefinition $definition): void
 	{
 		$this->definitions[$definition->type] = $definition;
 	}
 
+	/** Null when the type is unknown. Fills the catalogue first if that has not happened yet. */
 	public function get(string $type): ?WidgetDefinition
 	{
 		return $this->all()[$type] ?? null;

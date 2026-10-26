@@ -11,6 +11,7 @@ type Props = { coins: CoinData[]; settings: UCWPWidgetSetting };
 /** Where a visitor's amounts are kept: in their own browser, never sent anywhere. */
 export const STORAGE_KEY = "ucw-holdings";
 
+/** How much of each coin the visitor holds, by coin id, as they typed it. */
 export type Amounts = Record<string, string>;
 
 /** The saved amounts, or none when they are missing, unreadable or not what this widget wrote. */

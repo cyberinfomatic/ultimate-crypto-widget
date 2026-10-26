@@ -26,6 +26,7 @@ final class Screens
 
 	private const CAPABILITY = 'manage_options';
 
+	/** Built in AdminProvider::boot(), once add-ons have registered their widget types. */
 	public function __construct(
 		private readonly Pages $pages,
 		private readonly SettingsForm $form,
