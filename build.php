@@ -14,7 +14,7 @@ use Codad5\WPToolkit\Build\Version;
 
 require __DIR__ . '/vendor/autoload.php';
 
-// In the tiered edition the Pro-tier widgets ship in the Pro add-on, not here (docs/editions.md).
+// In the tiered edition the Pro-tier widgets ship in the Pro add-on, not here (docs/maintainers/editions.md).
 $edition  = json_decode( (string) file_get_contents( __DIR__ . '/edition.json' ), true );
 $pro_tier = array();
 if ( 'tiered' === ( $edition['edition'] ?? 'all-free' ) ) {

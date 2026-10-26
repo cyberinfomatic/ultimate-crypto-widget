@@ -7,7 +7,7 @@ namespace Cyberinfomatic\UltimateCryptoWidget\Widgets;
  *
  * The answer lives in one file, edition.json at the plugin's root, which the PHP here, the release
  * build (build.php) and the Pro add-on's build all read, so they can never disagree. Switching is a
- * one-line change to that file and a release: see docs/editions.md.
+ * one-line change to that file and a release: see docs/maintainers/editions.md.
  */
 final class Edition
 {

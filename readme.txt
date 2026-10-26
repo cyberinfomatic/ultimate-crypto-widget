@@ -88,7 +88,7 @@ No. Scripts and styles are loaded only on pages that show a widget.
 
 = Is it translatable? =
 
-Yes, including the text inside the widgets. It also supports right-to-left languages. See `docs/translating.md` in the source repository.
+Yes, including the text inside the widgets. It also supports right-to-left languages. See `docs/maintainers/translating.md` in the source repository.
 
 = Where do I get help? =
 

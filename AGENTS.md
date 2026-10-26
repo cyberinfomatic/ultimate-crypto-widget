@@ -4,9 +4,9 @@ A WordPress plugin that renders cryptocurrency widgets from a custom post type, 
 React bundle. This repository is the free plugin on WordPress.org and the shared core that the Pro
 add-on builds on.
 
-Read [docs/developers.md](docs/developers.md) first: how a widget reaches the page, the hooks, how an
-add-on plugs in. `docs/translating.md` covers text; `docs/notes-for-wptoolkit.md` lists the toolkit
-gaps this plugin works around.
+Read [docs/maintainers/README.md](docs/maintainers/README.md) first: the state of the project, the two
+repositories, what must never change, and which guide covers what. The guides for site owners are in
+[docs/users/](docs/users/).
 
 ## Rules
 
@@ -18,8 +18,9 @@ gaps this plugin works around.
 - No locked code in the WordPress.org zip. Every widget's source lives here, including the Pro tier; which
   ones are free is decided by `edition.json` (currently `all-free`: everything is free). In the `tiered`
   edition the Pro-tier views are left out of the zip and the Pro add-on ships them. See
-  [docs/editions.md](docs/editions.md).
-- Frontend code follows [docs/standards/frontend.md](docs/standards/frontend.md).
+  [docs/maintainers/editions.md](docs/maintainers/editions.md).
+- Frontend code follows [docs/maintainers/frontend-standards.md](docs/maintainers/frontend-standards.md).
+- Every class, function and export has a short doc comment saying what it is for.
 - Commits follow Conventional Commits (`feat:`, `fix:`, `test:`, `docs:`, `ci:`, `refactor:`, `chore:`).
 - Work on a branch and open a pull request; never commit to `main`.
 

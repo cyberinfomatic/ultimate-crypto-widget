@@ -1,5 +1,5 @@
 {
-	"$comment": "Which widgets this plugin unlocks. 'all-free': every widget, Pro included, is free and ships in this plugin. 'tiered': the widgets in proTierViews are left out of this plugin's zip, listed as Pro, and unlocked by the Pro add-on, which builds them from this plugin's source. See docs/editions.md before changing it.",
+	"$comment": "Which widgets this plugin unlocks. 'all-free': every widget, Pro included, is free and ships in this plugin. 'tiered': the widgets in proTierViews are left out of this plugin's zip, listed as Pro, and unlocked by the Pro add-on, which builds them from this plugin's source. See docs/maintainers/editions.md before changing it.",
 	"edition": "all-free",
 	"proTierViews": [
 		"accordion-widget",

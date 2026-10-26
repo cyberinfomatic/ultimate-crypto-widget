@@ -61,7 +61,7 @@ react/ds/
 - No `console.log` in shipped code.
 - User-facing strings go through `@wordpress/i18n`; numbers, prices and dates through `Intl`.
 - Shared code (`react/ds`, `react/data`, `react/live`) contains no text of its own: a component that
-  needs wording takes it from its caller. See `docs/translating.md` for why.
+  needs wording takes it from its caller. See [Translating](translating.md) for why.
 
 ## Motion
 
