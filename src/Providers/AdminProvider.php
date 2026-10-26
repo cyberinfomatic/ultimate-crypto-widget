@@ -74,7 +74,9 @@ final class AdminProvider extends ServiceProvider
 		(new ReviewNotice($hooks))->register();
 
 		$onOurScreens = static fn (): bool => Screens::owns(function_exists('get_current_screen') ? get_current_screen() : null);
-		$assets->style('admin-style', 'assets/react-build/admin.css')->in(Asset::ADMIN)->when($onOurScreens);
+		// Also on the Dashboard, where ReviewNotice can show; every rule in it is under a .ucw- class.
+		$onOurScreensOrDashboard = static fn (): bool => $onOurScreens() || 'dashboard' === (function_exists('get_current_screen') ? get_current_screen()?->id : null);
+		$assets->style('admin-style', 'assets/react-build/admin.css')->in(Asset::ADMIN)->when($onOurScreensOrDashboard);
 		// The address and nonce the script uses to say a shortcode was copied (ReviewNotice).
 		$assets->script('admin', 'assets/react-build/admin/index.js')->in(Asset::ADMIN)->when($onOurScreens)->with(is_admin() ? ['usage' => ReviewNotice::scriptData()] : []);
 	}

@@ -127,3 +127,121 @@
 .ucw-list-field {
 	block-size: 9rem;
 }
+
+// The get-started and review notices (Admin\ReviewNotice), in the logo's colours. They show on the
+// Dashboard too, so this stylesheet loads there; everything here is under .ucw-notice.
+$ucw-navy: #03045e;
+$ucw-blue: #0077b6;
+$ucw-sky: #eff7fb;
+$ucw-gold: #ffc300;
+$ucw-gold-edge: #d6a400;
+$ucw-gold-hover: #ffd033;
+
+.notice.ucw-notice {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	padding: 1rem 1.25rem;
+	background: $ucw-sky;
+	border-inline-start: 4px solid $ucw-navy;
+	box-shadow: 0 1px 2px rgba($ucw-navy, 0.08);
+	color: $ucw-navy;
+
+	p {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.ucw-notice__logo {
+	flex: none;
+	inline-size: 48px;
+	block-size: 48px;
+}
+
+.ucw-notice__body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	min-inline-size: 0;
+}
+
+.ucw-notice__title {
+	font-size: 1.05rem;
+	font-weight: 700;
+}
+
+.ucw-notice__text {
+	color: #1d2b4f;
+}
+
+.ucw-notice__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 1rem;
+}
+
+.ucw-notice__cta,
+.ucw-notice__secondary {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.45rem 1rem;
+	border-radius: 6px;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.ucw-notice__cta {
+	background: $ucw-gold;
+	border: 1px solid $ucw-gold-edge;
+	color: $ucw-navy;
+
+	&:hover,
+	&:focus {
+		background: $ucw-gold-hover;
+		color: $ucw-navy;
+	}
+}
+
+.ucw-notice__secondary {
+	background: #fff;
+	border: 1px solid $ucw-navy;
+	color: $ucw-navy;
+
+	&:hover,
+	&:focus {
+		background: $ucw-navy;
+		color: #fff;
+	}
+}
+
+.ucw-notice__link,
+.ucw-notice__request {
+	color: $ucw-blue;
+
+	&:hover,
+	&:focus {
+		color: $ucw-navy;
+	}
+}
+
+.ucw-notice__cta:focus-visible,
+.ucw-notice__secondary:focus-visible,
+.ucw-notice__link:focus-visible,
+.ucw-notice__request:focus-visible {
+	outline: 2px solid $ucw-blue;
+	outline-offset: 2px;
+	box-shadow: none;
+}
+
+.ucw-notice__footer {
+	padding-block-start: 0.5rem;
+	border-block-start: 1px solid rgba($ucw-navy, 0.12);
+	font-size: 0.875rem;
+	color: #1d2b4f;
+}
+
+.ucw-notice__request {
+	font-weight: 600;
+}
